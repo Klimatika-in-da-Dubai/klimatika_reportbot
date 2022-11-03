@@ -6,7 +6,7 @@ logging.basicConfig(level=logging.INFO)
 
 
 bot = Bot(token="")
-dp = Dispatcher(bot)
+dp = Dispatcher()
 
 
 def on_startup(dp: Dispatcher):
