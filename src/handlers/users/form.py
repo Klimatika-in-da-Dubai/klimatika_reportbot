@@ -1,5 +1,5 @@
 from aiogram import Router, types, F
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove
 
 from aiogram.fsm.context import FSMContext
 
@@ -39,7 +39,7 @@ async def process_email(message: types.Message, state: FSMContext) -> None:
 async def process_address(message: types.Message, state: FSMContext) -> None:
     users[message.chat.id].address = message.text
     await state.set_state(Form.rooms_count)
-    await message.answer("Ok, text rooms count")
+    await message.answer("Ok, rooms count")
 
 
 @form_router.message(Form.rooms_count)
@@ -49,7 +49,7 @@ async def process_rooms_count(message: types.Message, state: FSMContext) -> None
     users[message.chat.id].rooms = [Room() for _ in range(rooms_count)]
     await state.set_state(Form.room_type)
     await message.answer(
-        f"Ok, now text the type of {users[message.chat.id].room_index}",
+        f"Type of the {users[message.chat.id].room_index + 1} room",
         reply_markup=ReplyKeyboardMarkup(
             keyboard=[
                 [
@@ -60,6 +60,7 @@ async def process_rooms_count(message: types.Message, state: FSMContext) -> None
                 [KeyboardButton(text=Room.Type.OTHER)],
             ],
             one_time_keyboard=True,
+            resize_keyboard=True,
         ),
     )
 
@@ -89,9 +90,10 @@ async def process_room_after(message: types.Message, state: FSMContext) -> None:
     room.photo_after = "Photo 2"
 
     if room_index + 1 < users[message.chat.id].rooms_count:
+        users[message.chat.id].room_index += 1
         await state.set_state(Form.room_type)
         await message.answer(
-            f"Ok, now text the type of {users[message.chat.id].room_index}",
+            f"Type of the {users[message.chat.id].room_index + 1} room",
             reply_markup=ReplyKeyboardMarkup(
                 keyboard=[
                     [
@@ -102,6 +104,7 @@ async def process_room_after(message: types.Message, state: FSMContext) -> None:
                     [KeyboardButton(text=Room.Type.OTHER)],
                 ],
                 one_time_keyboard=True,
+                resize_keyboard=True,
             ),
         )
         return
@@ -112,16 +115,24 @@ async def process_room_after(message: types.Message, state: FSMContext) -> None:
         reply_markup=ReplyKeyboardMarkup(
             keyboard=[[KeyboardButton(text="Yes"), KeyboardButton(text="No")]],
             one_time_keyboard=True,
+            resize_keyboard=True,
         ),
     )
 
 
 @form_router.message(Form.add)
 async def process_add(message: types.Message, state: FSMContext) -> None:
+    await state.clear()
     if message.text == "No":
-        await message.answer("Ok. Thank you for your work!")
+        await message.answer(
+            "Ok. Thank you for your work!",
+            reply_markup=ReplyKeyboardRemove(remove_keyboard=True),
+        )
         return
 
     report: Report = users[message.chat.id]
     report.additional = [message.text]
-    await message.answer("Thank you for your work!")
+    await message.answer(
+        "Thank you for your work!",
+        reply_markup=ReplyKeyboardRemove(remove_keyboard=True),
+    )
