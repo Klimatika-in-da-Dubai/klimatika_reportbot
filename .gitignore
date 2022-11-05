@@ -128,5 +128,8 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-#binary
+# Configuration file
+config.yaml
+
+#pdf binary
 src/report.pdf
