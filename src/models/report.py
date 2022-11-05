@@ -1,15 +1,16 @@
 from dataclasses import dataclass, field
+from .room import Room
 
 
 @dataclass
 class Report:
-    name: str = field(default="")
-    phone: int = field(default=0)
-    email: str = field(default="")
-    address: str = field(default="")
-    rooms_count: int = field(default=0)
-    rooms_before: list = field(default_factory=list)
-    rooms_after: list = field(default_factory=list)
+    name: str = ""
+    phone: str = ""
+    email: str = ""
+    address: str = ""
+    rooms_count: int = 0
+    rooms: list[Room] = field(default_factory=list)
+    additional: list = field(default_factory=list)
 
     _room_index: int = field(repr=False, default=0)
 
