@@ -8,18 +8,21 @@ class FormatConstants:
     X_POS = 0
     Y_POS = 0
     PDF_WIDTH, PDF_HEIGHT = A4
+
     def __init__(self, img_width, vert_pos):
         self.IMAGE_WIDTH = img_width * mm
         self.X_POS = img_width * mm
         self.Y_POS = vert_pos
+
     def width(self) -> float:
         return self.IMAGE_WIDTH
+
     def center(self) -> tuple[int, int]:
-        print(self.PDF_WIDTH)
-        print(self.X_POS)
         return (int((self.PDF_WIDTH - self.X_POS) / 2), int(self.Y_POS))
+
     def left(self) -> tuple[int, int]:
         return (0, int(self.Y_POS))
+
     def right(self) -> tuple[int, int]:
         return (int(self.PDF_WIDTH - self.X_POS), int(self.Y_POS))
 
