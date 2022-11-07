@@ -60,20 +60,19 @@ def first_slide(canv):
     add_image(canv, "../img/logo_klimatika.png", 13*mm, PDF_HEIGHT - 13*mm)
     canv.setFont('TTNormsProBold', 72)
     canv.drawString(INDENTS[0], px2mm(680), "Apartment")
+    canv.drawString(INDENTS[0], px2mm(680 - 120), "VAC Cleaning Completion")
+    canv.drawString(INDENTS[0], px2mm(680 - 2*120), "Report")
+    canv.setFont('TTNormsPro', 36)
+    canv.setFillColor("#E2000F")
+    canv.drawString(INDENTS[0], px2mm(680 - 2*120 - 86), "Learn how we help you breathe.")
 
-
+# set up fonts
 pdfmetrics.registerFont(TTFont('TTNormsPro', '../fonts/TTNormsPro.ttf'))
 pdfmetrics.registerFont(TTFont('TTNormsProBold', '../fonts/TTNormsProB.ttf'))
 pdfmetrics.registerFont(TTFont('TTNormsItalics', '../fonts/TTNormsProI.ttf'))
 
-# F_CONST = FormatConstants(100, 200)
-
-# img = Image.open("./test.jpg")
-# img_f = image_formatter(img, int(F_CONST.width()))
-
 canv = canvas.Canvas("report.pdf", pagesize=(PDF_WIDTH, PDF_HEIGHT))
-# create_pdf(canv, img_f, F_CONST.center())
-# canv.rect(13*mm, 13*mm, (FormatConstants.PDF_WIDTH / 2) - 13*mm/2, FormatConstants.PDF_HEIGHT - 26*mm, stroke=0, fill=1)
+
 first_slide(canv)
 canv.showPage()
 canv.save()
