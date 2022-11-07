@@ -6,6 +6,7 @@ class Form(StatesGroup):
     phone = State()
     email = State()
     address = State()
+    comment = State()
     rooms_count = State()
     room_type = State()
     room_before = State()
