@@ -1,5 +1,5 @@
 from platform import python_branch
-from reportlab.pdfgen import canvas
+from reportlab.pdfgen import canvas, textobject
 from reportlab.lib.units import mm
 from PIL import Image
 
@@ -58,14 +58,21 @@ def add_image(canv, path_to_img: str, img_width: float, x: float, y: float):
 def first_slide(canv):
     add_image(canv, "../img/logo_klimatika.png", px2mm(430), INDENTS[0], PDF_HEIGHT - INDENTS[0])
 
-    canv.setFont('TTNormsProBold', 72)
-    canv.drawString(INDENTS[0], px2mm(680), "Apartment")
-    canv.drawString(INDENTS[0], px2mm(680 - 120), "VAC Cleaning Completion")
-    canv.drawString(INDENTS[0], px2mm(680 - 2*120), "Report")
+    textobject = canv.beginText()
+    textobject.setTextOrigin(INDENTS[0], px2mm(600))
+    textobject.setFont('TTNormsProBold', 72)
+    textobject.setLeading(90)
+    textobject.textLine(text='Apartment')
+    textobject.setLeading(75)
+    textobject.textLine(text='VAC Cleaning Completion')
+    textobject.textLine(text='Report')
 
-    canv.setFont('TTNormsPro', 36)
-    canv.setFillColor("#E2000F")
-    canv.drawString(INDENTS[0], px2mm(680 - 2*120 - 86), "Learn how we help you breathe.")
+    textobject.setFont('TTNormsPro', 36)
+    textobject.setTextOrigin(INDENTS[0], px2mm(600 - 2*150))
+    textobject.setFillColor("#E2000F")
+    textobject.textLine(text='Learn how we help you breathe.')
+    canv.drawText(textobject)
+
     canv.showPage()
 
 def last_slides(canv):
