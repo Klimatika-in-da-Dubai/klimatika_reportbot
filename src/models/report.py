@@ -8,6 +8,7 @@ class Report:
     phone: str = ""
     email: str = ""
     address: str = ""
+    comment: str = ""
     rooms_count: int = 0
     rooms: list[Room] = field(default_factory=list)
     additional: list = field(default_factory=list)
