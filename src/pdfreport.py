@@ -1,5 +1,4 @@
-from platform import python_branch
-from reportlab.pdfgen import canvas, textobject
+from reportlab.pdfgen import canvas
 from reportlab.lib.units import mm
 from PIL import Image
 
