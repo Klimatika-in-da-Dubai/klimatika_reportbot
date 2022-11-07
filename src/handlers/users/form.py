@@ -67,7 +67,7 @@ async def process_address(message: types.Message, state: FSMContext) -> None:
     report = get_current_user_report(message)
     report.address = address
     await state.set_state(Form.comment)
-    await message.answer("Ok, rooms count")
+    await message.answer("Ok, write a comment of work")
 
 
 @form_router.message(Form.comment)
@@ -79,7 +79,7 @@ async def process_comment(message: types.Message, state: FSMContext) -> None:
     report = get_current_user_report(message)
     report.comment = comment
     await state.set_state(Form.rooms_count)
-    await message.answer("Ok, comment for work")
+    await message.answer("Ok, rooms count")
 
 
 @form_router.message(Form.rooms_count)
