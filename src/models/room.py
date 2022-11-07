@@ -1,3 +1,5 @@
+from aiogram import types
+
 from dataclasses import dataclass, field
 
 from enum import Enum, auto
@@ -13,5 +15,5 @@ class Room:
         OTHER = "Other"
 
     type: Type = Type.UNKNOWN
-    photo_before: str = ""
-    photo_after: str = ""
+    photo_before: types.PhotoSize | None = None
+    photo_after: types.PhotoSize | None = None
