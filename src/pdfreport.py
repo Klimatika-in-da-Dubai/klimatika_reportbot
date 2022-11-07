@@ -3,6 +3,9 @@ from reportlab.lib.units import mm
 from reportlab.lib.pagesizes import A4
 from PIL import Image
 
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+
 class FormatConstants:
     IMAGE_WIDTH = 0
     X_POS = 0
@@ -34,18 +37,23 @@ def image_formatter(img, exp_width: int) -> canvas.ImageReader:
     exp_size = tuple([exp_width, exp_height])
     return canvas.ImageReader(img.resize(exp_size))
 
-def create_pdf(canv, img, img_pos: tuple[int, int] = (0, 0)) -> None:
+def create_pdf(canv, img = 0, img_pos: tuple[int, int] = (0, 0)) -> None:
     x, y = img_pos
-    canv.drawString(0, 0, "Hello World")
+    canv.setFont('TTNormsPro', 15)
+    canv.drawString(500, 80, "Hello World")
     canv.drawImage(img, x=x, y=y)
 
-format_const = FormatConstants(100, 0)
+pdfmetrics.registerFont(TTFont('TTNormsPro', '../fonts/TTNormsPro.ttf'))
+pdfmetrics.registerFont(TTFont('TTNormsProBold', '../fonts/TTNormsProB.ttf'))
+pdfmetrics.registerFont(TTFont('TTNormsItalics', '../fonts/TTNormsProI.ttf'))
+
+F_CONST = FormatConstants(100, 0)
 
 img = Image.open("./test.jpg")
-img_f = image_formatter(img, int(format_const.width()))
+img_f = image_formatter(img, int(F_CONST.width()))
 
-canv = canvas.Canvas("report.pdf")
-create_pdf(canv, img_f, format_const.center())
+canv = canvas.Canvas("report.pdf", pagesize=(F_CONST.PDF_HEIGHT, F_CONST.PDF_WIDTH))
+create_pdf(canv, img_f, F_CONST.center())
 canv.showPage()
 canv.save()
 
