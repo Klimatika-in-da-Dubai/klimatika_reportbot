@@ -66,6 +66,7 @@ def first_slide(canv):
     canv.setFont('TTNormsPro', 36)
     canv.setFillColor("#E2000F")
     canv.drawString(INDENTS[0], px2mm(680 - 2*120 - 86), "Learn how we help you breathe.")
+    canv.showPage()
 
 def last_slides(canv):
     canv.setFillColor("#E2000F")
@@ -74,18 +75,30 @@ def last_slides(canv):
 
     canv.setFillColor("#FFFFFF")
     canv.setFont('TTNormsProBold', 54)
-    canv.drawString(INDENTS[0], PDF_HEIGHT - px2mm(120), "Make Sure to Clean Your")
-    canv.drawString(INDENTS[0], PDF_HEIGHT - px2mm(195), "VAC Filters")
+    canv.drawString(INDENTS[0], PDF_HEIGHT - px2mm(100), "Make Sure to Clean Your")
+    canv.drawString(INDENTS[0], PDF_HEIGHT - px2mm(175), "VAC Filters")
+
+    canv.setFont('TTNormsPro', 45)
+    canv.drawString(INDENTS[0], PDF_HEIGHT - px2mm(460), "Clean air filters can help you")
+    canv.drawString(INDENTS[0], PDF_HEIGHT - px2mm(460 + 65), "save between 5% and 15% from")
+    canv.drawString(INDENTS[0], PDF_HEIGHT - px2mm(460 + 2*65), "your electricity bill!")
+
+    canv.drawString(INDENTS[0], PDF_HEIGHT - px2mm(480 + 3*65), "Clean your VAC filters quarterly")
+    canv.drawString(INDENTS[0], PDF_HEIGHT - px2mm(480 + 4*65), "and checkfi you need toswap for")
+    canv.drawString(INDENTS[0], PDF_HEIGHT - px2mm(480 + 5*65), "new ones at the start of each")
+    canv.drawString(INDENTS[0], PDF_HEIGHT - px2mm(480 + 6*65), "season.")
+
+    canv.showPage()
+
+    canv.setFont('TTNormsProBold', 54)
+    canv.drawString(INDENTS[0], PDF_HEIGHT - px2mm(100), "Let’s talk!")
 
     canv.setFont('TTNormsPro', 47)
-    canv.drawString(INDENTS[0], PDF_HEIGHT - px2mm(460), "Clean air filters can help you")
-    canv.drawString(INDENTS[0], PDF_HEIGHT - px2mm(460 + 68), "save between 5% and 15% from")
-    canv.drawString(INDENTS[0], PDF_HEIGHT - px2mm(460 + 2*68), "your electricity bill!")
+    canv.drawString(INDENTS[0], PDF_HEIGHT - px2mm(600), "Phone: +971 58 819 7173")
+    canv.drawString(INDENTS[0], PDF_HEIGHT - px2mm(600 + 78), "Email: info@klimatika.ae")
+    canv.drawString(INDENTS[0], PDF_HEIGHT - px2mm(600 + 2*78), "Website: www.klimatika.ae")
 
-    canv.drawString(INDENTS[0], PDF_HEIGHT - px2mm(480 + 3*68), "Clean your VAC filters quarterly")
-    canv.drawString(INDENTS[0], PDF_HEIGHT - px2mm(465 + 4*68), "and checkfi you need toswap for")
-    canv.drawString(INDENTS[0], PDF_HEIGHT - px2mm(465 + 5*68), "new ones at the start of each")
-    canv.drawString(INDENTS[0], PDF_HEIGHT - px2mm(465 + 6*68), "season.")
+    canv.showPage()
 
 
 # set up fonts
@@ -99,7 +112,6 @@ pdfmetrics.registerFont(TTFont('TTNormsProMedium', '../fonts/TTNormsProM.ttf'))
 canv = canvas.Canvas("report.pdf", pagesize=(PDF_WIDTH, PDF_HEIGHT))
 
 first_slide(canv)
-canv.showPage()
 last_slides(canv)
 
 canv.save()
