@@ -1,34 +1,38 @@
+from platform import python_branch
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import mm
-from reportlab.lib.pagesizes import A4
 from PIL import Image
 
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 
-class FormatConstants:
+def px2mm(px):
+    return px * 0.2645833333 * mm
+
+PDF_HEIGHT, PDF_WIDTH = px2mm(1080), px2mm(1920)
+INDENTS = (px2mm(50), px2mm(50)) # indents by x and y
+
+class Formatter:
     IMAGE_WIDTH = 0
     X_POS = 0
     Y_POS = 0
-    PDF_WIDTH, PDF_HEIGHT = A4
 
-    def __init__(self, img_width, vert_pos):
-        self.IMAGE_WIDTH = img_width * mm
-        self.X_POS = img_width * mm
+    def __init__(self, img_width, hor_pos, vert_pos):
+        self.IMAGE_WIDTH = img_width
+        self.X_POS = hor_pos
         self.Y_POS = vert_pos
 
     def width(self) -> float:
         return self.IMAGE_WIDTH
 
     def center(self) -> tuple[int, int]:
-        return (int((self.PDF_WIDTH - self.X_POS) / 2), int(self.Y_POS))
+        return (int((PDF_WIDTH - self.X_POS) / 2), int(self.Y_POS))
 
     def left(self) -> tuple[int, int]:
         return (0, int(self.Y_POS))
 
     def right(self) -> tuple[int, int]:
-        return (int(self.PDF_WIDTH - self.X_POS), int(self.Y_POS))
-
+        return (int(PDF_WIDTH - self.X_POS), int(self.Y_POS))
 
 def image_formatter(img, exp_width: int) -> canvas.ImageReader:
     img_w, img_h = img.size
@@ -43,17 +47,34 @@ def create_pdf(canv, img = 0, img_pos: tuple[int, int] = (0, 0)) -> None:
     canv.drawString(500, 80, "Hello World")
     canv.drawImage(img, x=x, y=y)
 
+def add_image(canv, path_to_img: str, x: float, y: float):
+
+    F_CONST = Formatter(114*mm, INDENTS[0], y)
+
+    img = Image.open(path_to_img)
+    img_f = image_formatter(img, int(F_CONST.width()))
+
+    canv.drawImage(img_f, x=x, y=y - px2mm(img_f.getSize()[1]))
+
+def first_slide(canv):
+    add_image(canv, "../img/logo_klimatika.png", 13*mm, PDF_HEIGHT - 13*mm)
+    canv.setFont('TTNormsProBold', 72)
+    canv.drawString(INDENTS[0], px2mm(680), "Apartment")
+
+
 pdfmetrics.registerFont(TTFont('TTNormsPro', '../fonts/TTNormsPro.ttf'))
 pdfmetrics.registerFont(TTFont('TTNormsProBold', '../fonts/TTNormsProB.ttf'))
 pdfmetrics.registerFont(TTFont('TTNormsItalics', '../fonts/TTNormsProI.ttf'))
 
-F_CONST = FormatConstants(100, 0)
+# F_CONST = FormatConstants(100, 200)
 
-img = Image.open("./test.jpg")
-img_f = image_formatter(img, int(F_CONST.width()))
+# img = Image.open("./test.jpg")
+# img_f = image_formatter(img, int(F_CONST.width()))
 
-canv = canvas.Canvas("report.pdf", pagesize=(F_CONST.PDF_HEIGHT, F_CONST.PDF_WIDTH))
-create_pdf(canv, img_f, F_CONST.center())
+canv = canvas.Canvas("report.pdf", pagesize=(PDF_WIDTH, PDF_HEIGHT))
+# create_pdf(canv, img_f, F_CONST.center())
+# canv.rect(13*mm, 13*mm, (FormatConstants.PDF_WIDTH / 2) - 13*mm/2, FormatConstants.PDF_HEIGHT - 26*mm, stroke=0, fill=1)
+first_slide(canv)
 canv.showPage()
 canv.save()
 
