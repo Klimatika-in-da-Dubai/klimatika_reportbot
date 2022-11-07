@@ -79,7 +79,7 @@ async def process_comment(message: types.Message, state: FSMContext) -> None:
     report = get_current_user_report(message)
     report.comment = comment
     await state.set_state(Form.rooms_count)
-    await message.answer("Ok, rooms count")
+    await message.answer("Ok, comment for work")
 
 
 @form_router.message(Form.rooms_count)
