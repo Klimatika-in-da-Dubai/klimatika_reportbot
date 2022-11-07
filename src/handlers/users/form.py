@@ -158,8 +158,6 @@ async def process_add(message: types.Message, state: FSMContext) -> None:
         )
         return
 
-    report: Report = users[message.chat.id]
-    report.additional = [message.text]
     await message.answer(
         f"Thank you for your work!\n{get_current_user_report(message)}",
         reply_markup=ReplyKeyboardRemove(remove_keyboard=True),
