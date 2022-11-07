@@ -5,11 +5,14 @@ from PIL import Image
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 
+
 def px2mm(px):
     return px * 0.2645833333 * mm
 
+
 PDF_HEIGHT, PDF_WIDTH = px2mm(1080), px2mm(1920)
 INDENTS = (px2mm(50), px2mm(50)) # indents by x and y
+
 
 class Formatter:
     IMAGE_WIDTH = 0
@@ -33,6 +36,27 @@ class Formatter:
     def right(self) -> tuple[int, int]:
         return (int(PDF_WIDTH - self.X_POS), int(self.Y_POS))
 
+
+def divide_by_len(cleaned: str, line_len: int) -> list:
+    cleaned = cleaned.replace("  ", " ")
+    new_cleaned = []
+    j = 1
+    start = 0
+    if line_len >= len(cleaned):
+        new_cleaned.append(cleaned)
+    else:
+        while j <= 4 and start < len(cleaned):
+            end_j = j * (line_len + 1)
+            if end_j >= len(cleaned):
+                end_j = len(cleaned) - 1
+            for end in range(end_j, start, -1):
+                if end + 1 == len(cleaned) or cleaned[end] == ' ':
+                    new_cleaned.append(cleaned[start:end])
+                    start = end + 1
+                    j += 1
+                    break
+    return new_cleaned
+
 def image_formatter(img, exp_width: int) -> canvas.ImageReader:
     img_w, img_h = img.size
     size_rel = img_h / img_w
@@ -54,6 +78,7 @@ def add_image(canv, path_to_img: str, img_width: float, x: float, y: float):
 
     canv.drawImage(img_f, x=x, y=y - px2mm(img_f.getSize()[1]), mask='auto')
 
+ 
 def first_slide(canv):
     add_image(canv, "../img/logo_klimatika.png", px2mm(430), INDENTS[0], PDF_HEIGHT - INDENTS[0])
 
@@ -73,6 +98,59 @@ def first_slide(canv):
     canv.drawText(textobject)
 
     canv.showPage()
+
+
+def outline_slide(canv, date: str, name: str, ph_number: str, address: str, helped: str, cleaned: str):
+    textobject = canv.beginText()
+    textobject.setTextOrigin(INDENTS[0], PDF_HEIGHT - px2mm(100))
+
+    textobject.setFont('TTNormsProBold', 55)
+    textobject.setCharSpace(-1)
+    textobject.setFillColor("#E2000F")
+    textobject.setLeading(100)
+    textobject.textLine(text='Outline')
+
+    textobject.setFont('TTNormsPro', 37)
+    textobject.setFillColor("#000000")
+    textobject.setLeading(55)
+    textobject.textOut('Date   ')
+    textobject.setFillColor("#6F7378")
+    textobject.textLine(text=date)
+
+    textobject.setFillColor("#000000")
+    textobject.textOut('Name   ')
+    textobject.setFillColor("#6F7378")
+    textobject.textLine(text=name)
+
+    textobject.setFillColor("#000000")
+    textobject.textOut('Phone number   ')
+    textobject.setFillColor("#6F7378")
+    textobject.textLine(ph_number)
+
+    textobject.setFillColor("#000000")
+    textobject.textOut('Address   ')
+    textobject.setFillColor("#6F7378")
+    textobject.textLine(address)
+
+    textobject.setFillColor("#000000")
+    textobject.textOut('We help with   ')
+    textobject.setFillColor("#6F7378")
+    textobject.setLeading(100)
+    textobject.textLine(helped)
+
+    textobject.setFillColor("#E2000F")
+    textobject.setFont('TTNormsProMedium', 37)
+    textobject.setLeading(55)
+    textobject.textLine(text='What we cleaned:')
+    textobject.setFont('TTNormsPro', 37)
+    textobject.setFillColor("#6F7378")
+    new_cleaned = divide_by_len(cleaned, 69)
+    for i in new_cleaned:
+        textobject.textLine(i)
+    canv.drawText(textobject)
+    canv.showPage()
+
+
 
 def last_slides(canv):
     canv.setFillColor("#E2000F")
@@ -103,8 +181,8 @@ def last_slides(canv):
     textobject.textLine(text='and checkfi you need toswap for')
     textobject.textLine(text='new ones at the start of each')
     textobject.textLine(text='season.')
-    canv.drawText(textobject)
 
+    canv.drawText(textobject)
     canv.showPage()
 
     textobject = canv.beginText()
@@ -120,13 +198,6 @@ def last_slides(canv):
     textobject.textLine(text='Phone: +971 58 819 7173')
     textobject.textLine(text='Email: info@klimatika.ae')
     textobject.textLine(text='Website: www.klimatika.ae')
-    # canv.setFont('TTNormsProBold', 54)
-    # canv.drawString(INDENTS[0], PDF_HEIGHT - px2mm(100), "Let’s talk!")
-
-    # canv.setFont('TTNormsPro', 47)
-    # canv.drawString(INDENTS[0], PDF_HEIGHT - px2mm(600), "Phone: +971 58 819 7173")
-    # canv.drawString(INDENTS[0], PDF_HEIGHT - px2mm(600 + 78), "Email: info@klimatika.ae")
-    # canv.drawString(INDENTS[0], PDF_HEIGHT - px2mm(600 + 2*78), "Website: www.klimatika.ae")
     canv.drawText(textobject)
 
     canv.showPage()
@@ -135,14 +206,16 @@ def last_slides(canv):
 # set up fonts
 pdfmetrics.registerFont(TTFont('TTNormsPro', '../fonts/TTNormsPro.ttf'))
 pdfmetrics.registerFont(TTFont('TTNormsProBold', '../fonts/TTNormsProB.ttf'))
-pdfmetrics.registerFont(TTFont('TTNormsItalics', '../fonts/TTNormsProI.ttf'))
-pdfmetrics.registerFont(TTFont('TTNormsProLight', '../fonts/TTNormsProL.ttf'))
-pdfmetrics.registerFont(TTFont('TTNormsProThin', '../fonts/TTNormsProT.ttf'))
+pdfmetrics.registerFont(TTFont('TTNormsProItalics', '../fonts/TTNormsProI.ttf'))
 pdfmetrics.registerFont(TTFont('TTNormsProMedium', '../fonts/TTNormsProM.ttf'))
 
 canv = canvas.Canvas("report.pdf", pagesize=(PDF_WIDTH, PDF_HEIGHT))
 
 first_slide(canv)
+outline_slide(canv, "10 January 2022", "Edem", "+7 123 456 78 90",
+              "Nizhny Novgorod, st. Kuznechihynskaya, 100",
+              "Just test smth. And something else, to test how loo",
+              "test    cleaned   24 teeeeeest test test ")
 last_slides(canv)
 
 canv.save()
