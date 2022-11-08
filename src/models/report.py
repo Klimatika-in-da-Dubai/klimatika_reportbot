@@ -26,7 +26,7 @@ class Report:
     def room_index(self, value: int) -> None:
         self._room_index = value
 
-    def dict(self) -> dict:
+    async def dict_with_binary(self, bot) -> dict:
         return {
             "Outline": {
                 "date": self.date,
@@ -38,7 +38,7 @@ class Report:
             },
             "Rooms": {
                 "number_of_rooms": self.rooms_count,
-                "rooms_list": [room.dict() for room in self.rooms],
+                "rooms_list": [await room.dict_with_binary(bot) for room in self.rooms],
             },
             "Extra": self.extra,
         }
