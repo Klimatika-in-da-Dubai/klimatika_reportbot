@@ -96,12 +96,13 @@ def add_image(canv, img: Image.Image, img_width: float, x: float, y: float):
 
     img_f = image_formatter(img, int(F_CONST.width()))
 
-    canv.drawImage(img_f, x=x, y=y - px2mm(img_f.getSize()[1]), mask='auto')
+    canv.drawImage(img_f, x=x, y=y, mask='auto')
+    #  - px2mm(img_f.getSize()[1]
 
  
 def first_slide(canv):
     img = Image.open("../img/logo_klimatika.png")
-    add_image(canv, img, px2mm(430), INDENTS[0], PDF_HEIGHT - INDENTS[0])
+    add_image(canv, img, px2mm(430), INDENTS[0], PDF_HEIGHT - px2mm(215) - INDENTS[1])
 
     textobject = canv.beginText()
     textobject.setTextOrigin(INDENTS[0], px2mm(600))
@@ -175,8 +176,10 @@ def outline_slide(canv, date: str, name: str, ph_number: str, address: str, help
 def room_slide(canv, room: str, obj: str, before: str, after: str):
     img_before = image_crop(before)
     img_after = image_crop(after)
-    add_image(canv, img_before, px2mm(860), INDENTS[0], px2mm(530))
-    add_image(canv, img_after, px2mm(860), PDF_WIDTH - px2mm(860) - INDENTS[0], px2mm(530))
+    #add_image(canv, img_before, px2mm(860), INDENTS[0], px2mm(530))
+    add_image(canv, img_before, px2mm(860), INDENTS[0], INDENTS[1])
+    #add_image(canv, img_after, px2mm(860), PDF_WIDTH - px2mm(860) - INDENTS[0], px2mm(530))
+    add_image(canv, img_after, px2mm(860), PDF_WIDTH - px2mm(860) - INDENTS[0], INDENTS[1])
 
     textobject = canv.beginText()
     textobject.setTextOrigin(INDENTS[0], PDF_HEIGHT - px2mm(100))
@@ -205,7 +208,7 @@ def last_slides(canv):
     canv.setFillColor("#E2000F")
     canv.rect(0, 0, PDF_WIDTH, PDF_HEIGHT, stroke=0, fill=1)
     img = Image.open("../img/logo_part.png")
-    add_image(canv, img, px2mm(777), PDF_WIDTH - px2mm(777 + INDENTS[0]), 481)
+    add_image(canv, img, px2mm(777), PDF_WIDTH - px2mm(777 + INDENTS[0]), INDENTS[1])
 
     textobject = canv.beginText()
     textobject.setTextOrigin(INDENTS[0], PDF_HEIGHT - px2mm(100))
