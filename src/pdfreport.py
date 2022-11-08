@@ -51,8 +51,9 @@ def divide_by_len(cleaned: str, line_len: int) -> list:
                 end_j = len(cleaned) - 1
             for end in range(end_j, start, -1):
                 if end + 1 == len(cleaned) or cleaned[end] == ' ':
+                    end += 1
                     new_cleaned.append(cleaned[start:end])
-                    start = end + 1
+                    start = end
                     j += 1
                     break
     return new_cleaned
@@ -102,7 +103,7 @@ def add_image(canv, img: Image.Image, img_width: float, x: float, y: float):
  
 def first_slide(canv):
     img = Image.open("../img/logo_klimatika.png")
-    add_image(canv, img, px2mm(430), INDENTS[0], PDF_HEIGHT - px2mm(215) - INDENTS[1])
+    add_image(canv, img, px2mm(430), INDENTS[0], PDF_HEIGHT - px2mm(215))
 
     textobject = canv.beginText()
     textobject.setTextOrigin(INDENTS[0], px2mm(600))
@@ -176,9 +177,7 @@ def outline_slide(canv, date: str, name: str, ph_number: str, address: str, help
 def room_slide(canv, room: str, obj: str, before: str, after: str):
     img_before = image_crop(before)
     img_after = image_crop(after)
-    #add_image(canv, img_before, px2mm(860), INDENTS[0], px2mm(530))
     add_image(canv, img_before, px2mm(860), INDENTS[0], INDENTS[1])
-    #add_image(canv, img_after, px2mm(860), PDF_WIDTH - px2mm(860) - INDENTS[0], px2mm(530))
     add_image(canv, img_after, px2mm(860), PDF_WIDTH - px2mm(860) - INDENTS[0], INDENTS[1])
 
     textobject = canv.beginText()
@@ -199,6 +198,29 @@ def room_slide(canv, room: str, obj: str, before: str, after: str):
     textobject.setTextOrigin(PDF_WIDTH - px2mm((530)), PDF_HEIGHT - px2mm(330))
     textobject.setFillColor("#E2000F")
     textobject.textLine(text="after")
+    canv.drawText(textobject)
+
+    canv.showPage()
+
+
+def extra_slide(canv, text: str, picture: str):
+    img = image_crop(picture)
+    add_image(canv, img, px2mm(860), PDF_WIDTH - px2mm(860) - INDENTS[0], INDENTS[1])
+
+    textobject = canv.beginText()
+    textobject.setTextOrigin(INDENTS[0], PDF_HEIGHT - px2mm(100))
+
+    textobject.setFont('TTNormsProBold', 54)
+    textobject.setFillColor("#E2000F")
+    textobject.setLeading(55)
+    textobject.textLine(text="What we did extra")
+    
+    textobject.setFont('TTNormsPro', 45)
+    textobject.setTextOrigin(INDENTS[0], PDF_HEIGHT/2)
+    textobject.setFillColor("#6F7378")
+    new_text = divide_by_len(text, 26)
+    for i in new_text:
+        textobject.textLine(i)
     canv.drawText(textobject)
 
     canv.showPage()
@@ -271,6 +293,7 @@ outline_slide(canv, "10 January 2022", "Edem", "+7 123 456 78 90",
               "Just test smth. And something else, to test how loo",
               "test    cleaned   24 teeeeeest test test ")
 room_slide(canv, "Bedroom", "Fridge", "../static_slides/before.jpg", "../static_slides/after.jpg")
+extra_slide(canv, "Test text text test. how many words in one lineeeeee. About 29 symbols", "../static_slides/extra.jpg")
 last_slides(canv)
 
 canv.save()
