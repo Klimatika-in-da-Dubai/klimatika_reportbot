@@ -1,6 +1,7 @@
 from aiogram import Router, types, F
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove
+from aiogram.types import ReplyKeyboardRemove
 import re
+from typing import BinaryIO
 
 
 from aiogram.fsm.context import FSMContext
@@ -13,7 +14,7 @@ from src.models.report import Report
 from src.models.room import Room
 
 
-from loader import users
+from loader import users, bot
 
 form_router = Router()
 
@@ -28,7 +29,7 @@ async def process_name(message: types.Message, state: FSMContext) -> None:
     report = get_current_user_report(message)
     report.name = name
     await state.set_state(Form.phone)
-    await message.answer("Phone number")
+    await message.answer("Enter Phone number")
 
 
 @form_router.message(Form.phone)
@@ -41,7 +42,7 @@ async def process_phone(message: types.Message, state: FSMContext) -> None:
     report = get_current_user_report(message)
     report.phone = phone
     await state.set_state(Form.email)
-    await message.answer("Email")
+    await message.answer("Enter Email:")
 
 
 @form_router.message(Form.email)
@@ -54,7 +55,7 @@ async def process_email(message: types.Message, state: FSMContext) -> None:
     report = get_current_user_report(message)
     report.email = email
     await state.set_state(Form.address)
-    await message.answer("Text client's address")
+    await message.answer("Enter client address:")
 
 
 @form_router.message(Form.address)
@@ -66,20 +67,32 @@ async def process_address(message: types.Message, state: FSMContext) -> None:
     address = get_address(message.text)
     report = get_current_user_report(message)
     report.address = address
-    await state.set_state(Form.comment)
-    await message.answer("Ok, write a comment of work")
+    await state.set_state(Form.helped_with)
+    await message.answer("Enter information what you helped with:")
 
 
-@form_router.message(Form.comment)
+@form_router.message(Form.helped_with)
 async def process_comment(message: types.Message, state: FSMContext) -> None:
     if not is_valid_comment(message.text):
         await message.answer("Incorrect comment")
         return
     comment = get_comment(message.text)
     report = get_current_user_report(message)
-    report.comment = comment
+    report.helped_with = comment
+    await state.set_state(Form.cleaned)
+    await message.answer("Enter information about what you cleaned:")
+
+
+@form_router.message(Form.cleaned)
+async def process_cleaned(message: types.Message, state: FSMContext) -> None:
+    if not is_valid_comment(message.text):
+        await message.answer("Incorrect comment")
+        return
+    comment = get_comment(message.text)
+    report = get_current_user_report(message)
+    report.helped_with = comment
     await state.set_state(Form.rooms_count)
-    await message.answer("Ok, rooms count")
+    await message.answer("Enter rooms count:")
 
 
 @form_router.message(Form.rooms_count)
@@ -108,15 +121,27 @@ async def process_rooms_count(message: types.Message, state: FSMContext) -> None
 async def process_rooms_type(message: types.Message, state: FSMContext) -> None:
     room = get_current_user_room(message)
     room.type = Room.Type(message.text)
+    await state.set_state(Form.room_object)
+    await message.answer(f"Enter rooms object:")
+
+
+@form_router.message(Form.room_object)
+async def process_rooms_object(message: types.Message, state: FSMContext) -> None:
+    if not is_valid_comment(message.text):
+        await message.answer("Incorrect comment")
+        return
+
+    comment = get_comment(message.text)
+    room = get_current_user_room(message)
+    room.room_object = comment
     await state.set_state(Form.room_before)
-    await message.answer(f"Send photo before works")
+    await message.answer("Send photo before works")
 
 
 @form_router.message(Form.room_before, F.photo)
 async def process_room_before(message: types.Message, state: FSMContext) -> None:
     room = get_current_user_room(message)
-    print(type(message.photo))
-    room.photo_before = get_photo(message.photo)
+    room.photo_before = await get_photo(message.photo)
     await state.set_state(Form.room_after)
     await message.answer(f"Send photo after works")
 
@@ -125,7 +150,7 @@ async def process_room_before(message: types.Message, state: FSMContext) -> None
 async def process_room_after(message: types.Message, state: FSMContext) -> None:
     report = get_current_user_report(message)
     room = get_current_user_room(message)
-    room.photo_after = get_photo(message.photo)
+    room.photo_after = await get_photo(message.photo)
     if report.room_index + 1 < users[message.chat.id].rooms_count:
         users[message.chat.id].room_index += 1
         await state.set_state(Form.room_type)
@@ -141,14 +166,14 @@ async def process_room_after(message: types.Message, state: FSMContext) -> None:
 
         return
 
-    await state.set_state(Form.add)
+    await state.set_state(Form.extra)
     await message.answer(
         "Do you want to add something?",
         reply_markup=get_yes_no_keyboard(yes_text="Yes", no_text="No"),
     )
 
 
-@form_router.message(Form.add)
+@form_router.message(Form.extra)
 async def process_add(message: types.Message, state: FSMContext) -> None:
     await state.clear()
     if message.text == "No":
@@ -158,6 +183,7 @@ async def process_add(message: types.Message, state: FSMContext) -> None:
         )
         return
 
+    print(get_current_user_report(message).dict())
     await message.answer(
         f"Thank you for your work!\n{get_current_user_report(message)}",
         reply_markup=ReplyKeyboardRemove(remove_keyboard=True),
@@ -262,8 +288,8 @@ def get_current_user_room(message: types.Message) -> Room:
     return users[message.chat.id].rooms[current_room_index]
 
 
-def get_photo(photos: list[types.PhotoSize] | None) -> types.PhotoSize | None:
+async def get_photo(photos: list[types.PhotoSize] | None) -> BinaryIO | None:
     if photos is None:
         return None
-    high_resolution_photo = photos[-1]
-    return high_resolution_photo
+    photo = photos[-1]
+    return await bot.download(photo.file_id)
