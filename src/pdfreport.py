@@ -9,10 +9,10 @@ from reportlab.pdfbase.ttfonts import TTFont
 def px2mm(px):
     return px * 0.2645833333 * mm
 
-
 PDF_HEIGHT, PDF_WIDTH = px2mm(1080), px2mm(1920)
 INDENTS = (px2mm(50), px2mm(50)) # indents by x and y
-
+KLIMATIKA_LOGO_PATH = "../img/logo_klimatika.png"
+LOGO_PATH = "../img/logo_part"
 
 class Formatter:
     IMAGE_WIDTH = 0
@@ -37,26 +37,26 @@ class Formatter:
         return (int(PDF_WIDTH - self.X_POS), int(self.Y_POS))
 
 
-def divide_by_len(cleaned: str, line_len: int) -> list:
-    cleaned = cleaned.replace("  ", " ")
-    new_cleaned = []
+def divide_by_len(text: str, line_len: int) -> list:
+    text = text.replace("  ", " ")
+    new_text = []
     j = 1
     start = 0
-    if line_len >= len(cleaned):
-        new_cleaned.append(cleaned)
+    if line_len >= len(text):
+        new_text.append(text)
     else:
-        while j <= 4 and start < len(cleaned):
+        while j <= 4 and start < len(text):
             end_j = j * (line_len + 1)
-            if end_j >= len(cleaned):
-                end_j = len(cleaned) - 1
+            if end_j >= len(text):
+                end_j = len(text) - 1
             for end in range(end_j, start, -1):
-                if end + 1 == len(cleaned) or cleaned[end] == ' ':
+                if end + 1 == len(text) or text[end] == ' ':
                     end += 1
-                    new_cleaned.append(cleaned[start:end])
+                    new_text.append(text[start:end])
                     start = end
                     j += 1
                     break
-    return new_cleaned
+    return new_text
 
 
 def image_crop(path_to_img, w_size=4, h_size=3) -> Image.Image:
@@ -93,16 +93,13 @@ def image_formatter(img, exp_width: int) -> canvas.ImageReader:
 
 
 def add_image(canv, img: Image.Image, img_width: float, x: float, y: float):
-    F_CONST = Formatter(img_width, INDENTS[0], y)
-
-    img_f = image_formatter(img, int(F_CONST.width()))
-
+    format_const = Formatter(img_width, INDENTS[0], y)
+    img_f = image_formatter(img, int(format_const.width()))
     canv.drawImage(img_f, x=x, y=y, mask='auto')
-    #  - px2mm(img_f.getSize()[1]
 
  
 def first_slide(canv):
-    img = Image.open("../img/logo_klimatika.png")
+    img = Image.open(KLIMATIKA_LOGO_PATH)
     add_image(canv, img, px2mm(430), INDENTS[0], PDF_HEIGHT - px2mm(215))
 
     textobject = canv.beginText()
@@ -229,7 +226,7 @@ def extra_slide(canv, text: str, picture: str):
 def last_slides(canv):
     canv.setFillColor("#E2000F")
     canv.rect(0, 0, PDF_WIDTH, PDF_HEIGHT, stroke=0, fill=1)
-    img = Image.open("../img/logo_part.png")
+    img = Image.open(LOGO_PATH)
     add_image(canv, img, px2mm(777), PDF_WIDTH - px2mm(777 + INDENTS[0]), INDENTS[1])
 
     textobject = canv.beginText()
@@ -285,17 +282,12 @@ pdfmetrics.registerFont(TTFont('TTNormsProItalics', '../fonts/TTNormsProI.ttf'))
 pdfmetrics.registerFont(TTFont('TTNormsProMedium', '../fonts/TTNormsProM.ttf'))
 pdfmetrics.registerFont(TTFont('TTNormsProLight', '../fonts/TTNormsProL.ttf'))
 
-canv = canvas.Canvas("report.pdf", pagesize=(PDF_WIDTH, PDF_HEIGHT))
-
-first_slide(canv)
-outline_slide(canv, "10 January 2022", "Edem", "+7 123 456 78 90",
-              "Nizhny Novgorod, st. Kuznechihynskaya, 100",
-              "Just test smth. And something else, to test how loo",
-              "test    cleaned   24 teeeeeest test test ")
-room_slide(canv, "Bedroom", "Fridge", "../static_slides/before.jpg", "../static_slides/after.jpg")
-extra_slide(canv, "Test text text test. how many words in one lineeeeee. About 29 symbols", "../static_slides/extra.jpg")
-last_slides(canv)
-
-canv.save()
+# canv = canvas.Canvas("../report.pdf", pagesize=(PDF_WIDTH, PDF_HEIGHT))
+# first_slide(canv)
+# outline_slide(canv, "date", "name", "+123456789", "address", "helped", "cleaned")
+# room_slide(canv, "Bedroom", "Fridge", "../static_slides/before.jpg", "../static_slides/after.jpg")
+# extra_slide(canv, "Test text text test. how many words in one lineeeeee. About 29 symbols", "../static_slides/extra.jpg")
+# last_slides(canv)
+# canv.save()
 
 
