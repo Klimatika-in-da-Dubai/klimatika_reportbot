@@ -57,6 +57,32 @@ def divide_by_len(cleaned: str, line_len: int) -> list:
                     break
     return new_cleaned
 
+
+def image_crop(path_to_img, w_size=4, h_size=3) -> Image.Image:
+    img = Image.open(path_to_img)
+    width, height = img.size
+
+    relation = width/height
+    left = 0
+    top = 0
+    right = width
+    bottom = height
+
+    if relation > w_size/h_size:
+        to_crop = (width - (height * w_size)/h_size) / 2
+        left = to_crop
+        top = 0
+        right = width - to_crop
+        bottom = height
+    elif relation < w_size/h_size:
+        to_crop = (height - (width * h_size)/w_size) / 2
+        left = 0
+        top = to_crop
+        right = width
+        bottom = height - to_crop
+    return img.crop((left, top, right, bottom))
+
+
 def image_formatter(img, exp_width: int) -> canvas.ImageReader:
     img_w, img_h = img.size
     size_rel = img_h / img_w
@@ -64,23 +90,18 @@ def image_formatter(img, exp_width: int) -> canvas.ImageReader:
     exp_size = tuple([exp_width, exp_height])
     return canvas.ImageReader(img.resize(exp_size))
 
-def create_pdf(canv, img = 0, img_pos: tuple[int, int] = (0, 0)) -> None:
-    x, y = img_pos
-    canv.setFont('TTNormsPro', 15)
-    canv.drawString(500, 80, "Hello World")
-    canv.drawImage(img, x=x, y=y)
 
-def add_image(canv, path_to_img: str, img_width: float, x: float, y: float):
+def add_image(canv, img: Image.Image, img_width: float, x: float, y: float):
     F_CONST = Formatter(img_width, INDENTS[0], y)
 
-    img = Image.open(path_to_img)
     img_f = image_formatter(img, int(F_CONST.width()))
 
     canv.drawImage(img_f, x=x, y=y - px2mm(img_f.getSize()[1]), mask='auto')
 
  
 def first_slide(canv):
-    add_image(canv, "../img/logo_klimatika.png", px2mm(430), INDENTS[0], PDF_HEIGHT - INDENTS[0])
+    img = Image.open("../img/logo_klimatika.png")
+    add_image(canv, img, px2mm(430), INDENTS[0], PDF_HEIGHT - INDENTS[0])
 
     textobject = canv.beginText()
     textobject.setTextOrigin(INDENTS[0], px2mm(600))
@@ -140,7 +161,7 @@ def outline_slide(canv, date: str, name: str, ph_number: str, address: str, help
 
     textobject.setFillColor("#E2000F")
     textobject.setFont('TTNormsProMedium', 37)
-    textobject.setLeading(55)
+    textobject.setLeading(45)
     textobject.textLine(text='What we cleaned:')
     textobject.setFont('TTNormsPro', 37)
     textobject.setFillColor("#6F7378")
@@ -151,11 +172,40 @@ def outline_slide(canv, date: str, name: str, ph_number: str, address: str, help
     canv.showPage()
 
 
+def room_slide(canv, room: str, obj: str, before: str, after: str):
+    img_before = image_crop(before)
+    img_after = image_crop(after)
+    add_image(canv, img_before, px2mm(860), INDENTS[0], px2mm(530))
+    add_image(canv, img_after, px2mm(860), PDF_WIDTH - px2mm(860) - INDENTS[0], px2mm(530))
+
+    textobject = canv.beginText()
+    textobject.setTextOrigin(INDENTS[0], PDF_HEIGHT - px2mm(100))
+
+    textobject.setFont('TTNormsProBold', 54)
+    textobject.setFillColor("#E2000F")
+    textobject.setLeading(55)
+    textobject.textLine(text=room)
+    
+    textobject.setFont('TTNormsPro', 37)
+    textobject.setFillColor("#000000")
+    textobject.textLine(text=obj)
+
+    textobject.setFont('TTNormsProLight', 35)
+    textobject.setTextOrigin(px2mm(400), PDF_HEIGHT - px2mm(330))
+    textobject.textLine(text="before")
+    textobject.setTextOrigin(PDF_WIDTH - px2mm((530)), PDF_HEIGHT - px2mm(330))
+    textobject.setFillColor("#E2000F")
+    textobject.textLine(text="after")
+    canv.drawText(textobject)
+
+    canv.showPage()
+
 
 def last_slides(canv):
     canv.setFillColor("#E2000F")
     canv.rect(0, 0, PDF_WIDTH, PDF_HEIGHT, stroke=0, fill=1)
-    add_image(canv, "../img/logo_part.png", px2mm(777), PDF_WIDTH - px2mm(777 + INDENTS[0]), 481)
+    img = Image.open("../img/logo_part.png")
+    add_image(canv, img, px2mm(777), PDF_WIDTH - px2mm(777 + INDENTS[0]), 481)
 
     textobject = canv.beginText()
     textobject.setTextOrigin(INDENTS[0], PDF_HEIGHT - px2mm(100))
@@ -208,6 +258,7 @@ pdfmetrics.registerFont(TTFont('TTNormsPro', '../fonts/TTNormsPro.ttf'))
 pdfmetrics.registerFont(TTFont('TTNormsProBold', '../fonts/TTNormsProB.ttf'))
 pdfmetrics.registerFont(TTFont('TTNormsProItalics', '../fonts/TTNormsProI.ttf'))
 pdfmetrics.registerFont(TTFont('TTNormsProMedium', '../fonts/TTNormsProM.ttf'))
+pdfmetrics.registerFont(TTFont('TTNormsProLight', '../fonts/TTNormsProL.ttf'))
 
 canv = canvas.Canvas("report.pdf", pagesize=(PDF_WIDTH, PDF_HEIGHT))
 
@@ -216,6 +267,7 @@ outline_slide(canv, "10 January 2022", "Edem", "+7 123 456 78 90",
               "Nizhny Novgorod, st. Kuznechihynskaya, 100",
               "Just test smth. And something else, to test how loo",
               "test    cleaned   24 teeeeeest test test ")
+room_slide(canv, "Bedroom", "Fridge", "../static_slides/before.jpg", "../static_slides/after.jpg")
 last_slides(canv)
 
 canv.save()
