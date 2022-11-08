@@ -90,7 +90,7 @@ async def process_cleaned(message: types.Message, state: FSMContext) -> None:
         return
     comment = get_comment(message.text)
     report = get_current_user_report(message)
-    report.helped_with = comment
+    report.cleaned = comment
     await state.set_state(Form.rooms_count)
     await message.answer("Enter rooms count:")
 
