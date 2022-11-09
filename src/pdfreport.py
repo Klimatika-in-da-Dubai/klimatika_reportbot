@@ -3,11 +3,11 @@ from PIL import Image
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 
-from reporttools import *
+from src.reporttools import *
 
  
 class pdfGenerator():
-    canv = canvas.Canvas("../report.pdf", pagesize=(PDF_WIDTH, PDF_HEIGHT))
+    canv = canvas.Canvas("./report.pdf", pagesize=(PDF_WIDTH, PDF_HEIGHT))
 
     def __init__(self):
     # set up fonts
@@ -204,15 +204,15 @@ class pdfGenerator():
     def generate(self, report: dict):
         self.first_slide()
         outline = report["Outline"]
-        self.outline_slide(outline["date"],
+        self.outline_slide(str(outline["date"]),
                            outline["name"],
-                           outline["phone_outline"],
+                           outline["phone_number"],
                            outline["address"],
                            outline["helped_with"],
                            outline["cleaned"])
         rooms = report["Rooms"]
         for room in rooms["rooms_list"]:
-            self.room_slide(room["room"], room["object"], room["img_before"], room["img_before"])
+            self.room_slide(room["room"], room["object"], room["img_before"], room["img_after"])
         # extra = report["Extra"] 
         # self.extra_slide("Test text text test. how many words in one lineeeeee. About 29 symbols", "../static_slides/extra.jpg")
         self.last_slides()

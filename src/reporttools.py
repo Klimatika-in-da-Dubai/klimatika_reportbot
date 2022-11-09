@@ -3,16 +3,13 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.units import mm
 from PIL import Image
 
-from reportlab.pdfbase import pdfmetrics
-from reportlab.pdfbase.ttfonts import TTFont
-
 def px2mm(px):
     return px * 0.2645833333 * mm
 
 PDF_HEIGHT, PDF_WIDTH = px2mm(1080), px2mm(1920)
 INDENTS = (px2mm(50), px2mm(50)) # indents by x and y
-KLIMATIKA_LOGO_PATH = "../img/logo_klimatika.png"
-LOGO_PATH = "../img/logo_part"
+KLIMATIKA_LOGO_PATH = "./img/logo_klimatika.png"
+LOGO_PATH = "./img/logo_part.png"
 
 class Formatter:
     IMAGE_WIDTH = 0
