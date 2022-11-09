@@ -132,4 +132,4 @@ dmypy.json
 config.yaml
 
 #pdf binary
-report/
+reports/
