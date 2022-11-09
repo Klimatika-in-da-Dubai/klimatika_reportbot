@@ -1,5 +1,5 @@
 from aiogram import Router, types, F
-from aiogram.types import PhotoSize, ReplyKeyboardRemove
+from aiogram.types import PhotoSize, ReplyKeyboardRemove, FSInputFile
 import re
 from typing import BinaryIO
 
@@ -13,6 +13,7 @@ from src.states.form import Form
 from src.models.report import Report
 from src.models.room import Room
 
+from src.services.pdfreport import pdfGenerator
 
 from loader import users, bot
 
@@ -183,10 +184,13 @@ async def process_add(message: types.Message, state: FSMContext) -> None:
         )
         return
 
-    print(await get_current_user_report(message).dict_with_binary(bot))
-    await message.answer(
-        f"Thank you for your work!\n{get_current_user_report(message)}",
-        reply_markup=ReplyKeyboardRemove(remove_keyboard=True),
+    report_date = get_current_user_report(message).date
+    report_name = report_date.strftime("%m-%d-%Y_%H-%M-%S")
+    pdfGenerator(report_name).generate(await get_current_user_report(message).dict_with_binary(bot))
+    file = FSInputFile(f"./reports/{report_name}.pdf")
+    await message.answer_document(file,
+        caption="Thank you for your work!",
+        reply_markup=ReplyKeyboardRemove(remove_keyboard=True)
     )
 
 
