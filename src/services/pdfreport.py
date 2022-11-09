@@ -3,14 +3,14 @@ from PIL import Image
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 
-from src.reporttools import *
+from .reporttools import *
 
  
 class pdfGenerator():
     canv = canvas.Canvas("./report.pdf", pagesize=(PDF_WIDTH, PDF_HEIGHT))
-
-    def __init__(self):
+    def __init__(self, report_name: str = "report"):
     # set up fonts
+        self.canv = canvas.Canvas(f"./reports/{report_name}.pdf", pagesize=(PDF_WIDTH, PDF_HEIGHT))
         pdfmetrics.registerFont(TTFont('TTNormsPro', '../fonts/TTNormsPro.ttf'))
         pdfmetrics.registerFont(TTFont('TTNormsProBold', '../fonts/TTNormsProB.ttf'))
         pdfmetrics.registerFont(TTFont('TTNormsProItalics', '../fonts/TTNormsProI.ttf'))
@@ -204,7 +204,7 @@ class pdfGenerator():
     def generate(self, report: dict):
         self.first_slide()
         outline = report["Outline"]
-        self.outline_slide(str(outline["date"]),
+        self.outline_slide(outline["date"].strftime("%m/%d/%Y, %H:%M"),
                            outline["name"],
                            outline["phone_number"],
                            outline["address"],
@@ -218,18 +218,4 @@ class pdfGenerator():
         self.last_slides()
 
         self.canv.save()
-
-
-
-
-# canv = canvas.Canvas("../report.pdf", pagesize=(PDF_WIDTH, PDF_HEIGHT))
-# first_slide(canv)
-
-# outline_slide(canv, "date", "name", "+123456789", "address", "helped", "cleaned")
-# room_slide(canv, "Bedroom", "Fridge", "../static_slides/before.jpg", "../static_slides/after.jpg")
-# extra_slide(canv, "Test text text test. how many words in one lineeeeee. About 29 symbols", "../static_slides/extra.jpg")
-
-# last_slides(canv)
-# canv.save()
-
 
