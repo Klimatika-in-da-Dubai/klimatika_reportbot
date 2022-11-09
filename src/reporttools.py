@@ -1,3 +1,4 @@
+from typing import BinaryIO
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import mm
 from PIL import Image
@@ -58,8 +59,8 @@ def divide_by_len(text: str, line_len: int) -> list:
     return new_text
 
 
-def image_crop(path_to_img, w_size=4, h_size=3) -> Image.Image:
-    img = Image.open(path_to_img)
+def image_crop(img_bin: BinaryIO, w_size=4, h_size=3) -> Image.Image:
+    img = Image.open(img_bin)
     width, height = img.size
 
     relation = width/height

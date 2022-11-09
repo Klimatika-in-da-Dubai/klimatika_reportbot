@@ -7,6 +7,8 @@ from reporttools import *
 
  
 class pdfGenerator():
+    canv = canvas.Canvas("../report.pdf", pagesize=(PDF_WIDTH, PDF_HEIGHT))
+
     def __init__(self):
     # set up fonts
         pdfmetrics.registerFont(TTFont('TTNormsPro', '../fonts/TTNormsPro.ttf'))
@@ -15,7 +17,8 @@ class pdfGenerator():
         pdfmetrics.registerFont(TTFont('TTNormsProMedium', '../fonts/TTNormsProM.ttf'))
         pdfmetrics.registerFont(TTFont('TTNormsProLight', '../fonts/TTNormsProL.ttf'))
 
-    def first_slide(self, canv):
+    def first_slide(self):
+        canv = self.canv
         img = Image.open(KLIMATIKA_LOGO_PATH)
         add_image(canv, img, px2mm(430), INDENTS[0], PDF_HEIGHT - px2mm(215))
 
@@ -37,7 +40,8 @@ class pdfGenerator():
         canv.showPage()
     
     
-    def outline_slide(self, canv, date: str, name: str, ph_number: str, address: str, helped: str, cleaned: str):
+    def outline_slide(self, date: str, name: str, ph_number: str, address: str, helped: str, cleaned: str):
+        canv = self.canv
         textobject = canv.beginText()
         textobject.setTextOrigin(INDENTS[0], PDF_HEIGHT - px2mm(100))
     
@@ -88,7 +92,9 @@ class pdfGenerator():
         canv.showPage()
     
     
-    def room_slide(self, canv, room: str, obj: str, before: str, after: str):
+    def room_slide(self, room: str, obj: str, before: BinaryIO, after: BinaryIO):
+        canv = self.canv
+
         img_before = image_crop(before)
         img_after = image_crop(after)
         add_image(canv, img_before, px2mm(860), INDENTS[0], INDENTS[1])
@@ -117,7 +123,9 @@ class pdfGenerator():
         canv.showPage()
     
     
-    def extra_slide(self, canv, text: str, picture: str):
+    def extra_slide(self, text: str, picture: str):
+        canv = self.canv
+
         img = image_crop(picture)
         add_image(canv, img, px2mm(860), PDF_WIDTH - px2mm(860) - INDENTS[0], INDENTS[1])
     
@@ -140,7 +148,9 @@ class pdfGenerator():
         canv.showPage()
     
     
-    def last_slides(self, canv):
+    def last_slides(self):
+        canv = self.canv
+
         canv.setFillColor("#E2000F")
         canv.rect(0, 0, PDF_WIDTH, PDF_HEIGHT, stroke=0, fill=1)
         img = Image.open(LOGO_PATH)
@@ -191,7 +201,23 @@ class pdfGenerator():
     
         canv.showPage()
     
-    def generate():
+    def generate(self, report: dict):
+        self.first_slide()
+        outline = report["Outline"]
+        self.outline_slide(outline["date"],
+                           outline["name"],
+                           outline["phone_outline"],
+                           outline["address"],
+                           outline["helped_with"],
+                           outline["cleaned"])
+        rooms = report["Rooms"]
+        for room in rooms["rooms_list"]:
+            self.room_slide(room["room"], room["object"], room["img_before"], room["img_before"])
+        # extra = report["Extra"] 
+        # self.extra_slide("Test text text test. how many words in one lineeeeee. About 29 symbols", "../static_slides/extra.jpg")
+        self.last_slides()
+
+        self.canv.save()
 
 
 
