@@ -130,3 +130,6 @@ dmypy.json
 
 # Configuration file
 config.yaml
+
+#pdf binary
+report/
