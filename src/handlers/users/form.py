@@ -1,5 +1,5 @@
 from aiogram import Router, types, F
-from aiogram.types import ReplyKeyboardRemove
+from aiogram.types import PhotoSize, ReplyKeyboardRemove
 import re
 from typing import BinaryIO
 
@@ -125,7 +125,7 @@ async def process_rooms_type(message: types.Message, state: FSMContext) -> None:
     await message.answer(f"Enter rooms object:")
 
 
-@form_router.message(Form.room_object)
+@form_router.message(Form.room_object, F.text)
 async def process_rooms_object(message: types.Message, state: FSMContext) -> None:
     if not is_valid_comment(message.text):
         await message.answer("Incorrect comment")
@@ -183,7 +183,7 @@ async def process_add(message: types.Message, state: FSMContext) -> None:
         )
         return
 
-    print(get_current_user_report(message).dict())
+    print(await get_current_user_report(message).dict_with_binary(bot))
     await message.answer(
         f"Thank you for your work!\n{get_current_user_report(message)}",
         reply_markup=ReplyKeyboardRemove(remove_keyboard=True),
@@ -288,8 +288,8 @@ def get_current_user_room(message: types.Message) -> Room:
     return users[message.chat.id].rooms[current_room_index]
 
 
-async def get_photo(photos: list[types.PhotoSize] | None) -> BinaryIO | None:
+async def get_photo(photos: list[types.PhotoSize] | None) -> PhotoSize | None:
     if photos is None:
         return None
     photo = photos[-1]
-    return await bot.download(photo.file_id)
+    return photo
