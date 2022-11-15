@@ -12,8 +12,7 @@ class Room:
         UNKNOWN = ""
         KITCHEN = "Kitchen"
         BEDROOM = "Bedroom"
-        LIVING_ROOM = "Living_room"
-        OTHER = "Other"
+        LIVING_ROOM = "Living room"
 
         def __str__(self) -> str:
             return str(self.value)
