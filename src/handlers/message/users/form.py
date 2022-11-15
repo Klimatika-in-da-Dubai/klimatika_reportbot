@@ -163,11 +163,12 @@ async def process_extra_service_yes(message: types.Message, state: FSMContext) -
         reply_markup=get_extra_service_keyboard(
             chat_id=message.chat.id,
             extra_services=[
-                Report.ExtraService.COLD_FOG_MACHINE_DISINFECTIONS,
-                Report.ExtraService.NEW_POLYESTER_FILTERS_INSTALLATION,
-                Report.ExtraService.THERMAIL_INSULATOR_CHANGE_JOB,
-                Report.ExtraService.REPAIR_WORKS,
+                str(Report.ExtraService.COLD_FOG_MACHINE_DISINFECTIONS),
+                str(Report.ExtraService.NEW_POLYESTER_FILTERS_INSTALLATION),
+                str(Report.ExtraService.THERMAIL_INSULATOR_CHANGE_JOB),
+                str(Report.ExtraService.REPAIR_WORKS),
             ],
+            enter="Enter",
         ),
     )
 
