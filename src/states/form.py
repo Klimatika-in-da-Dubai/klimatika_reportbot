@@ -8,6 +8,8 @@ class Form(StatesGroup):
     address = State()
     helped_with = State()
     cleaned = State()
+    service = State()
+    extra_service = State()
     rooms_count = State()
     room_type = State()
     room_object = State()
