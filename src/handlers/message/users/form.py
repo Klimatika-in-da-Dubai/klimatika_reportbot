@@ -18,8 +18,6 @@ from src.models.room import Room
 from src.misc.validators import (
     is_valid_address,
     is_valid_email,
-    is_valid_cleaned,
-    is_valid_helped_with,
     is_valid_name,
     is_valid_room_object,
     is_valid_phone,
@@ -29,10 +27,11 @@ from src.misc.validators import (
 
 from src.misc.getters import (
     get_address,
-    get_cleaned,
+    get_date,
     get_current_user_report,
     get_current_user_room,
     get_name,
+    get_email,
     get_phone,
     get_photo,
     get_room_object,
@@ -45,6 +44,15 @@ from src.services.pdfreport import pdfGenerator
 from loader import users, bot
 
 form_router = Router()
+
+
+@form_router.message(Form.date, F.text)
+async def process_date(message: types.Message, state: FSMContext) -> None:
+    date = get_date(message.text)
+    report = get_current_user_report(message.chat.id)
+    report.date = date
+    await state.set_state(Form.name)
+    await message.answer("Enter clients Name")
 
 
 @form_router.message(Form.name, F.text)
@@ -86,12 +94,6 @@ async def process_email(message: types.Message, state: FSMContext) -> None:
     await message.answer("Enter client address:")
 
 
-def get_email(text: str | None) -> str:
-    if text is None:
-        return ""
-    return text
-
-
 @form_router.message(Form.address, F.text)
 async def process_address(message: types.Message, state: FSMContext) -> None:
     if not is_valid_address(message.text):
@@ -101,36 +103,6 @@ async def process_address(message: types.Message, state: FSMContext) -> None:
     address = get_address(message.text)
     report = get_current_user_report(message.chat.id)
     report.address = address
-    await state.set_state(Form.helped_with)
-    await message.answer("Enter information what you helped with:")
-
-
-@form_router.message(Form.helped_with, F.text)
-async def process_comment(message: types.Message, state: FSMContext) -> None:
-    if not is_valid_helped_with(message.text):
-        await message.answer("Incorrect comment")
-        return
-    helped_with = get_helped_with(message.text)
-    report = get_current_user_report(message.chat.id)
-    report.helped_with = helped_with
-    await state.set_state(Form.cleaned)
-    await message.answer("Enter information about what you cleaned:")
-
-
-def get_helped_with(text: str | None) -> str:
-    if text is None:
-        return ""
-    return text
-
-
-@form_router.message(Form.cleaned)
-async def process_cleaned(message: types.Message, state: FSMContext) -> None:
-    if not is_valid_cleaned(message.text):
-        await message.answer("Incorrect comment")
-        return
-    cleaned = get_cleaned(message.text)
-    report = get_current_user_report(message.chat.id)
-    report.cleaned = cleaned
     await state.set_state(Form.service)
     await message.answer(
         "Choose service:",
@@ -270,22 +242,28 @@ async def process_room_after(message: types.Message, state: FSMContext) -> None:
 
 @form_router.message(Form.extra, F.text == "Yes")
 async def process_extra_yes(message: types.Message, state: FSMContext) -> None:
-    report_date = get_current_user_report(message.chat.id).date
-    report_name = report_date.strftime("%m-%d-%Y_%H-%M-%S")
-    pdfGenerator(report_name).generate(
-        await get_current_user_report(message.chat.id).dict_with_binary(bot)
-    )
-    file = FSInputFile(f"./reports/{report_name}.pdf")
+    await send_pdf_report(message)
+
+
+@form_router.message(Form.extra, F.text == "No")
+async def process_extra_no(message: types.Message, state: FSMContext) -> None:
+    await send_pdf_report(message)
+
+
+async def send_pdf_report(message: types.Message):
+    await message.answer("Generating...")
+    await bot.send_chat_action(message.chat.id, action="upload_document")
+    pdf_report = await generate_report(message.chat.id)
     await message.answer_document(
-        file,
+        pdf_report,
         caption="Thank you for your work!",
         reply_markup=ReplyKeyboardRemove(remove_keyboard=True),
     )
 
 
-@form_router.message(Form.extra, F.text == "No")
-async def process_extra_no(message: types.Message, state: FSMContext) -> None:
-    await message.answer(
-        f"Ok. Thank you for your work!\n{get_current_user_report(message.chat.id)}",
-        reply_markup=ReplyKeyboardRemove(remove_keyboard=True),
-    )
+async def generate_report(chat_id: int) -> FSInputFile:
+    report = get_current_user_report(chat_id)
+    report_name = report.date.strftime("%m-%d-%Y_%H-%M-%S")
+    report_dict = await report.dict_with_binary(bot)
+    pdfGenerator(report_name).generate(report_dict)
+    return FSInputFile(f"./reports/{report_name}.pdf")

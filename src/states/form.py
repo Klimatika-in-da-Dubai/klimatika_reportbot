@@ -2,12 +2,11 @@ from aiogram.fsm.state import State, StatesGroup
 
 
 class Form(StatesGroup):
+    date = State()
     name = State()
     phone = State()
     email = State()
     address = State()
-    helped_with = State()
-    cleaned = State()
     service = State()
     extra_service = State()
     rooms_count = State()
