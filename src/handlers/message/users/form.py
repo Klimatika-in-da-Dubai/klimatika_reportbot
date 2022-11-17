@@ -28,6 +28,7 @@ from src.misc.validators import (
 from src.misc.getters import (
     get_address,
     get_date,
+    get_service,
     get_current_user_report,
     get_current_user_room,
     get_name,
@@ -121,6 +122,9 @@ async def process_address(message: types.Message, state: FSMContext) -> None:
     ),
 )
 async def process_service(message: types.Message, state: FSMContext) -> None:
+    service = get_service(message.text)
+    report = get_current_user_report(message.chat.id)
+    report.service = service
     await state.set_state(Form.extra_service)
     await message.answer(
         "Any extra services?",

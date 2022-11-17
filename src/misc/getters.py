@@ -8,23 +8,27 @@ from loader import users
 from src.models.room import Room
 from src.models.report import Report
 
-def get_date(text: str| None) -> datetime:
+
+def get_date(text: str | None) -> datetime:
     if text is None:
         return datetime.now()
-    date = dateparser.parse(text, settings={'DATE_ORDER': 'DMY'})
+    date = dateparser.parse(text, settings={"DATE_ORDER": "DMY"})
     if date is None:
         return datetime.now()
     return date
+
 
 def get_name(text: str | None) -> str:
     if text is None:
         return ""
     return text
 
+
 def get_email(text: str | None) -> str:
     if text is None:
         return ""
     return text
+
 
 def get_phone(text: str | None) -> str:
     if text is None:
@@ -37,6 +41,12 @@ def get_address(text: str | None) -> str:
     if text is None:
         return ""
     return text
+
+
+def get_service(text: str | None) -> str:
+    if text is None:
+        return Report.Service.UNKNOWN
+    return Report.Service(text)
 
 
 def get_rooms_count(text: str | None) -> int:
