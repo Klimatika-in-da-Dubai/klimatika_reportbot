@@ -1,15 +1,13 @@
 from aiogram import Router, types, F
-from aiogram.types import ReplyKeyboardRemove, FSInputFile
 
 
 from aiogram.fsm.context import FSMContext
-from src.keyboards.reply.form import (
-    get_room_type_keyboard,
+
+from src.keyboards.inline.form import (
     get_yes_no_keyboard,
     get_service_keyboard,
+    get_room_type_keyboard,
 )
-
-from src.keyboards.inline.extra import get_extra_service_keyboard
 
 
 from src.states.form import Form
@@ -39,9 +37,8 @@ from src.misc.getters import (
     get_rooms_count,
 )
 
-from src.services.pdfreport import pdfGenerator
 
-from loader import users, bot
+from loader import users
 
 form_router = Router()
 
@@ -107,48 +104,14 @@ async def process_address(message: types.Message, state: FSMContext) -> None:
     await message.answer(
         "Choose service:",
         reply_markup=get_service_keyboard(
-            full_text=Report.Service.FULL,
-            base_text=Report.Service.BASE,
-            without_cleaning_text=Report.Service.WITHOUT_CLEANING,
-        ),
-    )
-
-
-@form_router.message(
-    Form.service,
-    F.text.in_(
-        [Report.Service.FULL, Report.Service.BASE, Report.Service.WITHOUT_CLEANING]
-    ),
-)
-async def process_service(message: types.Message, state: FSMContext) -> None:
-    await state.set_state(Form.extra_service)
-    await message.answer(
-        "Any extra services?",
-        reply_markup=get_yes_no_keyboard(yes_text="Yes", no_text="No"),
-    )
-
-
-@form_router.message(Form.extra_service, F.text == "Yes")
-async def process_extra_service_yes(message: types.Message, state: FSMContext) -> None:
-    await message.answer(
-        "Choose extra services",
-        reply_markup=get_extra_service_keyboard(
-            chat_id=message.chat.id,
-            extra_services=[
-                str(Report.ExtraService.COLD_FOG_MACHINE_DISINFECTIONS),
-                str(Report.ExtraService.NEW_POLYESTER_FILTERS_INSTALLATION),
-                str(Report.ExtraService.THERMAIL_INSULATOR_CHANGE_JOB),
-                str(Report.ExtraService.REPAIR_WORKS),
+            message.chat.id,
+            [
+                (str(Report.service.FULL), Report.Service.FULL),
+                (str(Report.Service.BASE), Report.Service.BASE),
+                (str(Report.Service.WITHOUT_CLEANING), Report.Service.WITHOUT_CLEANING),
             ],
-            enter="Enter",
         ),
     )
-
-
-@form_router.message(Form.extra_service, F.text == "No")
-async def process_extra_service_no(message: types.Message, state: FSMContext) -> None:
-    await state.set_state(Form.rooms_count)
-    await message.answer("Enter rooms count:")
 
 
 @form_router.message(Form.rooms_count)
@@ -165,32 +128,14 @@ async def process_rooms_count(message: types.Message, state: FSMContext) -> None
     await message.answer(
         f"Type of the {users[message.chat.id].room_index + 1} room",
         reply_markup=get_room_type_keyboard(
-            kitchen_text=Room.Type.KITCHEN,
-            bedroom_text=Room.Type.BEDROOM,
-            living_room_text=Room.Type.LIVING_ROOM,
+            message.chat.id,
+            [
+                (str(Room.Type.KITCHEN), Room.Type.KITCHEN),
+                (str(Room.Type.BEDROOM), Room.Type.BEDROOM),
+                (str(Room.Type.LIVING_ROOM), Room.Type.LIVING_ROOM),
+            ],
         ),
     )
-
-
-@form_router.message(
-    Form.room_type,
-    F.text.in_(
-        [
-            Room.Type.KITCHEN,
-            Room.Type.BEDROOM,
-            Room.Type.LIVING_ROOM,
-        ]
-    ),
-)
-async def process_rooms_type(message: types.Message, state: FSMContext) -> None:
-    if not is_valid_room_type(message.text):
-        await message.answer("Incorrect room type")
-        return
-
-    room = get_current_user_room(message.chat.id)
-    room.type = get_room_type(message.text)
-    await state.set_state(Form.room_object)
-    await message.answer(f"Enter rooms object:")
 
 
 @form_router.message(Form.room_object, F.text)
@@ -225,9 +170,12 @@ async def process_room_after(message: types.Message, state: FSMContext) -> None:
         await message.answer(
             f"Type of the {users[message.chat.id].room_index + 1} room",
             reply_markup=get_room_type_keyboard(
-                kitchen_text=Room.Type.KITCHEN,
-                bedroom_text=Room.Type.BEDROOM,
-                living_room_text=Room.Type.LIVING_ROOM,
+                message.chat.id,
+                [
+                    (str(Room.Type.KITCHEN), Room.Type.KITCHEN),
+                    (str(Room.Type.BEDROOM), Room.Type.BEDROOM),
+                    (str(Room.Type.LIVING_ROOM), Room.Type.LIVING_ROOM),
+                ],
             ),
         )
 
@@ -236,34 +184,5 @@ async def process_room_after(message: types.Message, state: FSMContext) -> None:
     await state.set_state(Form.extra)
     await message.answer(
         "Do you want to add something?",
-        reply_markup=get_yes_no_keyboard(yes_text="Yes", no_text="No"),
+        reply_markup=get_yes_no_keyboard(message.chat.id, yes="Yes", no="No"),
     )
-
-
-@form_router.message(Form.extra, F.text == "Yes")
-async def process_extra_yes(message: types.Message, state: FSMContext) -> None:
-    await send_pdf_report(message)
-
-
-@form_router.message(Form.extra, F.text == "No")
-async def process_extra_no(message: types.Message, state: FSMContext) -> None:
-    await send_pdf_report(message)
-
-
-async def send_pdf_report(message: types.Message):
-    await message.answer("Generating...")
-    await bot.send_chat_action(message.chat.id, action="upload_document")
-    pdf_report = await generate_report(message.chat.id)
-    await message.answer_document(
-        pdf_report,
-        caption="Thank you for your work!",
-        reply_markup=ReplyKeyboardRemove(remove_keyboard=True),
-    )
-
-
-async def generate_report(chat_id: int) -> FSInputFile:
-    report = get_current_user_report(chat_id)
-    report_name = report.date.strftime("%m-%d-%Y_%H-%M-%S")
-    report_dict = await report.dict_with_binary(bot)
-    pdfGenerator(report_name).generate(report_dict)
-    return FSInputFile(f"./reports/{report_name}.pdf")
