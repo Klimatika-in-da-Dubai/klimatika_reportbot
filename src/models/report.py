@@ -8,7 +8,7 @@ from enum import Enum
 class Report:
     class Service(str, Enum):
         UNKNOWN = ""
-        FULL = "Full Cтиleaning"
+        FULL = "Full Cleaning"
         BASE = "Basic Cleaning"
         WITHOUT_CLEANING = "Without Cleaning"
 
@@ -54,7 +54,7 @@ class Report:
                 "phone_number": self.phone,
                 "address": self.address,
                 "helped_with": str(self.service),
-                "cleaned": [str(service) for service in self.extra_services],
+                "cleaned": "".join([str(service) for service in self.extra_services]),
             },
             "Rooms": {
                 "number_of_rooms": self.rooms_count,
