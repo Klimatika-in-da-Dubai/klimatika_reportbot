@@ -43,6 +43,12 @@ def get_address(text: str | None) -> str:
     return text
 
 
+def get_service(text: str | None) -> str:
+    if text is None:
+        return Report.Service.UNKNOWN
+    return Report.Service(text)
+
+
 def get_rooms_count(text: str | None) -> int:
     if text is None:
         return 0

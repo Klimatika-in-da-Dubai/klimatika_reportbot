@@ -132,7 +132,7 @@ dmypy.json
 config.yaml
 
 #pdf binary
-reports/
+reports/*.pdf
 
 # vscode
 .vscode/

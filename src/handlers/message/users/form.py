@@ -26,6 +26,7 @@ from src.misc.validators import (
 from src.misc.getters import (
     get_address,
     get_date,
+    get_service,
     get_current_user_report,
     get_current_user_room,
     get_name,
