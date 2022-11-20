@@ -3,8 +3,7 @@ from aiogram import types
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from src.misc.getters import get_current_user_report
-from src.models.report import Report
-from src.models.room import Room
+from src.models import Room, Report
 
 
 def get_service_keyboard(

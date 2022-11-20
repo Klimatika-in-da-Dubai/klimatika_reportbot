@@ -1,13 +1,9 @@
 from aiogram import Router, types, F, Bot
 from aiogram.fsm.context import FSMContext
 
-from src.keyboards.inline import form
-from src.states.form import Form
-from src.misc.getters import (
-    get_current_user_report,
-    get_current_user_room,
-    get_room_type,
-)
+import src.keyboards.inline as inline
+from src.states import Form
+import src.misc.getters as get
 
 from src.models.report import Report
 
@@ -19,13 +15,13 @@ router = Router()
 @router.callback_query(Form.service)
 async def callback_service(callback: types.CallbackQuery, state: FSMContext):
     await callback.answer()
-    report = get_current_user_report(callback.message.chat.id)
+    report = get.get_current_user_report(callback.message.chat.id)
     report.service = Report.Service(callback.data)
     print(report.service)
     await state.set_state(Form.extra_service)
     await callback.message.edit_text(
         "Any extra services?",
-        reply_markup=form.get_yes_no_keyboard(
+        reply_markup=inline.get_yes_no_keyboard(
             callback.message.chat.id, yes="Yes", no="No"
         ),
     )
@@ -46,7 +42,7 @@ async def callback_extra_service_yes(callback: types.CallbackQuery, state: FSMCo
     await callback.answer()
     await callback.message.edit_text(
         text="Choose extra services",
-        reply_markup=form.get_extra_service_keyboard(
+        reply_markup=inline.get_extra_service_keyboard(
             chat_id=callback.message.chat.id,
             extra_services=[
                 (
@@ -73,7 +69,7 @@ async def callback_extra_service_yes(callback: types.CallbackQuery, state: FSMCo
 
 @router.callback_query(Form.extra_service)
 async def callback_extra_service(callback: types.CallbackQuery):
-    report = get_current_user_report(callback.message.chat.id)
+    report = get.get_current_user_report(callback.message.chat.id)
     service = Report.ExtraService(callback.data)
 
     if service in report.extra_services:
@@ -84,7 +80,7 @@ async def callback_extra_service(callback: types.CallbackQuery):
     await callback.answer()
     await callback.message.edit_text(
         text="Choose extra services",
-        reply_markup=form.get_extra_service_keyboard(
+        reply_markup=inline.get_extra_service_keyboard(
             chat_id=callback.message.chat.id,
             extra_services=[
                 (
@@ -112,8 +108,8 @@ async def callback_extra_service(callback: types.CallbackQuery):
 @router.callback_query(Form.room_type)
 async def callback_room_type(callback: types.CallbackQuery, state: FSMContext):
     await callback.answer()
-    room = get_current_user_room(callback.message.chat.id)
-    room.type = get_room_type(callback.data)
+    room = get.get_current_user_room(callback.message.chat.id)
+    room.type = get.get_room_type(callback.data)
     await state.set_state(Form.room_object)
     await callback.message.edit_text(f"You've choosed {room.type}")
     await callback.message.answer(f"Enter rooms object:")
@@ -143,7 +139,7 @@ async def send_pdf_report(bot: Bot, message: types.Message):
 
 
 async def generate_report(bot: Bot, chat_id: int) -> types.FSInputFile:
-    report = get_current_user_report(chat_id)
+    report = get.get_current_user_report(chat_id)
     report_name = report.date.strftime("%m-%d-%Y_%H-%M-%S")
     report_dict = await report.dict_with_binary(bot)
     pdfGenerator(report_name).generate(report_dict)
