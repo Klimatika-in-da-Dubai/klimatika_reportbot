@@ -4,11 +4,11 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
 #
 msgid ""
-msgstr "очко"
+msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-11-20 12:22+0300\n"
-"PO-Revision-Date: 2022-11-20 12:22+0300\n"
+"POT-Creation-Date: 2022-11-20 12:46+0300\n"
+"PO-Revision-Date: 2022-11-20 12:46+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
 "Language-Team: en <LL@li.org>\n"
@@ -20,165 +20,165 @@ msgstr "очко"
 
 #: src/handlers/callbacks/users/form.py:25
 msgid "Any extra services?"
-msgstr "очко"
+msgstr ""
 
 #: src/handlers/callbacks/users/form.py:27
 #: src/handlers/message/users/form.py:163
 msgid "Yes"
-msgstr "очко"
+msgstr ""
 
 #: src/handlers/callbacks/users/form.py:27
 #: src/handlers/message/users/form.py:163
 msgid "No"
-msgstr "очко"
+msgstr ""
 
 #: src/handlers/callbacks/users/form.py:39
 msgid "Enter rooms count:"
-msgstr "очко"
+msgstr ""
 
 #: src/handlers/callbacks/users/form.py:46
 #: src/handlers/callbacks/users/form.py:78
 msgid "Choose extra services"
-msgstr "очко"
+msgstr ""
 
 #: src/handlers/callbacks/users/form.py:51
 #: src/handlers/callbacks/users/form.py:83
 msgid "Cold Fog Machine Disinfections"
-msgstr "очко"
+msgstr ""
 
 #: src/handlers/callbacks/users/form.py:54
 #: src/handlers/callbacks/users/form.py:86
 msgid "New Polyester Filters Installation"
-msgstr "очко"
+msgstr ""
 
 #: src/handlers/callbacks/users/form.py:57
 #: src/handlers/callbacks/users/form.py:89
 msgid "Thermal Insulator Change Job"
-msgstr "очко"
+msgstr ""
 
 #: src/handlers/callbacks/users/form.py:59
 #: src/handlers/callbacks/users/form.py:91
 msgid "Repair Works"
-msgstr "очко"
+msgstr ""
 
 #: src/handlers/callbacks/users/form.py:61
 #: src/handlers/callbacks/users/form.py:93
 msgid "Enter"
-msgstr "очко"
+msgstr ""
 
 #: src/handlers/callbacks/users/form.py:105
 msgid "You've choosed {room_type}"
-msgstr "очко"
+msgstr ""
 
 #: src/handlers/callbacks/users/form.py:107
 msgid "Enter rooms object:"
-msgstr "очко"
+msgstr ""
 
 #: src/handlers/callbacks/users/form.py:127
 msgid "Generating..."
-msgstr "очко"
+msgstr ""
 
 #: src/handlers/callbacks/users/form.py:130
 msgid "Thank you for your work!"
-msgstr "очко"
+msgstr ""
 
 #: src/handlers/message/users/form.py:27
 msgid "Enter clients Name"
-msgstr "очко"
+msgstr ""
 
 #: src/handlers/message/users/form.py:33
 msgid "Incorrect Name"
-msgstr "очко"
+msgstr ""
 
 #: src/handlers/message/users/form.py:40
 msgid "Enter Phone number"
-msgstr "очко"
+msgstr ""
 
 #: src/handlers/message/users/form.py:46
 msgid "Incorrect phone"
-msgstr "очко"
+msgstr ""
 
 #: src/handlers/message/users/form.py:53
 msgid "Enter Email:"
-msgstr "очко"
+msgstr ""
 
 #: src/handlers/message/users/form.py:59
 msgid "Incorrect email"
-msgstr "очко"
+msgstr ""
 
 #: src/handlers/message/users/form.py:66
 msgid "Enter client address:"
-msgstr "очко"
+msgstr ""
 
 #: src/handlers/message/users/form.py:72
 msgid "Incorrect address"
-msgstr "очко"
+msgstr ""
 
 #: src/handlers/message/users/form.py:80
 msgid "Choose service:"
-msgstr "очко"
+msgstr ""
 
 #: src/handlers/message/users/form.py:84
 msgid "Full Cleaning"
-msgstr "очко"
+msgstr ""
 
 #: src/handlers/message/users/form.py:85
 msgid "Basic Cleaning"
-msgstr "очко"
+msgstr ""
 
 #: src/handlers/message/users/form.py:86
 msgid "Wthout Cleaning"
-msgstr "очко"
+msgstr ""
 
 #: src/handlers/message/users/form.py:95
 msgid "Incorrect rooms count"
-msgstr "очко"
+msgstr ""
 
 #: src/handlers/message/users/form.py:104
 #: src/handlers/message/users/form.py:146
 msgid "Type of the {index} room"
-msgstr "очко"
+msgstr ""
 
 #: src/handlers/message/users/form.py:108
 #: src/handlers/message/users/form.py:150
 msgid "Kitchen"
-msgstr "очко"
+msgstr ""
 
 #: src/handlers/message/users/form.py:109
 #: src/handlers/message/users/form.py:151
 msgid "Bedroom"
-msgstr "очко"
+msgstr ""
 
 #: src/handlers/message/users/form.py:110
 #: src/handlers/message/users/form.py:152
 msgid "Living Room"
-msgstr "очко"
+msgstr ""
 
 #: src/handlers/message/users/form.py:119
 msgid "Incorrect comment"
-msgstr "очко"
+msgstr ""
 
 #: src/handlers/message/users/form.py:126
 msgid "Send photo before works"
-msgstr "очко"
+msgstr ""
 
 #: src/handlers/message/users/form.py:134
 msgid "Send photo after works"
-msgstr "очко"
+msgstr ""
 
 #: src/handlers/message/users/form.py:161
 msgid "Do you want to add something?"
-msgstr "очко"
+msgstr ""
 
 #: src/handlers/message/users/message.py:18
 msgid "Hi! {first_name} {last_name}"
-msgstr "очко"
+msgstr "I'm english!!! {first_name} {last_name}"
 
 #: src/handlers/message/users/message.py:23
 msgid "Enter date of visit in format DAY MONTH YEAR"
-msgstr "очко"
+msgstr ""
 
 #: src/handlers/message/users/message.py:35
 msgid "Cancelled!"
-msgstr "очко"
+msgstr ""
 
