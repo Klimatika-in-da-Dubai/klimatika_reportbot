@@ -16,12 +16,8 @@ bot = Bot(token=BOT_TOKEN)
 storage = MemoryStorage()  # DON'T USE IN FINAL VERSION OF PROJECT
 dp = Dispatcher(storage=storage)
 
-I18N_DOMAIN = "mybot"
 
-BASE_DIR = Path(__file__).parent
-LOCALES_DIR = BASE_DIR / "locales"
-
-i18n = I18n(path=BASE_DIR, default_locale="en", domain="messages")
+i18n = I18n(path="locales", default_locale="en", domain="messages")
 
 
 def on_startup(dp: Dispatcher):
