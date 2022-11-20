@@ -1,7 +1,7 @@
 from aiogram import Router, types, F
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
-
+from aiogram.utils.i18n import gettext as _
 
 from src.models.report import Report
 from src.states.form import Form
@@ -15,9 +15,12 @@ async def command_start(message: types.Message, state: FSMContext) -> None:
     users[message.chat.id] = Report()
     await state.set_state(Form.date)
     await message.answer(
-        f"Hi! {message.from_user.first_name} {message.from_user.last_name}"
+        _("Hi! {first_name} {last_name}").format(
+            first_name=message.from_user.first_name,
+            last_name=message.from_user.last_name,
+        )
     )
-    await message.answer("Enter date of visit in format DAY MONTH YEAR")
+    await message.answer(_("Enter date of visit in format DAY MONTH YEAR"))
 
 
 @router.message(Command(commands=["cancel"]))
@@ -29,4 +32,4 @@ async def cancel_handler(message: types.Message, state: FSMContext) -> None:
         return
 
     await state.clear()
-    await message.answer("Cancelled!")
+    await message.answer(_("Cancelled!"))

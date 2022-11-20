@@ -17,6 +17,9 @@ class Room:
         def __str__(self) -> str:
             return str(self.value)
 
+        def for_button(self, text: str) -> tuple[str, ...]:
+            return (text, self.value)
+
     type: Type = Type.UNKNOWN
     room_object: str = ""
     photo_before: types.PhotoSize | None = None

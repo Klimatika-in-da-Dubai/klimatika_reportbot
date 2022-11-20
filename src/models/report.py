@@ -15,6 +15,9 @@ class Report:
         def __str__(self) -> str:
             return str(self.value)
 
+        def for_button(self, text: str) -> tuple[str, ...]:
+            return (text, self.value)
+
     class ExtraService(str, Enum):
         UNKNOWN = ""
         THERMAIL_INSULATOR_CHANGE_JOB = "Thermal insulator change job"
@@ -24,6 +27,9 @@ class Report:
 
         def __str__(self) -> str:
             return str(self.value)
+
+        def for_button(self, text: str) -> tuple[str, ...]:
+            return (text, self.value)
 
     date: datetime = datetime.now()
     name: str = ""

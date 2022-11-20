@@ -1,5 +1,7 @@
 from aiogram import Router, types, F, Bot
 from aiogram.fsm.context import FSMContext
+from aiogram.utils.i18n import gettext as _
+
 
 import src.keyboards.inline as inline
 from src.states import Form
@@ -20,9 +22,9 @@ async def callback_service(callback: types.CallbackQuery, state: FSMContext):
     print(report.service)
     await state.set_state(Form.extra_service)
     await callback.message.edit_text(
-        "Any extra services?",
+        _("Any extra services?"),
         reply_markup=inline.get_yes_no_keyboard(
-            callback.message.chat.id, yes="Yes", no="No"
+            callback.message.chat.id, yes=_("Yes"), no=_("No")
         ),
     )
 
@@ -34,35 +36,29 @@ async def callback_extra_service_enter(
 ):
     await callback.answer()
     await state.set_state(Form.rooms_count)
-    await callback.message.answer("Enter rooms count:")
+    await callback.message.answer(_("Enter rooms count:"))
 
 
 @router.callback_query(Form.extra_service, F.data == "yes")
 async def callback_extra_service_yes(callback: types.CallbackQuery, state: FSMContext):
     await callback.answer()
     await callback.message.edit_text(
-        text="Choose extra services",
+        text=_("Choose extra services"),
         reply_markup=inline.get_extra_service_keyboard(
             chat_id=callback.message.chat.id,
             extra_services=[
-                (
-                    str(Report.ExtraService.COLD_FOG_MACHINE_DISINFECTIONS),
-                    Report.ExtraService.COLD_FOG_MACHINE_DISINFECTIONS,
+                Report.ExtraService.COLD_FOG_MACHINE_DISINFECTIONS.for_button(
+                    _("Cold Fog Machine Disinfections")
                 ),
-                (
-                    str(Report.ExtraService.NEW_POLYESTER_FILTERS_INSTALLATION),
-                    Report.ExtraService.NEW_POLYESTER_FILTERS_INSTALLATION,
+                Report.ExtraService.NEW_POLYESTER_FILTERS_INSTALLATION.for_button(
+                    _("New Polyester Filters Installation")
                 ),
-                (
-                    str(Report.ExtraService.THERMAIL_INSULATOR_CHANGE_JOB),
-                    Report.ExtraService.THERMAIL_INSULATOR_CHANGE_JOB,
+                Report.ExtraService.THERMAIL_INSULATOR_CHANGE_JOB.for_button(
+                    _("Thermal Insulator Change Job")
                 ),
-                (
-                    str(Report.ExtraService.REPAIR_WORKS),
-                    Report.ExtraService.REPAIR_WORKS,
-                ),
+                Report.ExtraService.REPAIR_WORKS.for_button(_("Repair Works")),
             ],
-            enter="Enter",
+            enter=_("Enter"),
         ),
     )
 
@@ -79,28 +75,22 @@ async def callback_extra_service(callback: types.CallbackQuery):
 
     await callback.answer()
     await callback.message.edit_text(
-        text="Choose extra services",
+        text=_("Choose extra services"),
         reply_markup=inline.get_extra_service_keyboard(
             chat_id=callback.message.chat.id,
             extra_services=[
-                (
-                    str(Report.ExtraService.COLD_FOG_MACHINE_DISINFECTIONS),
-                    Report.ExtraService.COLD_FOG_MACHINE_DISINFECTIONS,
+                Report.ExtraService.COLD_FOG_MACHINE_DISINFECTIONS.for_button(
+                    _("Cold Fog Machine Disinfections")
                 ),
-                (
-                    str(Report.ExtraService.NEW_POLYESTER_FILTERS_INSTALLATION),
-                    Report.ExtraService.NEW_POLYESTER_FILTERS_INSTALLATION,
+                Report.ExtraService.NEW_POLYESTER_FILTERS_INSTALLATION.for_button(
+                    _("New Polyester Filters Installation")
                 ),
-                (
-                    str(Report.ExtraService.THERMAIL_INSULATOR_CHANGE_JOB),
-                    Report.ExtraService.THERMAIL_INSULATOR_CHANGE_JOB,
+                Report.ExtraService.THERMAIL_INSULATOR_CHANGE_JOB.for_button(
+                    _("Thermal Insulator Change Job")
                 ),
-                (
-                    str(Report.ExtraService.REPAIR_WORKS),
-                    Report.ExtraService.REPAIR_WORKS,
-                ),
+                Report.ExtraService.REPAIR_WORKS.for_button(_("Repair Works")),
             ],
-            enter="Enter",
+            enter=_("Enter"),
         ),
     )
 
@@ -111,8 +101,10 @@ async def callback_room_type(callback: types.CallbackQuery, state: FSMContext):
     room = get.get_current_user_room(callback.message.chat.id)
     room.type = get.get_room_type(callback.data)
     await state.set_state(Form.room_object)
-    await callback.message.edit_text(f"You've choosed {room.type}")
-    await callback.message.answer(f"Enter rooms object:")
+    await callback.message.edit_text(
+        _("You've choosed {room_type}").format(room_type=room.type)
+    )
+    await callback.message.answer(_("Enter rooms object:"))
 
 
 @router.callback_query(Form.extra, F.data == "no")
@@ -132,10 +124,10 @@ async def process_extra_yes(
 
 
 async def send_pdf_report(bot: Bot, message: types.Message):
-    await message.answer("Generating...")
+    await message.answer(_("Generating..."))
     await bot.send_chat_action(message.chat.id, action="upload_document")
     pdf_report = await generate_report(bot, message.chat.id)
-    await message.answer_document(pdf_report, caption="Thank you for your work!")
+    await message.answer_document(pdf_report, caption=_("Thank you for your work!"))
 
 
 async def generate_report(bot: Bot, chat_id: int) -> types.FSInputFile:
