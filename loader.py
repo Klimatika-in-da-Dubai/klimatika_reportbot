@@ -24,6 +24,7 @@ def on_startup(dp: Dispatcher):
     import src.handlers.message as message_handlers
     import src.handlers.callbacks as callback_handlers
 
+    dp.callback_query.middleware(SimpleI18nMiddleware(i18n=i18n))
     dp.message.middleware(SimpleI18nMiddleware(i18n=i18n))
     dp.include_router(message_handlers.users.users_router)
     dp.include_router(callback_handlers.users.users_router)

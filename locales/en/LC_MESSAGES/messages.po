@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-11-20 12:46+0300\n"
-"PO-Revision-Date: 2022-11-20 12:46+0300\n"
+"PO-Revision-Date: 2022-11-20 13:08+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
 "Language-Team: en <LL@li.org>\n"
@@ -172,7 +172,7 @@ msgstr ""
 
 #: src/handlers/message/users/message.py:18
 msgid "Hi! {first_name} {last_name}"
-msgstr "I'm english!!! {first_name} {last_name}"
+msgstr ""
 
 #: src/handlers/message/users/message.py:23
 msgid "Enter date of visit in format DAY MONTH YEAR"
