@@ -1,6 +1,7 @@
 from dataclasses import dataclass, field
 from datetime import datetime
 from .room import Room
+from .client import Client
 from enum import Enum
 
 
@@ -32,10 +33,7 @@ class Report:
             return (text, self.value)
 
     date: datetime = datetime.now()
-    name: str = ""
-    phone: str = ""
-    email: str = ""
-    address: str = ""
+    client: Client = Client()
     service: Service = Service.UNKNOWN
     extra_services: list[ExtraService] = field(default_factory=list)
     rooms_count: int = 0
@@ -56,9 +54,9 @@ class Report:
         return {
             "Outline": {
                 "date": self.date,
-                "name": self.name,
-                "phone_number": self.phone,
-                "address": self.address,
+                "name": self.client.name,
+                "phone_number": self.client.phone,
+                "address": self.client.address,
                 "helped_with": str(self.service),
                 "cleaned": "".join([str(service) for service in self.extra_services]),
             },
