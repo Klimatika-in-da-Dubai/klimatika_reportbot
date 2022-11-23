@@ -13,14 +13,14 @@ router = Router()
 @router.message(Command(commands=["start"]))
 async def command_start(message: types.Message, state: FSMContext) -> None:
     users[message.chat.id] = Report()
-    await state.set_state(Form.date)
+    await state.set_state(Form.client_name)
     await message.answer(
         _("Hi! {first_name} {last_name}").format(
             first_name=message.from_user.first_name,
             last_name=message.from_user.last_name,
         )
     )
-    await message.answer(_("Enter date of visit in format DAY MONTH YEAR"))
+    await message.answer(_("Enter clients Name"))
 
 
 @router.message(Command(commands=["cancel"]))

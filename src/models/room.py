@@ -8,33 +8,47 @@ from enum import Enum, auto
 
 @dataclass
 class Room:
-    class Type(str, Enum):
-        UNKNOWN = ""
-        KITCHEN = "Kitchen"
-        BEDROOM = "Bedroom"
-        LIVING_ROOM = "Living room"
+    photo_before_vent: types.PhotoSize | None = None
+    photo_before_duct: types.PhotoSize | None = None
+    photo_before_pallet: types.PhotoSize | None = None
+    photo_before_radiator: types.PhotoSize | None = None
+    photo_before_filter: types.PhotoSize | None = None
+    photo_before_impelers: types.PhotoSize | None = None
 
-        def __str__(self) -> str:
-            return str(self.value)
-
-        def for_button(self, text: str) -> tuple[str, ...]:
-            return (text, self.value)
-
-    type: Type = Type.UNKNOWN
-    room_object: str = ""
-    photo_before: types.PhotoSize | None = None
-    photo_after: types.PhotoSize | None = None
+    photo_after_vent: types.PhotoSize | None = None
+    photo_after_duct: types.PhotoSize | None = None
+    photo_after_pallet: types.PhotoSize | None = None
+    photo_after_radiator: types.PhotoSize | None = None
+    photo_after_filter: types.PhotoSize | None = None
+    photo_after_impelers: types.PhotoSize | None = None
 
     async def dict_with_binary(self, bot: Bot) -> dict:
         return {
-            "room": self.get_name(),
-            "object": self.room_object,
-            "img_before": await download_image(bot, self.photo_before),
-            "img_after": await download_image(bot, self.photo_after),
+            "vent": {
+                "img_before": await download_image(bot, self.photo_before_vent),
+                "img_after": await download_image(bot, self.photo_after_vent),
+            },
+            "duct": {
+                "img_before": await download_image(bot, self.photo_before_duct),
+                "img_after": await download_image(bot, self.photo_after_duct),
+            },
+            "pallet": {
+                "img_before": await download_image(bot, self.photo_before_pallet),
+                "img_after": await download_image(bot, self.photo_after_pallet),
+            },
+            "radiator": {
+                "img_before": await download_image(bot, self.photo_before_radiator),
+                "img_after": await download_image(bot, self.photo_after_radiator),
+            },
+            "filter": {
+                "img_before": await download_image(bot, self.photo_before_filter),
+                "img_after": await download_image(bot, self.photo_after_filter),
+            },
+            "impelers": {
+                "img_before": await download_image(bot, self.photo_before_impelers),
+                "img_after": await download_image(bot, self.photo_after_impelers),
+            },
         }
-
-    def get_name(self) -> str:
-        return str(self.type)
 
 
 async def download_image(bot: Bot, photo: types.PhotoSize | None) -> BinaryIO | None:

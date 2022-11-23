@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-11-20 12:46+0300\n"
-"PO-Revision-Date: 2022-11-20 12:53+0300\n"
+"POT-Creation-Date: 2022-11-23 19:48+0300\n"
+"PO-Revision-Date: 2022-11-23 19:48+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
 "Language-Team: ru <LL@li.org>\n"
@@ -19,167 +19,169 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: src/handlers/callbacks/users/form.py:25
-msgid "Any extra services?"
-msgstr ""
-
-#: src/handlers/callbacks/users/form.py:27
-#: src/handlers/message/users/form.py:163
-msgid "Yes"
-msgstr ""
-
-#: src/handlers/callbacks/users/form.py:27
-#: src/handlers/message/users/form.py:163
-msgid "No"
-msgstr ""
-
-#: src/handlers/callbacks/users/form.py:39
-msgid "Enter rooms count:"
-msgstr ""
-
-#: src/handlers/callbacks/users/form.py:46
-#: src/handlers/callbacks/users/form.py:78
-msgid "Choose extra services"
-msgstr ""
-
-#: src/handlers/callbacks/users/form.py:51
-#: src/handlers/callbacks/users/form.py:83
-msgid "Cold Fog Machine Disinfections"
-msgstr ""
-
-#: src/handlers/callbacks/users/form.py:54
-#: src/handlers/callbacks/users/form.py:86
-msgid "New Polyester Filters Installation"
-msgstr ""
-
-#: src/handlers/callbacks/users/form.py:57
-#: src/handlers/callbacks/users/form.py:89
-msgid "Thermal Insulator Change Job"
-msgstr ""
-
-#: src/handlers/callbacks/users/form.py:59
-#: src/handlers/callbacks/users/form.py:91
-msgid "Repair Works"
-msgstr ""
-
-#: src/handlers/callbacks/users/form.py:61
-#: src/handlers/callbacks/users/form.py:93
-msgid "Enter"
-msgstr ""
-
-#: src/handlers/callbacks/users/form.py:105
-msgid "You've choosed {room_type}"
-msgstr ""
-
-#: src/handlers/callbacks/users/form.py:107
-msgid "Enter rooms object:"
-msgstr ""
-
-#: src/handlers/callbacks/users/form.py:127
-msgid "Generating..."
-msgstr ""
-
-#: src/handlers/callbacks/users/form.py:130
-msgid "Thank you for your work!"
-msgstr ""
-
-#: src/handlers/message/users/form.py:27
-msgid "Enter clients Name"
-msgstr ""
-
-#: src/handlers/message/users/form.py:33
-msgid "Incorrect Name"
-msgstr ""
-
-#: src/handlers/message/users/form.py:40
-msgid "Enter Phone number"
-msgstr ""
-
-#: src/handlers/message/users/form.py:46
-msgid "Incorrect phone"
-msgstr ""
-
-#: src/handlers/message/users/form.py:53
-msgid "Enter Email:"
-msgstr ""
-
-#: src/handlers/message/users/form.py:59
-msgid "Incorrect email"
-msgstr ""
-
-#: src/handlers/message/users/form.py:66
+#: src/handlers/callbacks/users/form.py:29
 msgid "Enter client address:"
 msgstr ""
 
-#: src/handlers/message/users/form.py:72
+#: src/handlers/callbacks/users/form.py:43
+#: src/handlers/callbacks/users/form.py:106
+#: src/handlers/callbacks/users/form.py:112
+msgid "Send photo of vent before works"
+msgstr ""
+
+#: src/handlers/callbacks/users/form.py:86
+msgid "Please type other extra service"
+msgstr ""
+
+#: src/handlers/callbacks/users/form.py:124
+msgid "Generating..."
+msgstr ""
+
+#: src/handlers/callbacks/users/form.py:127
+msgid "Thank you for your work!"
+msgstr ""
+
+#: src/handlers/message/users/form.py:21
+msgid "Incorrect Name"
+msgstr ""
+
+#: src/handlers/message/users/form.py:28
+msgid "Enter date of visit in format DAY MONTH YEAR"
+msgstr ""
+
+#: src/handlers/message/users/form.py:37
+msgid "Enter Phone number"
+msgstr ""
+
+#: src/handlers/message/users/form.py:43
+msgid "Incorrect phone"
+msgstr ""
+
+#: src/handlers/message/users/form.py:56
 msgid "Incorrect address"
 msgstr ""
 
-#: src/handlers/message/users/form.py:80
-msgid "Choose service:"
+#: src/handlers/message/users/form.py:82
+msgid "Send photo BEFORE works for duct"
 msgstr ""
 
-#: src/handlers/message/users/form.py:84
-msgid "Full Cleaning"
+#: src/handlers/message/users/form.py:90
+msgid "Send photo BEFORE works for pallet"
 msgstr ""
 
-#: src/handlers/message/users/form.py:85
-msgid "Basic Cleaning"
+#: src/handlers/message/users/form.py:98
+msgid "Send photo BEFORE works for radiator"
 msgstr ""
 
-#: src/handlers/message/users/form.py:86
-msgid "Wthout Cleaning"
+#: src/handlers/message/users/form.py:106
+msgid "Send photo BEFORE works for filter"
 msgstr ""
 
-#: src/handlers/message/users/form.py:95
-msgid "Incorrect rooms count"
+#: src/handlers/message/users/form.py:114
+msgid "Send photo BEFORE works for impelers"
 msgstr ""
 
-#: src/handlers/message/users/form.py:104
-#: src/handlers/message/users/form.py:146
-msgid "Type of the {index} room"
+#: src/handlers/message/users/form.py:122
+msgid "Send photo AFTER works for vent"
 msgstr ""
 
-#: src/handlers/message/users/form.py:108
-#: src/handlers/message/users/form.py:150
-msgid "Kitchen"
+#: src/handlers/message/users/form.py:131
+msgid "Send photo AFTER works for duct"
 msgstr ""
 
-#: src/handlers/message/users/form.py:109
-#: src/handlers/message/users/form.py:151
-msgid "Bedroom"
+#: src/handlers/message/users/form.py:139
+msgid "Send photo AFTER works for pallet"
 msgstr ""
 
-#: src/handlers/message/users/form.py:110
-#: src/handlers/message/users/form.py:152
-msgid "Living Room"
+#: src/handlers/message/users/form.py:147
+msgid "Send photo AFTER works for radiator"
 msgstr ""
 
-#: src/handlers/message/users/form.py:119
-msgid "Incorrect comment"
+#: src/handlers/message/users/form.py:155
+msgid "Send photo AFTER works for filter"
 msgstr ""
 
-#: src/handlers/message/users/form.py:126
-msgid "Send photo before works"
+#: src/handlers/message/users/form.py:163
+msgid "Send photo AFTER works for impelers"
 msgstr ""
 
-#: src/handlers/message/users/form.py:134
-msgid "Send photo after works"
-msgstr ""
-
-#: src/handlers/message/users/form.py:161
-msgid "Do you want to add something?"
+#: src/handlers/message/users/form.py:171
+msgid "Do you want to add room?"
 msgstr ""
 
 #: src/handlers/message/users/message.py:18
 msgid "Hi! {first_name} {last_name}"
-msgstr "Я русскиий!!! {first_name} {last_name}"
+msgstr ""
 
 #: src/handlers/message/users/message.py:23
-msgid "Enter date of visit in format DAY MONTH YEAR"
+msgid "Enter clients Name"
 msgstr ""
 
 #: src/handlers/message/users/message.py:35
 msgid "Cancelled!"
 msgstr ""
+
+#: src/keyboards/inline/kbd.py:14 src/keyboards/inline/kbd.py:77
+msgid "Choose service:"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:18 src/keyboards/inline/kbd.py:81
+msgid "Premium"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:19 src/keyboards/inline/kbd.py:82
+msgid "Premium + Extra"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:21 src/keyboards/inline/kbd.py:84
+msgid "Other Repair Services"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:30 src/keyboards/inline/kbd.py:93
+msgid "Choose extra services"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:35 src/keyboards/inline/kbd.py:98
+msgid "Cold Fog Machine Disinfections"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:38 src/keyboards/inline/kbd.py:101
+msgid "New Polyester Filters Installation"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:41 src/keyboards/inline/kbd.py:104
+msgid "Thermal Insulator Change Job"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:43 src/keyboards/inline/kbd.py:106
+msgid "Repair Works"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:45 src/keyboards/inline/kbd.py:108
+msgid "Other"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:46 src/keyboards/inline/kbd.py:109
+msgid "Enter"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:53 src/keyboards/inline/kbd.py:116
+msgid "Select client is an owner or a tenant"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:58 src/keyboards/inline/kbd.py:121
+msgid "Owner"
+msgstr "Владелец"
+
+#: src/keyboards/inline/kbd.py:61 src/keyboards/inline/kbd.py:124
+msgid "Tenant"
+msgstr "Арендатор"
+
+#: src/keyboards/inline/kbd.py:71
+msgid "Yes"
+msgstr "Да"
+
+#: src/keyboards/inline/kbd.py:71
+msgid "No"
+msgstr "Нет"
 

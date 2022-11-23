@@ -9,15 +9,15 @@ from enum import Enum
 class Report:
     class Service(str, Enum):
         UNKNOWN = ""
-        FULL = "Full Cleaning"
-        BASE = "Basic Cleaning"
-        WITHOUT_CLEANING = "Without Cleaning"
+        PREMIUM = "Premium"
+        PREMIUM_EXTRA = "Premium + Extra"
+        OTHER_REPAIR_SERVICES = "Other Repair Services"
 
         def __str__(self) -> str:
             return str(self.value)
 
-        def for_button(self, text: str) -> tuple[str, ...]:
-            return (text, self.value)
+        def for_button(self, text: str) -> tuple[str, Enum]:
+            return (text, self)
 
     class ExtraService(str, Enum):
         UNKNOWN = ""
@@ -29,26 +29,15 @@ class Report:
         def __str__(self) -> str:
             return str(self.value)
 
-        def for_button(self, text: str) -> tuple[str, ...]:
-            return (text, self.value)
+        def for_button(self, text: str) -> tuple[str, Enum]:
+            return (text, self)
 
     date: datetime = datetime.now()
     client: Client = Client()
     service: Service = Service.UNKNOWN
     extra_services: list[ExtraService] = field(default_factory=list)
-    rooms_count: int = 0
+    other_extra_services: list[str] = field(default_factory=list)
     rooms: list[Room] = field(default_factory=list)
-    extra: list = field(default_factory=list)
-
-    _room_index: int = field(repr=False, default=0)
-
-    @property
-    def room_index(self) -> int:
-        return self._room_index
-
-    @room_index.setter
-    def room_index(self, value: int) -> None:
-        self._room_index = value
 
     async def dict_with_binary(self, bot) -> dict:
         return {
@@ -58,11 +47,10 @@ class Report:
                 "phone_number": self.client.phone,
                 "address": self.client.address,
                 "helped_with": str(self.service),
-                "cleaned": "".join([str(service) for service in self.extra_services]),
+                "cleaned": ", ".join([str(service) for service in self.extra_services]),
             },
             "Rooms": {
-                "number_of_rooms": self.rooms_count,
+                "number_of_rooms": len(self.rooms),
                 "rooms_list": [await room.dict_with_binary(bot) for room in self.rooms],
             },
-            "Extra": self.extra,
         }

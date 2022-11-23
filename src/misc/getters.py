@@ -55,13 +55,6 @@ def get_rooms_count(text: str | None) -> int:
     return int(text)
 
 
-def get_room_type(text: str | None) -> Room.Type:
-    if text is None:
-        return Room.Type.UNKNOWN
-
-    return Room.Type(text)
-
-
 def get_room_object(text: str | None) -> str:
     if text is None:
         return ""
@@ -73,8 +66,8 @@ def get_current_user_report(chat_id: int) -> Report:
 
 
 def get_current_user_room(chat_id: int) -> Room:
-    current_room_index = users[chat_id].room_index
-    return users[chat_id].rooms[current_room_index]
+    report = get_current_user_report(chat_id)
+    return report.rooms[-1]
 
 
 def get_photo(photos: list[types.PhotoSize] | None) -> types.PhotoSize | None:
