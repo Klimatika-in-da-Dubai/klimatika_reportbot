@@ -1,6 +1,9 @@
-from .form import (
-    get_room_type_keyboard,
-    get_service_keyboard,
-    get_extra_service_keyboard,
-    get_yes_no_keyboard,
+from .kbd import (
+    send_client_type_keyboard,
+    send_service_keyboard,
+    send_extra_service_keyboard,
+    send_yes_no_keboard,
+    edit_client_type_keyboard,
+    edit_extra_service_keyboard,
+    edit_service_keyboard,
 )
