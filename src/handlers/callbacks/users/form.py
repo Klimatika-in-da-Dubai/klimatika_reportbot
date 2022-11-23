@@ -108,6 +108,8 @@ async def callback_extra_service_delete_other(
 async def callback_extra_service_enter(
     callback: types.CallbackQuery, state: FSMContext
 ):
+    await callback.answer()
+
     await state.set_state(Form.room_type)
     await inline.send_room_type_keyboard(callback.message)
 
@@ -116,6 +118,8 @@ async def callback_extra_service_enter(
 async def callback_room_Type(
     callback: types.CallbackQuery, state: FSMContext, callback_data: RoomTypeCB
 ):
+    await callback.answer()
+
     report = get.get_current_user_report(callback.message.chat.id)
     report.rooms.append(Room())
 
@@ -127,6 +131,8 @@ async def callback_room_Type(
 
 @router.callback_query(Form.add_room, F.data == "yes")
 async def callback_add_room_yes(callback: types.CallbackQuery, state: FSMContext):
+    await callback.answer()
+
     await state.set_state(Form.room_type)
     await inline.send_room_type_keyboard(callback.message)
 
@@ -135,6 +141,7 @@ async def callback_add_room_yes(callback: types.CallbackQuery, state: FSMContext
 async def callback_add_room_yes(
     callback: types.CallbackQuery, state: FSMContext, bot: Bot
 ):
+    await callback.answer()
     await state.clear()
     await callback.message.answer(
         str(get.get_current_user_report(callback.message.chat.id))
