@@ -7,10 +7,16 @@ import src.keyboards.inline as inline
 from src.states import Form
 import src.misc.getters as get
 
-from src.models import Report, Client
+from src.models import Report, Client, Room
 
 from src.services.pdfreport import pdfGenerator
-from src.callbackdata import OtherExtraServiceCB, ServiceCB, ExtraServiceCB, ClientCB
+from src.callbackdata import (
+    OtherExtraServiceCB,
+    ServiceCB,
+    ExtraServiceCB,
+    ClientCB,
+    RoomTypeCB,
+)
 
 router = Router()
 
@@ -40,7 +46,7 @@ async def callback_service(
     report.service = callback_data.service
 
     await state.set_state(Form.room_before_vent)
-    await callback.message.answer(_("Send photo of vent before works"))
+    await inline.send_room_type_keyboard(callback.message)
 
 
 @router.callback_query(
@@ -102,14 +108,27 @@ async def callback_extra_service_delete_other(
 async def callback_extra_service_enter(
     callback: types.CallbackQuery, state: FSMContext
 ):
-    await state.set_state(Form.room_before_vent)
-    await callback.message.answer(_("Send photo of vent before works"))
+    await state.set_state(Form.room_type)
+    await inline.send_room_type_keyboard(callback.message)
+
+
+@router.callback_query(Form.room_type, RoomTypeCB.filter())
+async def callback_room_Type(
+    callback: types.CallbackQuery, state: FSMContext, callback_data: RoomTypeCB
+):
+    report = get.get_current_user_report(callback.message.chat.id)
+    report.rooms.append(Room())
+
+    room = get.get_current_user_room(callback.message.chat.id)
+    room.room_type = callback_data.type
+    await state.set_state(Form.room_object)
+    await callback.message.answer(_("Enter room object"))
 
 
 @router.callback_query(Form.add_room, F.data == "yes")
 async def callback_add_room_yes(callback: types.CallbackQuery, state: FSMContext):
-    await state.set_state(Form.room_before_vent)
-    await callback.message.answer(_("Send photo of vent before works"))
+    await state.set_state(Form.room_type)
+    await inline.send_room_type_keyboard(callback.message)
 
 
 @router.callback_query(Form.add_room, F.data == "no")
@@ -117,6 +136,9 @@ async def callback_add_room_yes(
     callback: types.CallbackQuery, state: FSMContext, bot: Bot
 ):
     await state.clear()
+    await callback.message.answer(
+        str(get.get_current_user_report(callback.message.chat.id))
+    )
     await send_pdf_report(bot, callback.message)
 
 

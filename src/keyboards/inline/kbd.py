@@ -6,10 +6,25 @@ from .form import (
     get_extra_service_keyboard,
     get_service_keyboard,
     get_yes_no_keyboard,
+    get_room_type_keyboard,
 )
 
 
-async def send_service_keyboard(message):
+async def send_room_type_keyboard(message: types.Message):
+    await message.answer(
+        _("Select room type:"),
+        reply_markup=get_room_type_keyboard(
+            message.chat.id,
+            [
+                Room.Type.KITCHEN.for_button(_("Kitchen")),
+                Room.Type.BEDROOM.for_button(_("Bedroom")),
+                Room.Type.LIVING_ROOM.for_button(_("Living Room")),
+            ],
+        ),
+    )
+
+
+async def send_service_keyboard(message: types.Message):
     await message.answer(
         _("Choose service:"),
         reply_markup=get_service_keyboard(

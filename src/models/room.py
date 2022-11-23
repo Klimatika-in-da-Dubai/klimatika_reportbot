@@ -8,6 +8,21 @@ from enum import Enum, auto
 
 @dataclass
 class Room:
+    class Type(str, Enum):
+        UNKNOWN = ""
+        BEDROOM = "Bedroom"
+        LIVING_ROOM = "Living Room"
+        KITCHEN = "Kitchen"
+
+        def __str__(self) -> str:
+            return str(self.value)
+
+        def for_button(self, text: str) -> tuple[str, ...]:
+            return (text, self)
+
+    room_type: Type = Type.UNKNOWN
+    room_object: str = ""
+
     photo_before_vent: types.PhotoSize | None = None
     photo_before_duct: types.PhotoSize | None = None
     photo_before_pallet: types.PhotoSize | None = None
@@ -24,6 +39,8 @@ class Room:
 
     async def dict_with_binary(self, bot: Bot) -> dict:
         return {
+            "room": self.room_type,
+            "object": self.room_object,
             "vent": {
                 "img_before": await download_image(bot, self.photo_before_vent),
                 "img_after": await download_image(bot, self.photo_after_vent),

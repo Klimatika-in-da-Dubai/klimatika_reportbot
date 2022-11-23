@@ -71,11 +71,20 @@ async def process_extra_service_add_other(message: types.Message, state: FSMCont
     await inline.send_extra_service_keyboard(message)
 
 
+@form_router.message(Form.room_object, F.text)
+async def process_room_object(message: types.Message, state: FSMContext):
+    if not vld.is_valid_room_object(message.text):
+        return
+
+    object = get.get_room_object(message.text)
+    room = get.get_current_user_room(message.chat.id)
+    room.room_object = object
+    await state.set_state(Form.room_before_vent)
+    await message.answer(_("Send photo BEFORE works for vent"))
+
+
 @form_router.message(Form.room_before_vent, F.photo)
 async def process_room_before_vent(message: types.Message, state: FSMContext):
-    report = get.get_current_user_report(message.chat.id)
-    report.rooms.append(Room())
-
     room = get.get_current_user_room(message.chat.id)
     room.photo_before_vent = get.get_photo(message.photo)
     await state.set_state(Form.room_before_duct)

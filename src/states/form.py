@@ -12,6 +12,9 @@ class Form(StatesGroup):
     extra_service = State()
     extra_service_await_answer = State()
 
+    room_type = State()
+    room_object = State()
+
     room_before_vent = State()
     room_before_duct = State()
     room_before_pallet = State()
