@@ -1,5 +1,5 @@
 from aiogram.filters.callback_data import CallbackData
-from src.models.report import Report, Client
+from src.models.report import Report, Client, Room
 
 
 class ClientCB(CallbackData, prefix="client"):
@@ -18,3 +18,7 @@ class ExtraServiceCB(CallbackData, prefix="ex_service"):
 class OtherExtraServiceCB(CallbackData, prefix="oth_ex_service"):
     action: str
     id: int
+
+
+class RoomTypeCB(CallbackData, prefix="room"):
+    type: Room.Type

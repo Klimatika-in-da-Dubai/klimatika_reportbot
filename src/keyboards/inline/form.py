@@ -4,8 +4,27 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from src.misc.getters import get_current_user_report
 from src.models import Room, Report, Client
-from src.callbackdata import ExtraServiceCB, ServiceCB, OtherExtraServiceCB, ClientCB
+from src.callbackdata import (
+    ExtraServiceCB,
+    ServiceCB,
+    OtherExtraServiceCB,
+    ClientCB,
+    RoomTypeCB,
+)
 
+
+def get_room_type_keyboard(
+    chat_id: int, room_types: list[tuple[str, Room.Type]]
+) -> types.InlineKeyboardMarkup:
+    builder = InlineKeyboardBuilder()
+    for text, room_type in room_types:
+        builder.add(
+            types.InlineKeyboardButton(
+                text=room_type, callback_data=RoomTypeCB(type=room_type).pack()
+            )
+        )
+    builder.adjust(1)
+    return builder.as_markup()
 
 
 def get_client_type_keyboard(
@@ -86,5 +105,3 @@ def get_yes_no_keyboard(chat_id: int, yes: str, no: str) -> types.InlineKeyboard
     builder.add(types.InlineKeyboardButton(text=yes, callback_data="yes"))
     builder.add(types.InlineKeyboardButton(text=no, callback_data="no"))
     return builder.as_markup()
-
-

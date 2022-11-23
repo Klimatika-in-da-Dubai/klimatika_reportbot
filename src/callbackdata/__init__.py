@@ -1,1 +1,7 @@
-from .callbackdata import ExtraServiceCB, ServiceCB, OtherExtraServiceCB, ClientCB
+from .callbackdata import (
+    ExtraServiceCB,
+    ServiceCB,
+    OtherExtraServiceCB,
+    ClientCB,
+    RoomTypeCB,
+)

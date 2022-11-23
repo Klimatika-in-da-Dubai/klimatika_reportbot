@@ -1,4 +1,5 @@
 from .kbd import (
+    send_room_type_keyboard,
     send_client_type_keyboard,
     send_service_keyboard,
     send_extra_service_keyboard,
