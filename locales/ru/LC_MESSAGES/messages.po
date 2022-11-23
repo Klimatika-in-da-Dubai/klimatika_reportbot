@@ -1,0 +1,185 @@
+# Russian translations for PROJECT.
+# Copyright (C) 2022 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2022-11-20 12:46+0300\n"
+"PO-Revision-Date: 2022-11-20 12:53+0300\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: ru\n"
+"Language-Team: ru <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+#: src/handlers/callbacks/users/form.py:25
+msgid "Any extra services?"
+msgstr ""
+
+#: src/handlers/callbacks/users/form.py:27
+#: src/handlers/message/users/form.py:163
+msgid "Yes"
+msgstr ""
+
+#: src/handlers/callbacks/users/form.py:27
+#: src/handlers/message/users/form.py:163
+msgid "No"
+msgstr ""
+
+#: src/handlers/callbacks/users/form.py:39
+msgid "Enter rooms count:"
+msgstr ""
+
+#: src/handlers/callbacks/users/form.py:46
+#: src/handlers/callbacks/users/form.py:78
+msgid "Choose extra services"
+msgstr ""
+
+#: src/handlers/callbacks/users/form.py:51
+#: src/handlers/callbacks/users/form.py:83
+msgid "Cold Fog Machine Disinfections"
+msgstr ""
+
+#: src/handlers/callbacks/users/form.py:54
+#: src/handlers/callbacks/users/form.py:86
+msgid "New Polyester Filters Installation"
+msgstr ""
+
+#: src/handlers/callbacks/users/form.py:57
+#: src/handlers/callbacks/users/form.py:89
+msgid "Thermal Insulator Change Job"
+msgstr ""
+
+#: src/handlers/callbacks/users/form.py:59
+#: src/handlers/callbacks/users/form.py:91
+msgid "Repair Works"
+msgstr ""
+
+#: src/handlers/callbacks/users/form.py:61
+#: src/handlers/callbacks/users/form.py:93
+msgid "Enter"
+msgstr ""
+
+#: src/handlers/callbacks/users/form.py:105
+msgid "You've choosed {room_type}"
+msgstr ""
+
+#: src/handlers/callbacks/users/form.py:107
+msgid "Enter rooms object:"
+msgstr ""
+
+#: src/handlers/callbacks/users/form.py:127
+msgid "Generating..."
+msgstr ""
+
+#: src/handlers/callbacks/users/form.py:130
+msgid "Thank you for your work!"
+msgstr ""
+
+#: src/handlers/message/users/form.py:27
+msgid "Enter clients Name"
+msgstr ""
+
+#: src/handlers/message/users/form.py:33
+msgid "Incorrect Name"
+msgstr ""
+
+#: src/handlers/message/users/form.py:40
+msgid "Enter Phone number"
+msgstr ""
+
+#: src/handlers/message/users/form.py:46
+msgid "Incorrect phone"
+msgstr ""
+
+#: src/handlers/message/users/form.py:53
+msgid "Enter Email:"
+msgstr ""
+
+#: src/handlers/message/users/form.py:59
+msgid "Incorrect email"
+msgstr ""
+
+#: src/handlers/message/users/form.py:66
+msgid "Enter client address:"
+msgstr ""
+
+#: src/handlers/message/users/form.py:72
+msgid "Incorrect address"
+msgstr ""
+
+#: src/handlers/message/users/form.py:80
+msgid "Choose service:"
+msgstr ""
+
+#: src/handlers/message/users/form.py:84
+msgid "Full Cleaning"
+msgstr ""
+
+#: src/handlers/message/users/form.py:85
+msgid "Basic Cleaning"
+msgstr ""
+
+#: src/handlers/message/users/form.py:86
+msgid "Wthout Cleaning"
+msgstr ""
+
+#: src/handlers/message/users/form.py:95
+msgid "Incorrect rooms count"
+msgstr ""
+
+#: src/handlers/message/users/form.py:104
+#: src/handlers/message/users/form.py:146
+msgid "Type of the {index} room"
+msgstr ""
+
+#: src/handlers/message/users/form.py:108
+#: src/handlers/message/users/form.py:150
+msgid "Kitchen"
+msgstr ""
+
+#: src/handlers/message/users/form.py:109
+#: src/handlers/message/users/form.py:151
+msgid "Bedroom"
+msgstr ""
+
+#: src/handlers/message/users/form.py:110
+#: src/handlers/message/users/form.py:152
+msgid "Living Room"
+msgstr ""
+
+#: src/handlers/message/users/form.py:119
+msgid "Incorrect comment"
+msgstr ""
+
+#: src/handlers/message/users/form.py:126
+msgid "Send photo before works"
+msgstr ""
+
+#: src/handlers/message/users/form.py:134
+msgid "Send photo after works"
+msgstr ""
+
+#: src/handlers/message/users/form.py:161
+msgid "Do you want to add something?"
+msgstr ""
+
+#: src/handlers/message/users/message.py:18
+msgid "Hi! {first_name} {last_name}"
+msgstr "Я русскиий!!! {first_name} {last_name}"
+
+#: src/handlers/message/users/message.py:23
+msgid "Enter date of visit in format DAY MONTH YEAR"
+msgstr ""
+
+#: src/handlers/message/users/message.py:35
+msgid "Cancelled!"
+msgstr ""
+
