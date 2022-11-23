@@ -35,7 +35,7 @@ async def process_name(message: types.Message, state: FSMContext) -> None:
 
     name = get.get_name(message.text)
     report = get.get_current_user_report(message.chat.id)
-    report.name = name
+    report.client.name = name
     await state.set_state(Form.phone)
     await message.answer(_("Enter Phone number"))
 
@@ -48,7 +48,7 @@ async def process_phone(message: types.Message, state: FSMContext) -> None:
 
     phone = get.get_phone(message.text)
     report = get.get_current_user_report(message.chat.id)
-    report.phone = phone
+    report.client.phone = phone
     await state.set_state(Form.email)
     await message.answer(_("Enter Email:"))
 
@@ -61,7 +61,7 @@ async def process_email(message: types.Message, state: FSMContext) -> None:
 
     email = get.get_email(message.text)
     report = get.get_current_user_report(message.chat.id)
-    report.email = email
+    report.client.email = email
     await state.set_state(Form.address)
     await message.answer(_("Enter client address:"))
 
@@ -74,7 +74,7 @@ async def process_address(message: types.Message, state: FSMContext) -> None:
 
     address = get.get_address(message.text)
     report = get.get_current_user_report(message.chat.id)
-    report.address = address
+    report.client.address = address
     await state.set_state(Form.service)
     await message.answer(
         _("Choose service:"),
