@@ -177,7 +177,7 @@ class pdfGenerator():
     
         textobject.setLeading(45)
         textobject.textLine(text='Clean your VAC filters quarterly')
-        textobject.textLine(text='and checkfi you need toswap for')
+        textobject.textLine(text='and check if you need to swap for')
         textobject.textLine(text='new ones at the start of each')
         textobject.textLine(text='season.')
     
