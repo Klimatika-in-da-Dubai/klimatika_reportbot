@@ -45,7 +45,7 @@ async def callback_service(
     report = get.get_current_user_report(callback.message.chat.id)
     report.service = callback_data.service
 
-    await state.set_state(Form.room_before_vent)
+    await state.set_state(Form.room_type)
     await inline.send_room_type_keyboard(callback.message)
 
 
