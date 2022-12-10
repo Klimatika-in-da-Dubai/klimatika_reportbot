@@ -30,6 +30,10 @@ async def process_name(message: types.Message, state: FSMContext) -> None:
 
 @form_router.message(Form.date, F.text)
 async def process_date(message: types.Message, state: FSMContext) -> None:
+    if not vld.is_valid_date(message.text):
+        await message.answer(_("Incorrect Date"))
+        return
+    
     date = get.get_date(message.text)
     report = get.get_current_user_report(message.chat.id)
     report.date = date

@@ -20,7 +20,7 @@ def get_room_type_keyboard(
     for text, room_type in room_types:
         builder.add(
             types.InlineKeyboardButton(
-                text=room_type, callback_data=RoomTypeCB(type=room_type).pack()
+                text=text, callback_data=RoomTypeCB(type=room_type).pack()
             )
         )
     builder.adjust(1)
@@ -73,12 +73,6 @@ def get_extra_service_keyboard(
                 callback_data=ExtraServiceCB(action="", service=extra_service).pack(),
             )
         )
-    builder.add(
-        types.InlineKeyboardButton(
-            text=other + "➕",
-            callback_data=OtherExtraServiceCB(action="add", id=-1).pack(),
-        )
-    )
     for id, extra_service in enumerate(report.other_extra_services):
         builder.add(
             types.InlineKeyboardButton(
@@ -86,6 +80,13 @@ def get_extra_service_keyboard(
                 callback_data=OtherExtraServiceCB(action="delete", id=id).pack(),
             )
         )
+
+    builder.add(
+        types.InlineKeyboardButton(
+            text=other + "➕",
+            callback_data=OtherExtraServiceCB(action="add", id=-1).pack(),
+        )
+    )
 
     builder.add(
         types.InlineKeyboardButton(

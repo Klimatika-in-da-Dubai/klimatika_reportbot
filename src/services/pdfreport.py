@@ -74,20 +74,21 @@ class pdfGenerator():
         textobject.textLine(address)
     
         textobject.setFillColor("#000000")
-        textobject.textOut('We help with   ')
+        textobject.textOut('Performed services   ')
         textobject.setFillColor("#6F7378")
         textobject.setLeading(100)
         textobject.textLine(helped)
-    
-        textobject.setFillColor("#E2000F")
-        textobject.setFont('TTNormsProMedium', 37)
-        textobject.setLeading(45)
-        textobject.textLine(text='What we cleaned:')
-        textobject.setFont('TTNormsPro', 37)
-        textobject.setFillColor("#6F7378")
-        new_cleaned = divide_by_len(cleaned, 69)
-        for i in new_cleaned:
-            textobject.textLine(i)
+        
+        if cleaned != "" :
+            textobject.setFillColor("#E2000F")
+            textobject.setFont('TTNormsProMedium', 37)
+            textobject.setLeading(45)
+            textobject.textLine(text='What we did extra:')
+            textobject.setFont('TTNormsPro', 37)
+            textobject.setFillColor("#6F7378")
+            new_cleaned = divide_by_len(cleaned, 69)
+            for i in new_cleaned:
+                textobject.textLine(i)
         canv.drawText(textobject)
         canv.showPage()
     
@@ -118,31 +119,6 @@ class pdfGenerator():
         textobject.setTextOrigin(PDF_WIDTH - px2mm((530)), PDF_HEIGHT - px2mm(330))
         textobject.setFillColor("#E2000F")
         textobject.textLine(text="after")
-        canv.drawText(textobject)
-    
-        canv.showPage()
-    
-    
-    def extra_slide(self, text: str, picture: str):
-        canv = self.canv
-
-        img = image_crop(picture)
-        add_image(canv, img, px2mm(860), PDF_WIDTH - px2mm(860) - INDENTS[0], INDENTS[1])
-    
-        textobject = canv.beginText()
-        textobject.setTextOrigin(INDENTS[0], PDF_HEIGHT - px2mm(100))
-    
-        textobject.setFont('TTNormsProBold', 54)
-        textobject.setFillColor("#E2000F")
-        textobject.setLeading(55)
-        textobject.textLine(text="What we did extra")
-        
-        textobject.setFont('TTNormsPro', 45)
-        textobject.setTextOrigin(INDENTS[0], PDF_HEIGHT/2)
-        textobject.setFillColor("#6F7378")
-        new_text = divide_by_len(text, 26)
-        for i in new_text:
-            textobject.textLine(i)
         canv.drawText(textobject)
     
         canv.showPage()
@@ -184,27 +160,58 @@ class pdfGenerator():
         canv.drawText(textobject)
         canv.showPage()
     
+        img = Image.open(LETS_TALK_LOGO_PATH)
+        add_image(canv, img, px2mm(600), INDENTS[0], INDENTS[1])
+
         textobject = canv.beginText()
         textobject.setTextOrigin(INDENTS[0], PDF_HEIGHT - px2mm(100))
     
         textobject.setFont('TTNormsProBold', 54)
-        textobject.setLeading(350)
+        textobject.setFillColor("#E2000F")
         textobject.textLine(text='Let’s talk!')
-    
-        textobject.setFont('TTNormsPro', 48)
-        textobject.setCharSpace(-1)
-        textobject.setLeading(65)
-        textobject.textLine(text='Phone: +971 58 819 7173')
-        textobject.textLine(text='Email: info@klimatika.ae')
-        textobject.textLine(text='Website: www.klimatika.ae')
+
         canv.drawText(textobject)
     
+        textobject = canv.beginText()
+        textobject.setTextOrigin(PDF_WIDTH / 2 + px2mm(100), PDF_HEIGHT - px2mm(100))
+
+        textobject.setFont('TTNormsPro', 30)
+        textobject.setCharSpace(-1)
+        textobject.setLeading(35)
+        textobject.textLine(text='Call or email us any time for any')
+        textobject.setLeading(300)
+        textobject.textLine(text='inquiries regarding our services')
+
+        textobject.setFont('TTNormsProBold', 40)
+        textobject.setLeading(45)
+        textobject.textLine(text='Phone')
+
+        textobject.setFont('TTNormsPro', 40)
+        textobject.setLeading(85)
+        textobject.textLine(text='+971 58 819 7173')
+
+        textobject.setFont('TTNormsProBold', 40)
+        textobject.setLeading(45)
+        textobject.textLine(text='Email')
+
+        textobject.setFont('TTNormsPro', 40)
+        textobject.setLeading(85)
+        textobject.textLine(text='info@klimatika.ae')
+
+        textobject.setFont('TTNormsProBold', 40)
+        textobject.setLeading(45)
+        textobject.textLine(text='Website')
+
+        textobject.setFont('TTNormsPro', 40)
+        textobject.textLine(text='www.klimatika.ae')
+
+        canv.drawText(textobject)
         canv.showPage()
     
     def generate(self, report: dict):
         self.first_slide()
         outline = report["Outline"]
-        self.outline_slide(outline["date"].strftime("%m/%d/%Y, %H:%M"),
+        self.outline_slide(outline["date"].strftime("%m/%d/%Y"),
                            outline["name"],
                            outline["phone_number"],
                            outline["address"],
@@ -212,9 +219,14 @@ class pdfGenerator():
                            outline["cleaned"])
         rooms = report["Rooms"]
         for room in rooms["rooms_list"]:
-            self.room_slide(room["room"], room["object"], room["img_before"], room["img_after"])
-        # extra = report["Extra"] 
-        # self.extra_slide("Test text text test. how many words in one lineeeeee. About 29 symbols", "../static_slides/extra.jpg")
+            room_items = { 'vent' : room['vent'], 
+                           'duct' : room['duct'],
+                           'pallet' : room['pallet'],
+                           'radiator' : room['radiator'], 
+                           'filter' : room['filter'],
+                           'impelers' : room['impelers'] }
+            for item_name, item in room_items.items():
+                self.room_slide(room['room'], f"{room['object']} ({item_name})", item['img_before'], item['img_after'])
         self.last_slides()
 
         self.canv.save()

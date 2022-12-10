@@ -1,9 +1,41 @@
 import re
+import dateparser
+from datetime import datetime
 
 
 def is_valid_name(text: str | None) -> bool:
     if text is None:
         return False
+    return True
+
+
+def is_valid_date(text: str | None) -> bool:
+    text_formated = text.replace(".", " ").replace(":", " ").replace("/", " ")
+    text_list = text_formated.split()
+    if len(text_list) < 3:
+        return False
+
+    if any(not text.isnumeric() for text in text_list):
+        return False
+
+    date_list = list(map(int, text_list))
+    if any(num <= 0 for num in date_list):
+        return False
+
+    if date_list[0] > 31 or date_list[1] > 12 or date_list[2] > datetime.now().year:
+        return False
+
+    date = dateparser.parse(
+        text_formated,
+        settings={
+            "DATE_ORDER": "DMY",
+            "REQUIRE_PARTS": ["day", "month", "year"],
+            "STRICT_PARSING": True,
+        },
+    )
+    if date is None:
+        return False
+
     return True
 
 
