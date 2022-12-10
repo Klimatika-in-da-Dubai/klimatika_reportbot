@@ -10,7 +10,7 @@ PDF_HEIGHT, PDF_WIDTH = px2mm(1080), px2mm(1920)
 INDENTS = (px2mm(50), px2mm(50)) # indents by x and y
 KLIMATIKA_LOGO_PATH = "./img/logo_klimatika.png"
 LOGO_PATH = "./img/logo_part.png"
-LETS_TALK_LOGO_PATH = "./img/lets_talk.png"
+LETS_TALK_LOGO_PATH = "./img/logo_lets_talk.png"
 
 class Formatter:
     IMAGE_WIDTH = 0

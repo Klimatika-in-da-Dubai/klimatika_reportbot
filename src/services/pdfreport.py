@@ -184,21 +184,52 @@ class pdfGenerator():
         canv.drawText(textobject)
         canv.showPage()
     
+        img = Image.open(LETS_TALK_LOGO_PATH)
+        add_image(canv, img, px2mm(600), INDENTS[0], INDENTS[1])
+
         textobject = canv.beginText()
         textobject.setTextOrigin(INDENTS[0], PDF_HEIGHT - px2mm(100))
     
         textobject.setFont('TTNormsProBold', 54)
-        textobject.setLeading(350)
+        textobject.setFillColor("#E2000F")
         textobject.textLine(text='Let’s talk!')
-    
-        textobject.setFont('TTNormsPro', 48)
-        textobject.setCharSpace(-1)
-        textobject.setLeading(65)
-        textobject.textLine(text='Phone: +971 58 819 7173')
-        textobject.textLine(text='Email: info@klimatika.ae')
-        textobject.textLine(text='Website: www.klimatika.ae')
+
         canv.drawText(textobject)
     
+        textobject = canv.beginText()
+        textobject.setTextOrigin(PDF_WIDTH / 2 + px2mm(100), PDF_HEIGHT - px2mm(100))
+
+        textobject.setFont('TTNormsPro', 30)
+        textobject.setCharSpace(-1)
+        textobject.setLeading(35)
+        textobject.textLine(text='Call or email us any time for any')
+        textobject.setLeading(300)
+        textobject.textLine(text='inquiries regarding our services')
+
+        textobject.setFont('TTNormsProBold', 40)
+        textobject.setLeading(45)
+        textobject.textLine(text='Phone')
+
+        textobject.setFont('TTNormsPro', 40)
+        textobject.setLeading(85)
+        textobject.textLine(text='+971 58 819 7173')
+
+        textobject.setFont('TTNormsProBold', 40)
+        textobject.setLeading(45)
+        textobject.textLine(text='Email')
+
+        textobject.setFont('TTNormsPro', 40)
+        textobject.setLeading(85)
+        textobject.textLine(text='info@klimatika.ae')
+
+        textobject.setFont('TTNormsProBold', 40)
+        textobject.setLeading(45)
+        textobject.textLine(text='Website')
+
+        textobject.setFont('TTNormsPro', 40)
+        textobject.textLine(text='www.klimatika.ae')
+
+        canv.drawText(textobject)
         canv.showPage()
     
     def generate(self, report: dict):
@@ -217,5 +248,10 @@ class pdfGenerator():
         # self.extra_slide("Test text text test. how many words in one lineeeeee. About 29 symbols", "../static_slides/extra.jpg")
         self.last_slides()
 
+        self.canv.save()
+
+    def test_gen(self):
+        self.first_slide()
+        self.last_slides()
         self.canv.save()
 
