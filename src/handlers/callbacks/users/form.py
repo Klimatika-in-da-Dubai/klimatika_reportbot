@@ -2,6 +2,7 @@ from aiogram import Router, types, F, Bot
 from aiogram.fsm.context import FSMContext
 from aiogram.utils.i18n import gettext as _
 
+from datetime import datetime
 
 import src.keyboards.inline as inline
 from src.states import Form
@@ -143,9 +144,6 @@ async def callback_add_room_yes(
 ):
     await callback.answer()
     await state.clear()
-    await callback.message.answer(
-        str(get.get_current_user_report(callback.message.chat.id))
-    )
     await send_pdf_report(bot, callback.message)
 
 
@@ -158,7 +156,7 @@ async def send_pdf_report(bot: Bot, message: types.Message):
 
 async def generate_report(bot: Bot, chat_id: int) -> types.FSInputFile:
     report = get.get_current_user_report(chat_id)
-    report_name = report.date.strftime("%m-%d-%Y_%H-%M-%S")
+    report_name = datetime.now().strftime("%m-%d-%Y_%H-%M-%S")
     report_dict = await report.dict_with_binary(bot)
     pdfGenerator(report_name).generate(report_dict)
     return types.FSInputFile(f"./reports/{report_name}.pdf")

@@ -1,13 +1,19 @@
+PYTHON=python
+TARGET=main.py
+RM=rm -r
+RM_TARGET=$(shell find ./ -name "__pycache__" -print)
+
 .PHONY: run clean
 
 run:
-	python main.py
+	$(PYTHON) $(TARGET)
 
 setup: requirements.txt
 	pip install -r requirements.txt
-	pybabel extract --input-dirs=. -o locales/messages.pot
-	pybabel init -i locales/messages.pot -d locales -D messages -l en
 	pybabel compile -d locales -D messages
 
+clean: SHELL:=/bin/bash
 clean:
-	rm -rf __pycache__
+	for i in $(RM_TARGET) ; do \
+		$(RM) $$i ; \
+	done

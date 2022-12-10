@@ -74,20 +74,21 @@ class pdfGenerator():
         textobject.textLine(address)
     
         textobject.setFillColor("#000000")
-        textobject.textOut('We help with   ')
+        textobject.textOut('Performed services   ')
         textobject.setFillColor("#6F7378")
         textobject.setLeading(100)
         textobject.textLine(helped)
-    
-        textobject.setFillColor("#E2000F")
-        textobject.setFont('TTNormsProMedium', 37)
-        textobject.setLeading(45)
-        textobject.textLine(text='What we cleaned:')
-        textobject.setFont('TTNormsPro', 37)
-        textobject.setFillColor("#6F7378")
-        new_cleaned = divide_by_len(cleaned, 69)
-        for i in new_cleaned:
-            textobject.textLine(i)
+        
+        if cleaned != "" :
+            textobject.setFillColor("#E2000F")
+            textobject.setFont('TTNormsProMedium', 37)
+            textobject.setLeading(45)
+            textobject.textLine(text='What we did extra:')
+            textobject.setFont('TTNormsPro', 37)
+            textobject.setFillColor("#6F7378")
+            new_cleaned = divide_by_len(cleaned, 69)
+            for i in new_cleaned:
+                textobject.textLine(i)
         canv.drawText(textobject)
         canv.showPage()
     
@@ -210,7 +211,7 @@ class pdfGenerator():
     def generate(self, report: dict):
         self.first_slide()
         outline = report["Outline"]
-        self.outline_slide(outline["date"].strftime("%m/%d/%Y, %H:%M"),
+        self.outline_slide(outline["date"].strftime("%m/%d/%Y"),
                            outline["name"],
                            outline["phone_number"],
                            outline["address"],
@@ -218,7 +219,14 @@ class pdfGenerator():
                            outline["cleaned"])
         rooms = report["Rooms"]
         for room in rooms["rooms_list"]:
-            self.room_slide(room["room"], room["object"], room["img_before"], room["img_after"])
+            room_items = { 'vent' : room['vent'], 
+                           'duct' : room['duct'],
+                           'pallet' : room['pallet'],
+                           'radiator' : room['radiator'], 
+                           'filter' : room['filter'],
+                           'impelers' : room['impelers'] }
+            for item_name, item in room_items.items():
+                self.room_slide(room['room'], f"{room['object']} ({item_name})", item['img_before'], item['img_after'])
         self.last_slides()
 
         self.canv.save()

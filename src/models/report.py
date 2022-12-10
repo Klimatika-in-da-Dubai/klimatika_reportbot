@@ -47,7 +47,10 @@ class Report:
                 "phone_number": self.client.phone,
                 "address": self.client.address,
                 "helped_with": str(self.service),
-                "cleaned": ", ".join([str(service) for service in self.extra_services]),
+                "cleaned": ", ".join(
+                    [str(service) for service in self.extra_services]
+                    + [str(service) for service in self.other_extra_services]
+                ),
             },
             "Rooms": {
                 "number_of_rooms": len(self.rooms),

@@ -7,181 +7,203 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-11-23 19:48+0300\n"
-"PO-Revision-Date: 2022-11-23 19:48+0300\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language: ru\n"
+"POT-Creation-Date: 2022-11-26 11:13+0300\n"
+"PO-Revision-Date: 2022-11-26 11:48+0300\n"
+"Last-Translator: \n"
 "Language-Team: ru <LL@li.org>\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "Generated-By: Babel 2.9.1\n"
+"X-Generator: Poedit 3.2.1\n"
 
-#: src/handlers/callbacks/users/form.py:29
+#: src/handlers/callbacks/users/form.py:36
 msgid "Enter client address:"
-msgstr ""
+msgstr "Введите адресс клиента:"
 
-#: src/handlers/callbacks/users/form.py:43
-#: src/handlers/callbacks/users/form.py:106
-#: src/handlers/callbacks/users/form.py:112
-msgid "Send photo of vent before works"
-msgstr ""
-
-#: src/handlers/callbacks/users/form.py:86
+#: src/handlers/callbacks/users/form.py:93
 msgid "Please type other extra service"
-msgstr ""
+msgstr "Пожалуйста введите иную дополнительную услугу"
 
-#: src/handlers/callbacks/users/form.py:124
+#: src/handlers/callbacks/users/form.py:130
+msgid "Enter room object"
+msgstr "Введите какая работа была проделана"
+
+#: src/handlers/callbacks/users/form.py:154
 msgid "Generating..."
-msgstr ""
+msgstr "Генерируую..."
 
-#: src/handlers/callbacks/users/form.py:127
+#: src/handlers/callbacks/users/form.py:157
 msgid "Thank you for your work!"
-msgstr ""
+msgstr "Спасибо за вашу работу!"
 
 #: src/handlers/message/users/form.py:21
 msgid "Incorrect Name"
-msgstr ""
+msgstr "Некорректное имя клиента"
 
 #: src/handlers/message/users/form.py:28
 msgid "Enter date of visit in format DAY MONTH YEAR"
-msgstr ""
+msgstr "Укажите дату визита в формате <ДЕНЬ> <МЕСЯЦ> <ГОД>"
 
-#: src/handlers/message/users/form.py:37
+#: src/handlers/message/users/form.py:34
+msgid "Incorrect Date"
+msgstr "Некорректная дата"
+
+#: src/handlers/message/users/form.py:41
 msgid "Enter Phone number"
-msgstr ""
+msgstr "Укажите номер телефона клиента"
 
-#: src/handlers/message/users/form.py:43
+#: src/handlers/message/users/form.py:47
 msgid "Incorrect phone"
-msgstr ""
+msgstr "Некорректный номер телефона"
 
-#: src/handlers/message/users/form.py:56
+#: src/handlers/message/users/form.py:60
 msgid "Incorrect address"
-msgstr ""
+msgstr "Некорректный адрес"
 
-#: src/handlers/message/users/form.py:82
+#: src/handlers/message/users/form.py:87
+msgid "Send photo BEFORE works for vent"
+msgstr "Прикрепите фото ДО для решётки вентиляции"
+
+#: src/handlers/message/users/form.py:95
 msgid "Send photo BEFORE works for duct"
-msgstr ""
+msgstr "Прикрепите фото ДО для воздуховода"
 
-#: src/handlers/message/users/form.py:90
+#: src/handlers/message/users/form.py:103
 msgid "Send photo BEFORE works for pallet"
-msgstr ""
+msgstr "Прикрепите фото ДО для поддона"
 
-#: src/handlers/message/users/form.py:98
+#: src/handlers/message/users/form.py:111
 msgid "Send photo BEFORE works for radiator"
-msgstr ""
+msgstr "Прикрепите фото ДО для радиатора"
 
-#: src/handlers/message/users/form.py:106
+#: src/handlers/message/users/form.py:119
 msgid "Send photo BEFORE works for filter"
-msgstr ""
+msgstr "Прикрепите фото ДО для фильтра"
 
-#: src/handlers/message/users/form.py:114
+#: src/handlers/message/users/form.py:127
 msgid "Send photo BEFORE works for impelers"
-msgstr ""
+msgstr "Прикрепите фото ДО для крыльчаток мотора"
 
-#: src/handlers/message/users/form.py:122
+#: src/handlers/message/users/form.py:135
 msgid "Send photo AFTER works for vent"
-msgstr ""
+msgstr "Прикрепите фото ПОСЛЕ для решётки вентиляции"
 
-#: src/handlers/message/users/form.py:131
+#: src/handlers/message/users/form.py:144
 msgid "Send photo AFTER works for duct"
-msgstr ""
+msgstr "Прикрепите фото ПОСЛЕ для воздуховода"
 
-#: src/handlers/message/users/form.py:139
+#: src/handlers/message/users/form.py:152
 msgid "Send photo AFTER works for pallet"
-msgstr ""
+msgstr "Прикрепите фото ПОСЛЕ для поддона"
 
-#: src/handlers/message/users/form.py:147
+#: src/handlers/message/users/form.py:160
 msgid "Send photo AFTER works for radiator"
-msgstr ""
+msgstr "Прикрепите фото ПОСЛЕ для радиатора"
 
-#: src/handlers/message/users/form.py:155
+#: src/handlers/message/users/form.py:168
 msgid "Send photo AFTER works for filter"
-msgstr ""
+msgstr "Прикрепите фото ПОСЛЕ для фильтра"
 
-#: src/handlers/message/users/form.py:163
+#: src/handlers/message/users/form.py:176
 msgid "Send photo AFTER works for impelers"
-msgstr ""
+msgstr "Прикрепите фото ПОСЛЕ для крыльчаток мотора"
 
-#: src/handlers/message/users/form.py:171
+#: src/handlers/message/users/form.py:184
 msgid "Do you want to add room?"
-msgstr ""
+msgstr "Добавить ещё комнату?"
 
 #: src/handlers/message/users/message.py:18
 msgid "Hi! {first_name} {last_name}"
-msgstr ""
+msgstr "Привет! {first_name} {last_name}"
 
 #: src/handlers/message/users/message.py:23
 msgid "Enter clients Name"
-msgstr ""
+msgstr "Укажите имя клиента"
 
 #: src/handlers/message/users/message.py:35
 msgid "Cancelled!"
-msgstr ""
+msgstr "Отмененно! "
 
-#: src/keyboards/inline/kbd.py:14 src/keyboards/inline/kbd.py:77
+#: src/keyboards/inline/kbd.py:15
+msgid "Select room type:"
+msgstr "Выберите тип комнаты:"
+
+#: src/keyboards/inline/kbd.py:19
+msgid "Kitchen"
+msgstr "Кухня"
+
+#: src/keyboards/inline/kbd.py:20
+msgid "Bedroom"
+msgstr "Спальня"
+
+#: src/keyboards/inline/kbd.py:21
+msgid "Living Room"
+msgstr "Гостиная"
+
+#: src/keyboards/inline/kbd.py:29 src/keyboards/inline/kbd.py:92
 msgid "Choose service:"
-msgstr ""
+msgstr "Выберите выполненные услуги:"
 
-#: src/keyboards/inline/kbd.py:18 src/keyboards/inline/kbd.py:81
+#: src/keyboards/inline/kbd.py:33 src/keyboards/inline/kbd.py:96
 msgid "Premium"
-msgstr ""
+msgstr "Премиум"
 
-#: src/keyboards/inline/kbd.py:19 src/keyboards/inline/kbd.py:82
+#: src/keyboards/inline/kbd.py:34 src/keyboards/inline/kbd.py:97
 msgid "Premium + Extra"
-msgstr ""
+msgstr "Премиум + дополнительные услуги"
 
-#: src/keyboards/inline/kbd.py:21 src/keyboards/inline/kbd.py:84
+#: src/keyboards/inline/kbd.py:36 src/keyboards/inline/kbd.py:99
 msgid "Other Repair Services"
-msgstr ""
-
-#: src/keyboards/inline/kbd.py:30 src/keyboards/inline/kbd.py:93
-msgid "Choose extra services"
-msgstr ""
-
-#: src/keyboards/inline/kbd.py:35 src/keyboards/inline/kbd.py:98
-msgid "Cold Fog Machine Disinfections"
-msgstr ""
-
-#: src/keyboards/inline/kbd.py:38 src/keyboards/inline/kbd.py:101
-msgid "New Polyester Filters Installation"
-msgstr ""
-
-#: src/keyboards/inline/kbd.py:41 src/keyboards/inline/kbd.py:104
-msgid "Thermal Insulator Change Job"
-msgstr ""
-
-#: src/keyboards/inline/kbd.py:43 src/keyboards/inline/kbd.py:106
-msgid "Repair Works"
-msgstr ""
+msgstr "Другие ремонтные услуги"
 
 #: src/keyboards/inline/kbd.py:45 src/keyboards/inline/kbd.py:108
-msgid "Other"
-msgstr ""
+msgid "Choose extra services"
+msgstr "Какие дополнительные услуги были оказаны?"
 
-#: src/keyboards/inline/kbd.py:46 src/keyboards/inline/kbd.py:109
-msgid "Enter"
-msgstr ""
+#: src/keyboards/inline/kbd.py:50 src/keyboards/inline/kbd.py:113
+msgid "Cold Fog Machine Disinfections"
+msgstr "Обработка против грибка"
 
 #: src/keyboards/inline/kbd.py:53 src/keyboards/inline/kbd.py:116
-msgid "Select client is an owner or a tenant"
-msgstr ""
+msgid "New Polyester Filters Installation"
+msgstr "Установка/Замена фильтров"
+
+#: src/keyboards/inline/kbd.py:56 src/keyboards/inline/kbd.py:119
+msgid "Thermal Insulator Change Job"
+msgstr "Замена теплоизоляции"
 
 #: src/keyboards/inline/kbd.py:58 src/keyboards/inline/kbd.py:121
+msgid "Repair Works"
+msgstr "Ремонт"
+
+#: src/keyboards/inline/kbd.py:60 src/keyboards/inline/kbd.py:123
+msgid "Other"
+msgstr "Иное"
+
+#: src/keyboards/inline/kbd.py:61 src/keyboards/inline/kbd.py:124
+msgid "Enter"
+msgstr "Готово"
+
+#: src/keyboards/inline/kbd.py:68 src/keyboards/inline/kbd.py:131
+msgid "Select client is an owner or a tenant"
+msgstr "Укажите клиент собственник или арендатор"
+
+#: src/keyboards/inline/kbd.py:73 src/keyboards/inline/kbd.py:136
 msgid "Owner"
 msgstr "Владелец"
 
-#: src/keyboards/inline/kbd.py:61 src/keyboards/inline/kbd.py:124
+#: src/keyboards/inline/kbd.py:76 src/keyboards/inline/kbd.py:139
 msgid "Tenant"
 msgstr "Арендатор"
 
-#: src/keyboards/inline/kbd.py:71
+#: src/keyboards/inline/kbd.py:86
 msgid "Yes"
 msgstr "Да"
 
-#: src/keyboards/inline/kbd.py:71
+#: src/keyboards/inline/kbd.py:86
 msgid "No"
 msgstr "Нет"
-
