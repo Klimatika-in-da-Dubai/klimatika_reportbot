@@ -123,31 +123,6 @@ class pdfGenerator():
         canv.showPage()
     
     
-    def extra_slide(self, text: str, picture: str):
-        canv = self.canv
-
-        img = image_crop(picture)
-        add_image(canv, img, px2mm(860), PDF_WIDTH - px2mm(860) - INDENTS[0], INDENTS[1])
-    
-        textobject = canv.beginText()
-        textobject.setTextOrigin(INDENTS[0], PDF_HEIGHT - px2mm(100))
-    
-        textobject.setFont('TTNormsProBold', 54)
-        textobject.setFillColor("#E2000F")
-        textobject.setLeading(55)
-        textobject.textLine(text="What we did extra")
-        
-        textobject.setFont('TTNormsPro', 45)
-        textobject.setTextOrigin(INDENTS[0], PDF_HEIGHT/2)
-        textobject.setFillColor("#6F7378")
-        new_text = divide_by_len(text, 26)
-        for i in new_text:
-            textobject.textLine(i)
-        canv.drawText(textobject)
-    
-        canv.showPage()
-    
-    
     def last_slides(self):
         canv = self.canv
 
@@ -244,14 +219,7 @@ class pdfGenerator():
         rooms = report["Rooms"]
         for room in rooms["rooms_list"]:
             self.room_slide(room["room"], room["object"], room["img_before"], room["img_after"])
-        # extra = report["Extra"] 
-        # self.extra_slide("Test text text test. how many words in one lineeeeee. About 29 symbols", "../static_slides/extra.jpg")
         self.last_slides()
 
-        self.canv.save()
-
-    def test_gen(self):
-        self.first_slide()
-        self.last_slides()
         self.canv.save()
 
