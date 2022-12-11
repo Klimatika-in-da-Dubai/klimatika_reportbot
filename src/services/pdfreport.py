@@ -219,12 +219,12 @@ class pdfGenerator():
                            outline["cleaned"])
         rooms = report["Rooms"]
         for room in rooms["rooms_list"]:
-            room_items = { 'vent' : room['vent'], 
+            room_items = { 'grills' : room['grills'], 
                            'duct' : room['duct'],
-                           'pallet' : room['pallet'],
+                           'pan' : room['pan'],
                            'radiator' : room['radiator'], 
                            'filter' : room['filter'],
-                           'impelers' : room['impelers'] }
+                           'blades' : room['blades'] }
             for item_name, item in room_items.items():
                 self.room_slide(room['room'], f"{room['object']} ({item_name})", item['img_before'], item['img_after'])
         self.last_slides()

@@ -7,18 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-11-26 11:13+0300\n"
+"POT-Creation-Date: 2022-12-11 12:34+0300\n"
 "PO-Revision-Date: 2022-11-26 11:48+0300\n"
 "Last-Translator: \n"
-"Language-Team: ru <LL@li.org>\n"
 "Language: ru\n"
+"Language-Team: ru <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "Generated-By: Babel 2.9.1\n"
-"X-Generator: Poedit 3.2.1\n"
 
 #: src/handlers/callbacks/users/form.py:36
 msgid "Enter client address:"
@@ -30,13 +29,13 @@ msgstr "Пожалуйста введите иную дополнительну�
 
 #: src/handlers/callbacks/users/form.py:130
 msgid "Enter room object"
-msgstr "Введите какая работа была проделана"
+msgstr "Напишите какая работа была проделана"
+
+#: src/handlers/callbacks/users/form.py:151
+msgid "Generating..."
+msgstr "Генерирую..."
 
 #: src/handlers/callbacks/users/form.py:154
-msgid "Generating..."
-msgstr "Генерируую..."
-
-#: src/handlers/callbacks/users/form.py:157
 msgid "Thank you for your work!"
 msgstr "Спасибо за вашу работу!"
 
@@ -44,75 +43,80 @@ msgstr "Спасибо за вашу работу!"
 msgid "Incorrect Name"
 msgstr "Некорректное имя клиента"
 
-#: src/handlers/message/users/form.py:28
-msgid "Enter date of visit in format DAY MONTH YEAR"
-msgstr "Укажите дату визита в формате <ДЕНЬ> <МЕСЯЦ> <ГОД>"
+#: src/handlers/message/users/form.py:29
+msgid ""
+"Enter date of visit in format DAY MONTH YEAR.\n"
+"\n"
+"For example: 1 12 2022 (December the 1st, 2022)"
+msgstr ""
+"Введите дату визита в формате ДЕНЬ МЕСЯЦ ГОД\n"
+"Пример: 1 12 2022 (1-ое Декабря, 2022)"
 
-#: src/handlers/message/users/form.py:34
+#: src/handlers/message/users/form.py:38
 msgid "Incorrect Date"
 msgstr "Некорректная дата"
 
-#: src/handlers/message/users/form.py:41
+#: src/handlers/message/users/form.py:45
 msgid "Enter Phone number"
 msgstr "Укажите номер телефона клиента"
 
-#: src/handlers/message/users/form.py:47
+#: src/handlers/message/users/form.py:51
 msgid "Incorrect phone"
 msgstr "Некорректный номер телефона"
 
-#: src/handlers/message/users/form.py:60
+#: src/handlers/message/users/form.py:64
 msgid "Incorrect address"
 msgstr "Некорректный адрес"
 
-#: src/handlers/message/users/form.py:87
-msgid "Send photo BEFORE works for vent"
+#: src/handlers/message/users/form.py:91
+msgid "Send photo BEFORE works for grills"
 msgstr "Прикрепите фото ДО для решётки вентиляции"
 
-#: src/handlers/message/users/form.py:95
+#: src/handlers/message/users/form.py:99
 msgid "Send photo BEFORE works for duct"
 msgstr "Прикрепите фото ДО для воздуховода"
 
-#: src/handlers/message/users/form.py:103
-msgid "Send photo BEFORE works for pallet"
+#: src/handlers/message/users/form.py:107
+msgid "Send photo BEFORE works for pan"
 msgstr "Прикрепите фото ДО для поддона"
 
-#: src/handlers/message/users/form.py:111
+#: src/handlers/message/users/form.py:115
 msgid "Send photo BEFORE works for radiator"
 msgstr "Прикрепите фото ДО для радиатора"
 
-#: src/handlers/message/users/form.py:119
+#: src/handlers/message/users/form.py:123
 msgid "Send photo BEFORE works for filter"
 msgstr "Прикрепите фото ДО для фильтра"
 
-#: src/handlers/message/users/form.py:127
-msgid "Send photo BEFORE works for impelers"
+#: src/handlers/message/users/form.py:131
+msgid "Send photo BEFORE works for blades"
 msgstr "Прикрепите фото ДО для крыльчаток мотора"
 
-#: src/handlers/message/users/form.py:135
-msgid "Send photo AFTER works for vent"
+#: src/handlers/message/users/form.py:139
+msgid "Send photo AFTER works for grills"
 msgstr "Прикрепите фото ПОСЛЕ для решётки вентиляции"
 
-#: src/handlers/message/users/form.py:144
+#: src/handlers/message/users/form.py:148
 msgid "Send photo AFTER works for duct"
 msgstr "Прикрепите фото ПОСЛЕ для воздуховода"
 
-#: src/handlers/message/users/form.py:152
-msgid "Send photo AFTER works for pallet"
+#: src/handlers/message/users/form.py:156
+msgid "Send photo AFTER works for pan"
 msgstr "Прикрепите фото ПОСЛЕ для поддона"
 
-#: src/handlers/message/users/form.py:160
+#: src/handlers/message/users/form.py:164
 msgid "Send photo AFTER works for radiator"
 msgstr "Прикрепите фото ПОСЛЕ для радиатора"
 
-#: src/handlers/message/users/form.py:168
+#: src/handlers/message/users/form.py:172
 msgid "Send photo AFTER works for filter"
 msgstr "Прикрепите фото ПОСЛЕ для фильтра"
 
-#: src/handlers/message/users/form.py:176
-msgid "Send photo AFTER works for impelers"
+#: src/handlers/message/users/form.py:180
+msgid "Send photo AFTER works for blades"
 msgstr "Прикрепите фото ПОСЛЕ для крыльчаток мотора"
 
-#: src/handlers/message/users/form.py:184
+#: src/handlers/message/users/form.py:188
 msgid "Do you want to add room?"
 msgstr "Добавить ещё комнату?"
 
@@ -207,3 +211,7 @@ msgstr "Да"
 #: src/keyboards/inline/kbd.py:86
 msgid "No"
 msgstr "Нет"
+
+#~ msgid "Enter date of visit in format DAY MONTH YEAR"
+#~ msgstr "Укажите дату визита в формате <ДЕНЬ> <МЕСЯЦ> <ГОД>"
+
