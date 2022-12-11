@@ -41,7 +41,7 @@ class Room:
         return {
             "room": self.room_type,
             "object": self.room_object,
-            "vent": {
+            "grills": {
                 "img_before": await download_image(bot, self.photo_before_vent),
                 "img_after": await download_image(bot, self.photo_after_vent),
             },
@@ -49,7 +49,7 @@ class Room:
                 "img_before": await download_image(bot, self.photo_before_duct),
                 "img_after": await download_image(bot, self.photo_after_duct),
             },
-            "pallet": {
+            "pan": {
                 "img_before": await download_image(bot, self.photo_before_pallet),
                 "img_after": await download_image(bot, self.photo_after_pallet),
             },
@@ -61,7 +61,7 @@ class Room:
                 "img_before": await download_image(bot, self.photo_before_filter),
                 "img_after": await download_image(bot, self.photo_after_filter),
             },
-            "impelers": {
+            "blades": {
                 "img_before": await download_image(bot, self.photo_before_impelers),
                 "img_after": await download_image(bot, self.photo_after_impelers),
             },

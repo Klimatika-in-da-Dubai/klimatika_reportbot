@@ -25,7 +25,11 @@ async def process_name(message: types.Message, state: FSMContext) -> None:
     report = get.get_current_user_report(message.chat.id)
     report.client.name = name
     await state.set_state(Form.date)
-    await message.answer(_("Enter date of visit in format DAY MONTH YEAR"))
+    await message.answer(
+        _(
+            "Enter date of visit in format DAY MONTH YEAR.\n\nFor example: 1 12 2022 (December the 1st, 2022)"
+        )
+    )
 
 
 @form_router.message(Form.date, F.text)
@@ -33,7 +37,7 @@ async def process_date(message: types.Message, state: FSMContext) -> None:
     if not vld.is_valid_date(message.text):
         await message.answer(_("Incorrect Date"))
         return
-    
+
     date = get.get_date(message.text)
     report = get.get_current_user_report(message.chat.id)
     report.date = date
@@ -84,7 +88,7 @@ async def process_room_object(message: types.Message, state: FSMContext):
     room = get.get_current_user_room(message.chat.id)
     room.room_object = object
     await state.set_state(Form.room_before_vent)
-    await message.answer(_("Send photo BEFORE works for vent"))
+    await message.answer(_("Send photo BEFORE works for grills"))
 
 
 @form_router.message(Form.room_before_vent, F.photo)
@@ -100,7 +104,7 @@ async def process_room_before_vent(message: types.Message, state: FSMContext):
     room = get.get_current_user_room(message.chat.id)
     room.photo_before_duct = get.get_photo(message.photo)
     await state.set_state(Form.room_before_pallet)
-    await message.answer(_("Send photo BEFORE works for pallet"))
+    await message.answer(_("Send photo BEFORE works for pan"))
 
 
 @form_router.message(Form.room_before_pallet, F.photo)
@@ -124,7 +128,7 @@ async def process_room_before_vent(message: types.Message, state: FSMContext):
     room = get.get_current_user_room(message.chat.id)
     room.photo_before_filter = get.get_photo(message.photo)
     await state.set_state(Form.room_before_impelers)
-    await message.answer(_("Send photo BEFORE works for impelers"))
+    await message.answer(_("Send photo BEFORE works for blades"))
 
 
 @form_router.message(Form.room_before_impelers, F.photo)
@@ -132,7 +136,7 @@ async def process_room_before_vent(message: types.Message, state: FSMContext):
     room = get.get_current_user_room(message.chat.id)
     room.photo_before_impelers = get.get_photo(message.photo)
     await state.set_state(Form.room_after_vent)
-    await message.answer(_("Send photo AFTER works for vent"))
+    await message.answer(_("Send photo AFTER works for grills"))
 
 
 #####
@@ -149,7 +153,7 @@ async def process_room_after_vent(message: types.Message, state: FSMContext):
     room = get.get_current_user_room(message.chat.id)
     room.photo_after_duct = get.get_photo(message.photo)
     await state.set_state(Form.room_after_pallet)
-    await message.answer(_("Send photo AFTER works for pallet"))
+    await message.answer(_("Send photo AFTER works for pan"))
 
 
 @form_router.message(Form.room_after_pallet, F.photo)
@@ -173,7 +177,7 @@ async def process_room_after_vent(message: types.Message, state: FSMContext):
     room = get.get_current_user_room(message.chat.id)
     room.photo_after_filter = get.get_photo(message.photo)
     await state.set_state(Form.room_after_impelers)
-    await message.answer(_("Send photo AFTER works for impelers"))
+    await message.answer(_("Send photo AFTER works for blades"))
 
 
 @form_router.message(Form.room_after_impelers, F.photo)
