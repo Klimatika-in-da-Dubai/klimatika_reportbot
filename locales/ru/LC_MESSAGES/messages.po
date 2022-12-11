@@ -48,7 +48,9 @@ msgid ""
 "Enter date of visit in format DAY MONTH YEAR.\n"
 "\n"
 "For example: 1 12 2022 (December the 1st, 2022)"
-msgstr "Введите дату визита в формате ДЕНЬ МЕСЯЦ ГОД.\nПример: 1 12 2022 (1-ое Декабря, 2022)"
+msgstr ""
+"Введите дату визита в формате ДЕНЬ МЕСЯЦ ГОД\n"
+"Пример: 1 12 2022 (1-ое Декабря, 2022)"
 
 #: src/handlers/message/users/form.py:38
 msgid "Incorrect Date"

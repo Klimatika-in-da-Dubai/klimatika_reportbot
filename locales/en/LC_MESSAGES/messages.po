@@ -46,7 +46,7 @@ msgstr ""
 msgid ""
 "Enter date of visit in format DAY MONTH YEAR.\n"
 "\n"
-"For example: 1 1 2022 (January the 1st, 2022)"
+"For example: 1 12 2022 (December the 1st, 2022)"
 msgstr ""
 
 #: src/handlers/message/users/form.py:38
@@ -213,5 +213,11 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Enter date of visit in format DAY MONTH YEAR"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Enter date of visit in format DAY MONTH YEAR.\n"
+#~ "\n"
+#~ "For example: 1 1 2022 (January the 1st, 2022)"
 #~ msgstr ""
 
