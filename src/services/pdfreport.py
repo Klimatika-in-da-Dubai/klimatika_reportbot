@@ -1,6 +1,7 @@
 from PIL import Image
 
 from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.pdfdoc import Destination
 from reportlab.pdfbase.ttfonts import TTFont, TTFontParser
 
 from .reporttools import *
@@ -41,7 +42,7 @@ class pdfGenerator():
         canv.showPage()
     
     
-    def outline_slide(self, date: str, name: str, ph_number: str, address: str, helped: str, cleaned: str):
+    def outline_slide(self, date: str, name: str, ph_number: str, address: str, helped: str, description: str, cleaned: str) -> None:
         canv = self.canv
         textobject = canv.beginText()
         textobject.setTextOrigin(Indent.get_x(), PDF_HEIGHT - 100)
@@ -77,8 +78,15 @@ class pdfGenerator():
         textobject.setFillColor("#000000")
         textobject.textOut('Performed services   ')
         textobject.setFillColor("#6F7378")
-        textobject.setLeading(100)
         textobject.textLine(helped)
+
+        textobject.setFillColor("#000000")
+        textobject.textOut('Description   ')
+        textobject.setFillColor("#6F7378")
+        textobject.setLeading(45)
+        new_description = divide_by_len(description, 69)
+        for i in new_description:
+            textobject.textLine(i)
         
         if cleaned != "" :
             textobject.setFillColor("#E2000F")
@@ -94,7 +102,7 @@ class pdfGenerator():
         canv.showPage()
     
     
-    def room_slide(self, room: str, obj: str, before: BinaryIO, after: BinaryIO):
+    def room_slide(self, room: str, before: BinaryIO, after: BinaryIO):
         canv = self.canv
 
         img_before = image_crop(before)
@@ -112,14 +120,14 @@ class pdfGenerator():
         
         textobject.setFont(Fonts.regular['name'], 37)
         textobject.setFillColor("#000000")
-        textobject.textLine(text=obj)
+        textobject.textLine("BEFORE and AFTER our service")
     
-        textobject.setFont(Fonts.light['name'], 35)
-        textobject.setTextOrigin(400, PDF_HEIGHT - 330)
-        textobject.textLine(text="before")
-        textobject.setTextOrigin(PDF_WIDTH - 530, PDF_HEIGHT - 330)
-        textobject.setFillColor("#E2000F")
-        textobject.textLine(text="after")
+        # textobject.setFont(Fonts.light['name'], 35)
+        # textobject.setTextOrigin(400, PDF_HEIGHT - 330)
+        # textobject.textLine(text="before")
+        # textobject.setTextOrigin(PDF_WIDTH - 530, PDF_HEIGHT - 330)
+        # textobject.setFillColor("#E2000F")
+        # textobject.textLine(text="after")
         canv.drawText(textobject)
     
         canv.showPage()
@@ -217,17 +225,15 @@ class pdfGenerator():
                            outline["phone_number"],
                            outline["address"],
                            outline["helped_with"],
+                           outline["description"],
                            outline["cleaned"])
         rooms = report["Rooms"]
         for room in rooms["rooms_list"]:
-            room_items = { 'grills' : room['grills'], 
-                           'duct' : room['duct'],
-                           'pan' : room['pan'],
-                           'radiator' : room['radiator'], 
-                           'filter' : room['filter'],
-                           'blades' : room['blades'] }
-            for item_name, item in room_items.items():
-                self.room_slide(room['room'], f"{room['object']} ({item_name})", item['img_before'], item['img_after'])
+            for item in room:
+                item_before = item['img_before']
+                item_after = item['img_after']
+                for i in range(len(item_before)):
+                    self.room_slide(room['room'], item_before[i], item_after[i])
         self.last_slides()
 
         self.canv.save()
