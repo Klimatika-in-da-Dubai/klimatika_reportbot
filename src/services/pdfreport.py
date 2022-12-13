@@ -139,7 +139,7 @@ class pdfGenerator():
         canv.setFillColor("#E2000F")
         canv.rect(0, 0, PDF_WIDTH, PDF_HEIGHT, stroke=0, fill=1)
         img = Image.open(LOGO_PATH)
-        add_image(canv, img, 777, PDF_WIDTH - 777 + Indent.get_x(), Indent.get_y())
+        add_image(canv, img, 777, PDF_WIDTH / 2 + Indent.get_x(), Indent.get_y())
     
         textobject = canv.beginText()
         textobject.setTextOrigin(Indent.get_x(), PDF_HEIGHT - 100)
@@ -182,7 +182,7 @@ class pdfGenerator():
         canv.drawText(textobject)
     
         textobject = canv.beginText()
-        textobject.setTextOrigin(PDF_WIDTH / 2 + 100, PDF_HEIGHT - 100)
+        textobject.setTextOrigin(PDF_WIDTH / 2 + Indent.get_x(), PDF_HEIGHT - 100)
 
         textobject.setFont(Fonts.regular['name'], 30)
         textobject.setCharSpace(-1)
