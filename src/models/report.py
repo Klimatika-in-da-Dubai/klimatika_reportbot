@@ -35,9 +35,16 @@ class Report:
     date: datetime = datetime.now()
     client: Client = Client()
     service: Service = Service.UNKNOWN
+    description: str = ""
     extra_services: list[ExtraService] = field(default_factory=list)
     other_extra_services: list[str] = field(default_factory=list)
     rooms: list[Room] = field(default_factory=list)
+
+    def __post_init__(self):
+        self.add_room()
+
+    def add_room(self):
+        self.rooms.append(Room())
 
     async def dict_with_binary(self, bot) -> dict:
         return {

@@ -46,8 +46,8 @@ async def callback_service(
     report = get.get_current_user_report(callback.message.chat.id)
     report.service = callback_data.service
 
-    await state.set_state(Form.room_type)
-    await inline.send_room_type_keyboard(callback.message)
+    await state.set_state(Form.room_before_vent)
+    await callback.message.answer(_("Send photo BEFORE works for grills"))
 
 
 @router.callback_query(
@@ -111,31 +111,17 @@ async def callback_extra_service_enter(
 ):
     await callback.answer()
 
-    await state.set_state(Form.room_type)
-    await inline.send_room_type_keyboard(callback.message)
-
-
-@router.callback_query(Form.room_type, RoomTypeCB.filter())
-async def callback_room_Type(
-    callback: types.CallbackQuery, state: FSMContext, callback_data: RoomTypeCB
-):
-    await callback.answer()
-
-    report = get.get_current_user_report(callback.message.chat.id)
-    report.rooms.append(Room())
-
-    room = get.get_current_user_room(callback.message.chat.id)
-    room.room_type = callback_data.type
-    await state.set_state(Form.room_object)
-    await callback.message.answer(_("Enter room object"))
+    await state.set_state(Form.room_before_vent)
+    await callback.message.answer(_("Send photo BEFORE works for grills"))
 
 
 @router.callback_query(Form.add_room, F.data == "yes")
 async def callback_add_room_yes(callback: types.CallbackQuery, state: FSMContext):
     await callback.answer()
-
-    await state.set_state(Form.room_type)
-    await inline.send_room_type_keyboard(callback.message)
+    report = get.get_current_user_report(callback.message.chat.id)
+    report.add_room()
+    await state.set_state(Form.room_before_vent)
+    await callback.message.answer(_("Send photo BEFORE works for grills"))
 
 
 @router.callback_query(Form.add_room, F.data == "no")

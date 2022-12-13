@@ -70,8 +70,7 @@ def get_current_user_room(chat_id: int) -> Room:
     return report.rooms[-1]
 
 
-def get_photo(photos: list[types.PhotoSize] | None) -> types.PhotoSize | None:
+def get_photo(photos: list[types.PhotoSize] | None) -> list[types.PhotoSize] | None:
     if photos is None:
         return None
-    photo = photos[-1]
-    return photo
+    return photos[-1]
