@@ -225,8 +225,7 @@ class pdfGenerator():
                            outline["phone_number"],
                            outline["address"],
                            outline["helped_with"],
-                           "some discription here",
-                           #outline["description"],
+                           outline["description"],
                            outline["cleaned"])
         rooms = report["Rooms"]
         for room in rooms["rooms_list"]:
