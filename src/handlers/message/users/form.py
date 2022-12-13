@@ -79,22 +79,12 @@ async def process_extra_service_add_other(message: types.Message, state: FSMCont
     await inline.send_extra_service_keyboard(message)
 
 
-@form_router.message(Form.room_object, F.text)
-async def process_room_object(message: types.Message, state: FSMContext):
-    if not vld.is_valid_room_object(message.text):
-        return
-
-    object = get.get_room_object(message.text)
-    room = get.get_current_user_room(message.chat.id)
-    room.room_object = object
-    await state.set_state(Form.room_before_vent)
-    await message.answer(_("Send photo BEFORE works for grills"))
-
-
 @form_router.message(Form.room_before_vent, F.photo)
 async def process_room_before_vent(message: types.Message, state: FSMContext):
     room = get.get_current_user_room(message.chat.id)
-    room.photo_before_vent = get.get_photo(message.photo)
+    room.photo_before_vent.append(get.get_photo(message.photo))
+    if len(room.photo_before_vent) > 1:
+        return
     await state.set_state(Form.room_before_duct)
     await message.answer(_("Send photo BEFORE works for duct"))
 
@@ -102,7 +92,9 @@ async def process_room_before_vent(message: types.Message, state: FSMContext):
 @form_router.message(Form.room_before_duct, F.photo)
 async def process_room_before_vent(message: types.Message, state: FSMContext):
     room = get.get_current_user_room(message.chat.id)
-    room.photo_before_duct = get.get_photo(message.photo)
+    room.photo_before_duct.append(get.get_photo(message.photo))
+    if len(room.photo_before_duct) > 1:
+        return
     await state.set_state(Form.room_before_pallet)
     await message.answer(_("Send photo BEFORE works for pan"))
 
@@ -110,7 +102,9 @@ async def process_room_before_vent(message: types.Message, state: FSMContext):
 @form_router.message(Form.room_before_pallet, F.photo)
 async def process_room_before_vent(message: types.Message, state: FSMContext):
     room = get.get_current_user_room(message.chat.id)
-    room.photo_before_pallet = get.get_photo(message.photo)
+    room.photo_before_pallet.append(get.get_photo(message.photo))
+    if len(room.photo_before_pallet) > 1:
+        return
     await state.set_state(Form.room_before_radiator)
     await message.answer(_("Send photo BEFORE works for radiator"))
 
@@ -118,7 +112,9 @@ async def process_room_before_vent(message: types.Message, state: FSMContext):
 @form_router.message(Form.room_before_radiator, F.photo)
 async def process_room_before_vent(message: types.Message, state: FSMContext):
     room = get.get_current_user_room(message.chat.id)
-    room.photo_before_radiator = get.get_photo(message.photo)
+    room.photo_before_radiator.append(get.get_photo(message.photo))
+    if len(room.photo_before_radiator) > 1:
+        return
     await state.set_state(Form.room_before_filter)
     await message.answer(_("Send photo BEFORE works for filter"))
 
@@ -126,7 +122,9 @@ async def process_room_before_vent(message: types.Message, state: FSMContext):
 @form_router.message(Form.room_before_filter, F.photo)
 async def process_room_before_vent(message: types.Message, state: FSMContext):
     room = get.get_current_user_room(message.chat.id)
-    room.photo_before_filter = get.get_photo(message.photo)
+    room.photo_before_filter.append(get.get_photo(message.photo))
+    if len(room.photo_before_filter) > 1:
+        return
     await state.set_state(Form.room_before_impelers)
     await message.answer(_("Send photo BEFORE works for blades"))
 
@@ -134,7 +132,9 @@ async def process_room_before_vent(message: types.Message, state: FSMContext):
 @form_router.message(Form.room_before_impelers, F.photo)
 async def process_room_before_vent(message: types.Message, state: FSMContext):
     room = get.get_current_user_room(message.chat.id)
-    room.photo_before_impelers = get.get_photo(message.photo)
+    room.photo_before_impelers.append(get.get_photo(message.photo))
+    if len(room.photo_before_impelers) > 1:
+        return
     await state.set_state(Form.room_after_vent)
     await message.answer(_("Send photo AFTER works for grills"))
 
@@ -143,7 +143,9 @@ async def process_room_before_vent(message: types.Message, state: FSMContext):
 @form_router.message(Form.room_after_vent, F.photo)
 async def process_room_after_vent(message: types.Message, state: FSMContext):
     room = get.get_current_user_room(message.chat.id)
-    room.photo_after_vent = get.get_photo(message.photo)
+    room.photo_after_vent.append(get.get_photo(message.photo))
+    if len(room.photo_after_vent) > 1:
+        return
     await state.set_state(Form.room_after_duct)
     await message.answer(_("Send photo AFTER works for duct"))
 
@@ -151,7 +153,9 @@ async def process_room_after_vent(message: types.Message, state: FSMContext):
 @form_router.message(Form.room_after_duct, F.photo)
 async def process_room_after_vent(message: types.Message, state: FSMContext):
     room = get.get_current_user_room(message.chat.id)
-    room.photo_after_duct = get.get_photo(message.photo)
+    room.photo_after_duct.append(get.get_photo(message.photo))
+    if len(room.photo_after_duct) > 1:
+        return
     await state.set_state(Form.room_after_pallet)
     await message.answer(_("Send photo AFTER works for pan"))
 
@@ -159,7 +163,9 @@ async def process_room_after_vent(message: types.Message, state: FSMContext):
 @form_router.message(Form.room_after_pallet, F.photo)
 async def process_room_after_vent(message: types.Message, state: FSMContext):
     room = get.get_current_user_room(message.chat.id)
-    room.photo_after_pallet = get.get_photo(message.photo)
+    room.photo_after_pallet.append(get.get_photo(message.photo))
+    if len(room.photo_after_pallet) > 1:
+        return
     await state.set_state(Form.room_after_radiator)
     await message.answer(_("Send photo AFTER works for radiator"))
 
@@ -167,7 +173,9 @@ async def process_room_after_vent(message: types.Message, state: FSMContext):
 @form_router.message(Form.room_after_radiator, F.photo)
 async def process_room_after_vent(message: types.Message, state: FSMContext):
     room = get.get_current_user_room(message.chat.id)
-    room.photo_after_radiator = get.get_photo(message.photo)
+    room.photo_after_radiator.append(get.get_photo(message.photo))
+    if len(room.photo_after_radiator) > 1:
+        return
     await state.set_state(Form.room_after_filter)
     await message.answer(_("Send photo AFTER works for filter"))
 
@@ -175,7 +183,9 @@ async def process_room_after_vent(message: types.Message, state: FSMContext):
 @form_router.message(Form.room_after_filter, F.photo)
 async def process_room_after_vent(message: types.Message, state: FSMContext):
     room = get.get_current_user_room(message.chat.id)
-    room.photo_after_filter = get.get_photo(message.photo)
+    room.photo_after_filter.append(get.get_photo(message.photo))
+    if len(room.photo_after_filter) > 1:
+        return
     await state.set_state(Form.room_after_impelers)
     await message.answer(_("Send photo AFTER works for blades"))
 
@@ -183,6 +193,8 @@ async def process_room_after_vent(message: types.Message, state: FSMContext):
 @form_router.message(Form.room_after_impelers, F.photo)
 async def process_room_after_vent(message: types.Message, state: FSMContext):
     room = get.get_current_user_room(message.chat.id)
-    room.photo_after_impelers = get.get_photo(message.photo)
+    room.photo_after_impelers.append(get.get_photo(message.photo))
+    if len(room.photo_after_impelers) > 1:
+        return
     await state.set_state(Form.add_room)
     await inline.send_yes_no_keboard(message, _("Do you want to add room?"))
