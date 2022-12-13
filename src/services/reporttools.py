@@ -4,9 +4,43 @@ from PIL import Image
 
 PDF_HEIGHT, PDF_WIDTH = 1080, 1920
 INDENTS = (50, 50) # indents by x and y
+REPORTS_PATH = "./reports"
 KLIMATIKA_LOGO_PATH = "./img/logo_klimatika.png"
 LOGO_PATH = "./img/logo_part.png"
 LETS_TALK_LOGO_PATH = "./img/logo_lets_talk.png"
+
+class Indent:
+    x = INDENTS[0]
+    y = INDENTS[1]
+
+    @staticmethod
+    def get_x() -> int:
+        return Indent.x
+    @staticmethod
+    def get_y() -> int:
+        return Indent.y
+
+class Fonts:
+    regular = {
+            "name" : 'TTNormsPro',
+            "path" : '../fonts/TTNormsPro.ttf'
+    }
+    bold =    {
+            "name" : 'TTNormsProBold',
+            "path" : '../fonts/TTNormsProB.ttf'
+    }
+    italics = {
+            "name" : 'TTNormsProItalics',
+            "path" : '../fonts/TTNormsProI.ttf'
+    }
+    medium =  {
+            "name" : 'TTNormsProMedium',
+            "path" : '../fonts/TTNormsProM.ttf'
+    }
+    light =   {
+            "name" : 'TTNormsProLight',
+            "path" : '../fonts/TTNormsProL.ttf'
+    }
 
 class Formatter:
     IMAGE_WIDTH = 0
