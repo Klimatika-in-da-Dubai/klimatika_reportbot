@@ -46,6 +46,11 @@ class Report:
     def add_room(self):
         self.rooms.append(Room())
 
+    def get_description(self):
+        if self.service == Report.Service.PREMIUM:
+            return "*This included supply/return grills cleaning (out-of-place) and sanitation, air supply/return duct vacuum and air-brush cleaning, duct sanitation (anti-germ and fungicide), air filters wash-throug and polyester filter installation."
+        return ""
+
     async def dict_with_binary(self, bot) -> dict:
         return {
             "Outline": {
@@ -53,6 +58,7 @@ class Report:
                 "name": self.client.name,
                 "phone_number": self.client.phone,
                 "address": self.client.address,
+                "description": self.get_description(),
                 "helped_with": str(self.service),
                 "cleaned": ", ".join(
                     [str(service) for service in self.extra_services]

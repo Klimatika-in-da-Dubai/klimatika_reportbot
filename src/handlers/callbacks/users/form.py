@@ -37,7 +37,7 @@ async def callback_client_type(
 
 
 @router.callback_query(
-    Form.service, ServiceCB.filter(F.service != Report.Service.PREMIUM_EXTRA)
+    Form.service, ServiceCB.filter(F.service == Report.Service.OTHER_REPAIR_SERVICES)
 )
 async def callback_service(
     callback: types.CallbackQuery, state: FSMContext, callback_data: ServiceCB
@@ -47,6 +47,18 @@ async def callback_service(
     report.service = callback_data.service
 
     await state.set_state(Form.room_before_vent)
+    await callback.message.answer(_("Send photo BEFORE works for grills"))
+
+
+@router.callback_query(
+    Form.service, ServiceCB.filter(F.service == Report.Service.PREMIUM)
+)
+async def callback_service_premium(
+    callback: types.CallbackQuery, state: FSMContext, callback_data: ServiceCB
+):
+    await callback.answer()
+    report = get.get_current_user_report(callback.message.chat.id)
+    report.service = callback_data.service
     await callback.message.answer(_("Send photo BEFORE works for grills"))
 
 
