@@ -55,7 +55,7 @@ class pdfGenerator():
     
         textobject.setFont(Fonts.regular['name'], 37)
         textobject.setFillColor("#000000")
-        textobject.setLeading(55)
+        textobject.setLeading(70)
         textobject.textOut('Date   ')
         textobject.setFillColor("#6F7378")
         textobject.textLine(text=date)
@@ -102,7 +102,7 @@ class pdfGenerator():
         canv.showPage()
     
     
-    def room_slide(self, room: str, before: BinaryIO, after: BinaryIO):
+    def room_slide(self, obj: str, before: BinaryIO, after: BinaryIO):
         canv = self.canv
 
         img_before = image_crop(before)
@@ -116,18 +116,8 @@ class pdfGenerator():
         textobject.setFont(Fonts.bold['name'], 54)
         textobject.setFillColor("#E2000F")
         textobject.setLeading(55)
-        textobject.textLine(text=room)
+        textobject.textLine(text=f"BEFORE and AFTER {obj} cleaning")
         
-        textobject.setFont(Fonts.regular['name'], 37)
-        textobject.setFillColor("#000000")
-        textobject.textLine("BEFORE and AFTER our service")
-    
-        # textobject.setFont(Fonts.light['name'], 35)
-        # textobject.setTextOrigin(400, PDF_HEIGHT - 330)
-        # textobject.textLine(text="before")
-        # textobject.setTextOrigin(PDF_WIDTH - 530, PDF_HEIGHT - 330)
-        # textobject.setFillColor("#E2000F")
-        # textobject.textLine(text="after")
         canv.drawText(textobject)
     
         canv.showPage()
