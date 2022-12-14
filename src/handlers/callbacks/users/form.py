@@ -59,6 +59,8 @@ async def callback_service_premium(
     await callback.answer()
     report = get.get_current_user_report(callback.message.chat.id)
     report.service = callback_data.service
+    await state.set_state(Form.room_before_vent)
+
     await callback.message.answer(_("Send photo BEFORE works for grills"))
 
 
