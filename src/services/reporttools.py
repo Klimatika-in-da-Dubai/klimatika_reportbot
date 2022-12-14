@@ -1,16 +1,46 @@
 from typing import BinaryIO
 from reportlab.pdfgen import canvas
-from reportlab.lib.units import mm
 from PIL import Image
 
-def px2mm(px):
-    return px * 0.2645833333 * mm
-
-PDF_HEIGHT, PDF_WIDTH = px2mm(1080), px2mm(1920)
-INDENTS = (px2mm(50), px2mm(50)) # indents by x and y
+PDF_HEIGHT, PDF_WIDTH = 1080, 1920
+INDENTS = (50, 50) # indents by x and y
+REPORTS_PATH = "./reports"
 KLIMATIKA_LOGO_PATH = "./img/logo_klimatika.png"
 LOGO_PATH = "./img/logo_part.png"
 LETS_TALK_LOGO_PATH = "./img/logo_lets_talk.png"
+
+class Indent:
+    x = INDENTS[0]
+    y = INDENTS[1]
+
+    @staticmethod
+    def get_x() -> int:
+        return Indent.x
+    @staticmethod
+    def get_y() -> int:
+        return Indent.y
+
+class Fonts:
+    regular = {
+            "name" : 'TTNormsPro',
+            "path" : '../fonts/TTNormsPro.ttf'
+    }
+    bold =    {
+            "name" : 'TTNormsProBold',
+            "path" : '../fonts/TTNormsProB.ttf'
+    }
+    italics = {
+            "name" : 'TTNormsProItalics',
+            "path" : '../fonts/TTNormsProI.ttf'
+    }
+    medium =  {
+            "name" : 'TTNormsProMedium',
+            "path" : '../fonts/TTNormsProM.ttf'
+    }
+    light =   {
+            "name" : 'TTNormsProLight',
+            "path" : '../fonts/TTNormsProL.ttf'
+    }
 
 class Formatter:
     IMAGE_WIDTH = 0
@@ -70,12 +100,10 @@ def image_crop(img_bin: BinaryIO, w_size=4, h_size=3) -> Image.Image:
     if relation > w_size/h_size:
         to_crop = (width - (height * w_size)/h_size) / 2
         left = to_crop
-        top = 0
         right = width - to_crop
         bottom = height
     elif relation < w_size/h_size:
         to_crop = (height - (width * h_size)/w_size) / 2
-        left = 0
         top = to_crop
         right = width
         bottom = height - to_crop

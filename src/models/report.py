@@ -35,9 +35,22 @@ class Report:
     date: datetime = datetime.now()
     client: Client = Client()
     service: Service = Service.UNKNOWN
+    description: str = ""
     extra_services: list[ExtraService] = field(default_factory=list)
     other_extra_services: list[str] = field(default_factory=list)
     rooms: list[Room] = field(default_factory=list)
+
+    def __post_init__(self):
+        self.add_room()
+
+    def add_room(self):
+        self.rooms.append(Room())
+
+    def get_description(self):
+        if self.service in [Report.Service.PREMIUM, Report.Service.PREMIUM_EXTRA]:
+            return "This included supply/return grills cleaning (out-of-place) and sanitation, air supply/return duct vacuum and air-brush cleaning, duct sanitation (anti-germ and fungicide), air filters wash-throug and polyester filter installation."
+        if self.service in [Report.Service.OTHER_REPAIR_SERVICES]:
+            return "Minor repairs around the house, not related to the repair of air conditioners and ventilation"
 
     async def dict_with_binary(self, bot) -> dict:
         return {
@@ -46,6 +59,7 @@ class Report:
                 "name": self.client.name,
                 "phone_number": self.client.phone,
                 "address": self.client.address,
+                "description": self.get_description(),
                 "helped_with": str(self.service),
                 "cleaned": ", ".join(
                     [str(service) for service in self.extra_services]
