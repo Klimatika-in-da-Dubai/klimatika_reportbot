@@ -80,13 +80,16 @@ class pdfGenerator():
         textobject.setFillColor("#6F7378")
         textobject.textLine(helped)
 
-        textobject.setFillColor("#000000")
-        textobject.textOut('Description   ')
-        textobject.setFillColor("#6F7378")
-        textobject.setLeading(45)
-        new_description = divide_by_len(description, 69)
-        for i in new_description:
-            textobject.textLine(i)
+        if description != "":
+            textobject.setFillColor("#000000")
+            textobject.textLine('Description:')
+            textobject.setFillColor("#6F7378")
+            textobject.setLeading(45)
+            new_description = divide_by_len(description, 69)
+            for i in range(len(new_description)):
+                if i + 1 == len(new_description):
+                    textobject.setLeading(70)
+                textobject.textLine(new_description[i])
         
         if cleaned != "" :
             textobject.setFillColor("#E2000F")
@@ -107,8 +110,8 @@ class pdfGenerator():
 
         img_before = image_crop(before)
         img_after = image_crop(after)
-        add_image(canv, img_before, 860, Indent.get_x(), Indent.get_y())
-        add_image(canv, img_after, 860, PDF_WIDTH - 860 - Indent.get_x(), Indent.get_y())
+        add_image(canv, img_before, 860, Indent.get_x(), Indent.get_y() * 3)
+        add_image(canv, img_after, 860, PDF_WIDTH - 860 - Indent.get_x(), Indent.get_y() * 3)
     
         textobject = canv.beginText()
         textobject.setTextOrigin(Indent.get_x(), PDF_HEIGHT - 100)
