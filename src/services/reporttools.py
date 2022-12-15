@@ -8,6 +8,8 @@ REPORTS_PATH = "./reports"
 KLIMATIKA_LOGO_PATH = "./img/logo_klimatika.png"
 LOGO_PATH = "./img/logo_part.png"
 LETS_TALK_LOGO_PATH = "./img/logo_lets_talk.png"
+FIRST_SLIDE_TEMPLATE_PATH = "./img/first_slide_template.jpg"
+PRE_LAST_SLIDE_TEMPLATE_PATH = "img/pre-last_slide_template.jpg"
 
 class Indent:
     x = INDENTS[0]
