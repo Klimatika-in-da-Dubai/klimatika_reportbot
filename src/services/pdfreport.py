@@ -31,6 +31,7 @@ class pdfGenerator():
         textobject.setFillColor("#FFFFFF")
         textobject.setFont(Fonts.bold['name'], 130)
         textobject.setLeading(140)
+
         textobject.textLine(text='Apartment')
         textobject.textLine(text='VAC Cleaning')
         textobject.textLine(text='Completion')
@@ -73,6 +74,7 @@ class pdfGenerator():
     def outline_slide(self, date: str, name: str, ph_number: str, address: str, helped: str, description: str, cleaned: str) -> None:
         canv = self.canv
         textobject = canv.beginText()
+
         textobject.setTextOrigin(Indent.get_x(), PDF_HEIGHT - Indent.get_y() * 2 )
     
         textobject.setFont(Fonts.bold['name'], HEDING_FONT_SIZE)
@@ -113,6 +115,7 @@ class pdfGenerator():
             textobject.setLeading(45)
             textobject.textLine('Description:')
             textobject.setFillColor("#6F7378")
+            
             new_description = divide_by_len(description, 69)
             for i in range(len(new_description)):
                 if i + 1 == len(new_description):

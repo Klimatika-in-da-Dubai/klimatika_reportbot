@@ -78,6 +78,39 @@ class Fonts:
             "path" : '../fonts/TTNormsProL.ttf'
     }
 
+class Indent:
+    x = INDENTS[0]
+    y = INDENTS[1]
+
+    @staticmethod
+    def get_x() -> int:
+        return Indent.x
+    @staticmethod
+    def get_y() -> int:
+        return Indent.y
+
+class Fonts:
+    regular = {
+            "name" : 'TTNormsPro',
+            "path" : '../fonts/TTNormsPro.ttf'
+    }
+    bold =    {
+            "name" : 'TTNormsProBold',
+            "path" : '../fonts/TTNormsProB.ttf'
+    }
+    italics = {
+            "name" : 'TTNormsProItalics',
+            "path" : '../fonts/TTNormsProI.ttf'
+    }
+    medium =  {
+            "name" : 'TTNormsProMedium',
+            "path" : '../fonts/TTNormsProM.ttf'
+    }
+    light =   {
+            "name" : 'TTNormsProLight',
+            "path" : '../fonts/TTNormsProL.ttf'
+    }
+
 class Formatter:
     IMAGE_WIDTH = 0
     X_POS = 0
