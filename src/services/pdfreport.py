@@ -21,8 +21,10 @@ class pdfGenerator():
 
     def first_slide(self):
         canv = self.canv
-        img = Image.open(KLIMATIKA_LOGO_PATH)
-        add_image(canv, img, 430, Indent.get_x(), PDF_HEIGHT - 215)
+        img = Image.open(FIRST_SLIDE_TEMPLATE_PATH)
+        add_image(canv, img, PDF_WIDTH, 0, 0)
+        # img = Image.open(KLIMATIKA_LOGO_PATH)
+        # add_image(canv, img, 430, Indent.get_x(), PDF_HEIGHT - 215)
 
         textobject = canv.beginText()
         textobject.setTextOrigin(Indent.get_x(), 600)
