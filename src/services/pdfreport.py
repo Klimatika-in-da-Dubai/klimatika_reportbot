@@ -142,11 +142,11 @@ class pdfGenerator():
         add_image(canv, img_after, 860, PDF_WIDTH - 860 - Indent.get_x(), Indent.get_y() * 3)
     
         textobject = canv.beginText()
-        textobject.setTextOrigin(Indent.get_x(), PDF_HEIGHT - 100)
+        textobject.setTextOrigin(Indent.get_x(), PDF_HEIGHT - Indent.get_y() * 2 - HEDING_FONT_SIZE)
     
-        textobject.setFont(Fonts.bold['name'], 54)
+        textobject.setFont(Fonts.bold['name'], HEDING_FONT_SIZE)
         textobject.setFillColor("#E2000F")
-        textobject.setLeading(55)
+        textobject.setLeading(HEDING_FONT_SIZE)
         textobject.textLine(text=f"BEFORE and AFTER {obj} cleaning")
         
         canv.drawText(textobject)
@@ -163,12 +163,12 @@ class pdfGenerator():
         add_image(canv, img, PDF_WIDTH, 0, 0)
     
         textobject = canv.beginText()
-        textobject.setTextOrigin(Indent.get_x(), PDF_HEIGHT - Indent.get_y() * 2 - 80)
+        textobject.setTextOrigin(Indent.get_x(), PDF_HEIGHT - Indent.get_y() * 2 - HEDING_FONT_SIZE)
     
-        textobject.setFont(Fonts.bold['name'], 80)
+        textobject.setFont(Fonts.bold['name'], HEDING_FONT_SIZE)
         textobject.setCharSpace(-1)
         textobject.setFillColor("#FFFFFF")
-        textobject.setLeading(80)
+        textobject.setLeading(HEDING_FONT_SIZE)
         textobject.textLine(text='Make Sure to Clean Your')
         textobject.textLine(text='VAC Filters')
     
@@ -192,9 +192,9 @@ class pdfGenerator():
         add_image(canv, img, 600, Indent.get_x(), Indent.get_y())
 
         textobject = canv.beginText()
-        textobject.setTextOrigin(Indent.get_x(), PDF_HEIGHT - Indent.get_y() * 2 - 80)
+        textobject.setTextOrigin(Indent.get_x(), PDF_HEIGHT - Indent.get_y() * 2 - HEDING_FONT_SIZE)
     
-        textobject.setFont(Fonts.bold['name'], 80)
+        textobject.setFont(Fonts.bold['name'], HEDING_FONT_SIZE)
         textobject.setFillColor("#E2000F")
         textobject.textLine(text='Let’s talk!')
 

@@ -3,6 +3,7 @@ from reportlab.pdfgen import canvas
 from PIL import Image
 
 PDF_HEIGHT, PDF_WIDTH = 1080, 1920
+HEDING_FONT_SIZE = 80
 INDENTS = (50, 50) # indents by x and y
 REPORTS_PATH = "./reports"
 KLIMATIKA_LOGO_PATH = "./img/logo_klimatika.png"
