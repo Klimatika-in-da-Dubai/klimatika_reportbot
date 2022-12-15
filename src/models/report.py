@@ -47,7 +47,6 @@ class Report:
         self.rooms.append(Room())
 
     def get_description(self):
-
         if self.service in [Report.Service.PREMIUM, Report.Service.PREMIUM_EXTRA]:
             return "This included supply/return grills cleaning (out-of-place) and sanitation, air supply/return duct vacuum and air-brush cleaning, duct sanitation (anti-germ and fungicide), air filters wash-throug and polyester filter installation."
         if self.service in [Report.Service.OTHER_REPAIR_SERVICES]:
