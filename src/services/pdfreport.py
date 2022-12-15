@@ -159,33 +159,31 @@ class pdfGenerator():
 
         canv.setFillColor("#E2000F")
         canv.rect(0, 0, PDF_WIDTH, PDF_HEIGHT, stroke=0, fill=1)
-        img = Image.open(LOGO_PATH)
-        add_image(canv, img, 777, PDF_WIDTH / 2 + Indent.get_x(), Indent.get_y())
+        img = Image.open(PRE_LAST_SLIDE_TEMPLATE_PATH)
+        add_image(canv, img, PDF_WIDTH, 0, 0)
     
         textobject = canv.beginText()
-        textobject.setTextOrigin(Indent.get_x(), PDF_HEIGHT - 100)
+        textobject.setTextOrigin(Indent.get_x(), PDF_HEIGHT - Indent.get_y() * 2 - 80)
     
-        textobject.setFont(Fonts.bold['name'], 54)
+        textobject.setFont(Fonts.bold['name'], 80)
         textobject.setCharSpace(-1)
         textobject.setFillColor("#FFFFFF")
-        textobject.setLeading(55)
+        textobject.setLeading(80)
         textobject.textLine(text='Make Sure to Clean Your')
-        textobject.setLeading(230)
         textobject.textLine(text='VAC Filters')
     
         textobject.setFillColor("#E6E6E6")
         textobject.setFont(Fonts.regular['name'], 48)
-        textobject.setLeading(45)
-        textobject.textLine(text='Clean air filters can help you')
-        textobject.textLine(text='save between 5% and 15% from')
-        textobject.setLeading(70)
+
+        textobject.setTextOrigin(Indent.get_x(), PDF_HEIGHT / 2 - Indent.get_y())
+        textobject.setLeading(48)
+        textobject.textLine(text='Clean air filters can help you save between 5% and 15% from')
         textobject.textLine(text='your electricity bill!')
     
-        textobject.setLeading(45)
-        textobject.textLine(text='Clean your VAC filters quarterly')
-        textobject.textLine(text='and check if you need to swap for')
-        textobject.textLine(text='new ones at the start of each')
-        textobject.textLine(text='season.')
+        textobject.setTextOrigin(Indent.get_x(), PDF_HEIGHT * 1/4)
+        textobject.setLeading(48)
+        textobject.textLine(text='Clean your VAC filters quarterly and check if you need to swap')
+        textobject.textLine(text='for new ones at the start of each season.')
     
         canv.drawText(textobject)
         canv.showPage()
@@ -194,9 +192,9 @@ class pdfGenerator():
         add_image(canv, img, 600, Indent.get_x(), Indent.get_y())
 
         textobject = canv.beginText()
-        textobject.setTextOrigin(Indent.get_x(), PDF_HEIGHT - 100)
+        textobject.setTextOrigin(Indent.get_x(), PDF_HEIGHT - Indent.get_y() * 2 - 80)
     
-        textobject.setFont(Fonts.bold['name'], 54)
+        textobject.setFont(Fonts.bold['name'], 80)
         textobject.setFillColor("#E2000F")
         textobject.textLine(text='Let’s talk!')
 
