@@ -54,8 +54,8 @@ async def process_phone(message: types.Message, state: FSMContext) -> None:
     phone = get.get_phone(message.text)
     report = get.get_current_user_report(message.chat.id)
     report.client.phone = phone
-    await state.set_state(Form.client_type)
-    await inline.send_client_type_keyboard(message)
+    await state.set_state(Form.client_address)
+    await message.answer(_("Enter client address:"))
 
 
 @form_router.message(Form.client_address, F.text)

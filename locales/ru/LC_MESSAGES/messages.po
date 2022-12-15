@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-12-11 12:34+0300\n"
+"POT-Creation-Date: 2022-12-15 16:07+0300\n"
 "PO-Revision-Date: 2022-11-26 11:48+0300\n"
 "Last-Translator: \n"
 "Language: ru\n"
@@ -20,16 +20,20 @@ msgstr ""
 "Generated-By: Babel 2.9.1\n"
 
 #: src/handlers/callbacks/users/form.py:36
+#: src/handlers/message/users/form.py:58
 msgid "Enter client address:"
 msgstr "Введите адресс клиента:"
 
-#: src/handlers/callbacks/users/form.py:93
+#: src/handlers/callbacks/users/form.py:50
+#: src/handlers/callbacks/users/form.py:64
+#: src/handlers/callbacks/users/form.py:129
+#: src/handlers/callbacks/users/form.py:138
+msgid "Send photo BEFORE works for grills"
+msgstr "Прикрепите 1 фото ДО для решётки вентиляции"
+
+#: src/handlers/callbacks/users/form.py:107
 msgid "Please type other extra service"
 msgstr "Пожалуйста введите иную дополнительную услугу"
-
-#: src/handlers/callbacks/users/form.py:130
-msgid "Enter room object"
-msgstr "Напишите какая работа была проделана"
 
 #: src/handlers/callbacks/users/form.py:151
 msgid "Generating..."
@@ -68,55 +72,51 @@ msgstr "Некорректный номер телефона"
 msgid "Incorrect address"
 msgstr "Некорректный адрес"
 
-#: src/handlers/message/users/form.py:91
-msgid "Send photo BEFORE works for grills"
-msgstr "Прикрепите фото ДО для решётки вентиляции"
+#: src/handlers/message/users/form.py:89
+msgid "Send photo BEFORE works for duct"
+msgstr "Прикрепите 1 фото ДО для воздуховода"
 
 #: src/handlers/message/users/form.py:99
-msgid "Send photo BEFORE works for duct"
-msgstr "Прикрепите фото ДО для воздуховода"
-
-#: src/handlers/message/users/form.py:107
 msgid "Send photo BEFORE works for pan"
-msgstr "Прикрепите фото ДО для поддона"
+msgstr "Прикрепите 1 фото ДО для поддона"
 
-#: src/handlers/message/users/form.py:115
+#: src/handlers/message/users/form.py:109
 msgid "Send photo BEFORE works for radiator"
-msgstr "Прикрепите фото ДО для радиатора"
+msgstr "Прикрепите 1 фото ДО для радиатора"
 
-#: src/handlers/message/users/form.py:123
+#: src/handlers/message/users/form.py:119
 msgid "Send photo BEFORE works for filter"
-msgstr "Прикрепите фото ДО для фильтра"
+msgstr "Прикрепите 1 фото ДО для фильтра"
 
-#: src/handlers/message/users/form.py:131
+#: src/handlers/message/users/form.py:129
 msgid "Send photo BEFORE works for blades"
-msgstr "Прикрепите фото ДО для крыльчаток мотора"
+msgstr "Прикрепите 1 фото ДО для крыльчаток мотора"
 
 #: src/handlers/message/users/form.py:139
 msgid "Send photo AFTER works for grills"
-msgstr "Прикрепите фото ПОСЛЕ для решётки вентиляции"
+msgstr "Прикрепите 1 фото ПОСЛЕ для решётки вентиляции"
 
-#: src/handlers/message/users/form.py:148
+#: src/handlers/message/users/form.py:150
 msgid "Send photo AFTER works for duct"
-msgstr "Прикрепите фото ПОСЛЕ для воздуховода"
+msgstr "Прикрепите 1 фото ПОСЛЕ для воздуховода"
 
-#: src/handlers/message/users/form.py:156
+#: src/handlers/message/users/form.py:160
 msgid "Send photo AFTER works for pan"
-msgstr "Прикрепите фото ПОСЛЕ для поддона"
+msgstr "Прикрепите 1 фото ПОСЛЕ для поддона"
 
-#: src/handlers/message/users/form.py:164
+#: src/handlers/message/users/form.py:170
 msgid "Send photo AFTER works for radiator"
-msgstr "Прикрепите фото ПОСЛЕ для радиатора"
-
-#: src/handlers/message/users/form.py:172
-msgid "Send photo AFTER works for filter"
-msgstr "Прикрепите фото ПОСЛЕ для фильтра"
+msgstr "Прикрепите 1 фото ПОСЛЕ для радиатора"
 
 #: src/handlers/message/users/form.py:180
-msgid "Send photo AFTER works for blades"
-msgstr "Прикрепите фото ПОСЛЕ для крыльчаток мотора"
+msgid "Send photo AFTER works for filter"
+msgstr "Прикрепите 1 фото ПОСЛЕ для фильтра"
 
-#: src/handlers/message/users/form.py:188
+#: src/handlers/message/users/form.py:190
+msgid "Send photo AFTER works for blades"
+msgstr "Прикрепите 1 фото ПОСЛЕ для крыльчаток мотора"
+
+#: src/handlers/message/users/form.py:200
 msgid "Do you want to add room?"
 msgstr "Добавить ещё комнату?"
 
@@ -214,4 +214,7 @@ msgstr "Нет"
 
 #~ msgid "Enter date of visit in format DAY MONTH YEAR"
 #~ msgstr "Укажите дату визита в формате <ДЕНЬ> <МЕСЯЦ> <ГОД>"
+
+#~ msgid "Enter room object"
+#~ msgstr "Напишите какая работа была проделана"
 
