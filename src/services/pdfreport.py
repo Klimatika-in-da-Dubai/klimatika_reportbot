@@ -110,9 +110,9 @@ class pdfGenerator():
 
         if description != "":
             textobject.setFillColor("#000000")
+            textobject.setLeading(45)
             textobject.textLine('Description:')
             textobject.setFillColor("#6F7378")
-            textobject.setLeading(45)
             new_description = divide_by_len(description, 69)
             for i in range(len(new_description)):
                 if i + 1 == len(new_description):
