@@ -73,12 +73,12 @@ class pdfGenerator():
     def outline_slide(self, date: str, name: str, ph_number: str, address: str, helped: str, description: str, cleaned: str) -> None:
         canv = self.canv
         textobject = canv.beginText()
-        textobject.setTextOrigin(Indent.get_x(), PDF_HEIGHT - 100)
+        textobject.setTextOrigin(Indent.get_x(), PDF_HEIGHT - Indent.get_y() * 2 )
     
-        textobject.setFont(Fonts.bold['name'], 55)
+        textobject.setFont(Fonts.bold['name'], HEDING_FONT_SIZE)
         textobject.setCharSpace(-1)
         textobject.setFillColor("#E2000F")
-        textobject.setLeading(100)
+        textobject.setLeading(HEDING_FONT_SIZE * 2)
         textobject.textLine(text='Outline')
     
         textobject.setFont(Fonts.regular['name'], 37)
