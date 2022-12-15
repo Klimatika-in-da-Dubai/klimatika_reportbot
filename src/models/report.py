@@ -47,9 +47,11 @@ class Report:
         self.rooms.append(Room())
 
     def get_description(self):
-        if self.service == Report.Service.PREMIUM:
-            return "*This included supply/return grills cleaning (out-of-place) and sanitation, air supply/return duct vacuum and air-brush cleaning, duct sanitation (anti-germ and fungicide), air filters wash-throug and polyester filter installation."
-        return ""
+
+        if self.service in [Report.Service.PREMIUM, Report.Service.PREMIUM_EXTRA]:
+            return "This included supply/return grills cleaning (out-of-place) and sanitation, air supply/return duct vacuum and air-brush cleaning, duct sanitation (anti-germ and fungicide), air filters wash-throug and polyester filter installation."
+        if self.service in [Report.Service.OTHER_REPAIR_SERVICES]:
+            return "Minor repairs around the house, not related to the repair of air conditioners and ventilation"
 
     async def dict_with_binary(self, bot) -> dict:
         return {
