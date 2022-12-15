@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-12-11 12:34+0300\n"
+"POT-Creation-Date: 2022-12-15 16:07+0300\n"
 "PO-Revision-Date: 2022-11-23 19:48+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -19,15 +19,19 @@ msgstr ""
 "Generated-By: Babel 2.9.1\n"
 
 #: src/handlers/callbacks/users/form.py:36
+#: src/handlers/message/users/form.py:58
 msgid "Enter client address:"
 msgstr ""
 
-#: src/handlers/callbacks/users/form.py:93
-msgid "Please type other extra service"
+#: src/handlers/callbacks/users/form.py:50
+#: src/handlers/callbacks/users/form.py:64
+#: src/handlers/callbacks/users/form.py:129
+#: src/handlers/callbacks/users/form.py:138
+msgid "Send photo BEFORE works for grills"
 msgstr ""
 
-#: src/handlers/callbacks/users/form.py:130
-msgid "Enter room object"
+#: src/handlers/callbacks/users/form.py:107
+msgid "Please type other extra service"
 msgstr ""
 
 #: src/handlers/callbacks/users/form.py:151
@@ -65,27 +69,23 @@ msgstr ""
 msgid "Incorrect address"
 msgstr ""
 
-#: src/handlers/message/users/form.py:91
-msgid "Send photo BEFORE works for grills"
-msgstr ""
-
-#: src/handlers/message/users/form.py:99
+#: src/handlers/message/users/form.py:89
 msgid "Send photo BEFORE works for duct"
 msgstr ""
 
-#: src/handlers/message/users/form.py:107
+#: src/handlers/message/users/form.py:99
 msgid "Send photo BEFORE works for pan"
 msgstr ""
 
-#: src/handlers/message/users/form.py:115
+#: src/handlers/message/users/form.py:109
 msgid "Send photo BEFORE works for radiator"
 msgstr ""
 
-#: src/handlers/message/users/form.py:123
+#: src/handlers/message/users/form.py:119
 msgid "Send photo BEFORE works for filter"
 msgstr ""
 
-#: src/handlers/message/users/form.py:131
+#: src/handlers/message/users/form.py:129
 msgid "Send photo BEFORE works for blades"
 msgstr ""
 
@@ -93,27 +93,27 @@ msgstr ""
 msgid "Send photo AFTER works for grills"
 msgstr ""
 
-#: src/handlers/message/users/form.py:148
+#: src/handlers/message/users/form.py:150
 msgid "Send photo AFTER works for duct"
 msgstr ""
 
-#: src/handlers/message/users/form.py:156
+#: src/handlers/message/users/form.py:160
 msgid "Send photo AFTER works for pan"
 msgstr ""
 
-#: src/handlers/message/users/form.py:164
+#: src/handlers/message/users/form.py:170
 msgid "Send photo AFTER works for radiator"
 msgstr ""
 
-#: src/handlers/message/users/form.py:172
+#: src/handlers/message/users/form.py:180
 msgid "Send photo AFTER works for filter"
 msgstr ""
 
-#: src/handlers/message/users/form.py:180
+#: src/handlers/message/users/form.py:190
 msgid "Send photo AFTER works for blades"
 msgstr ""
 
-#: src/handlers/message/users/form.py:188
+#: src/handlers/message/users/form.py:200
 msgid "Do you want to add room?"
 msgstr ""
 
@@ -219,5 +219,8 @@ msgstr ""
 #~ "Enter date of visit in format DAY MONTH YEAR.\n"
 #~ "\n"
 #~ "For example: 1 1 2022 (January the 1st, 2022)"
+#~ msgstr ""
+
+#~ msgid "Enter room object"
 #~ msgstr ""
 
