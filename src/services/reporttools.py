@@ -206,9 +206,9 @@ def pdf_compression(filename: str):
     gs = _get_ghostscript_path()
     input_file_abs_path = os.path.abspath(f'reports/{filename}')
     output_file_abs_path = os.path.abspath(f'reports/{filename.strip(".pdf")}-compressed.pdf')
-    print(input_file_abs_path)
-    print(output_file_abs_path)
-    print("---------------")
+    # print(input_file_abs_path)
+    # print(output_file_abs_path)
+    # print("---------------")
     with open(f'{output_file_abs_path}', 'w') as _:
         pass
     subprocess.call([gs, '-sDEVICE=pdfwrite', '-dCompatibilityLevel=1.4',
