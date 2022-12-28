@@ -136,3 +136,9 @@ reports/*.pdf
 
 # vscode
 .vscode/
+
+#GoogleDrive
+client_secrets.json
+credentials.json
+settings.yaml
+token.json
