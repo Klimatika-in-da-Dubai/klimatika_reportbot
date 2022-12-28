@@ -1,6 +1,9 @@
 from typing import BinaryIO
 from reportlab.pdfgen import canvas
 from PIL import Image
+import subprocess
+import shutil
+import os
 
 PDF_HEIGHT, PDF_WIDTH = 1080, 1920
 HEDING_FONT_SIZE = 80
@@ -191,3 +194,27 @@ def add_image(canv, img: Image.Image, img_width: float, x: float, y: float):
     format_const = Formatter(img_width, INDENTS[0], y)
     img_f = image_formatter(img, int(format_const.width()))
     canv.drawImage(img_f, x=x, y=y, mask='auto')
+
+def _get_ghostscript_path():
+    gs_names = ['gs', 'gswin32', 'gswin64']
+    for name in gs_names:
+        if shutil.which(name):
+            return shutil.which(name)
+    raise FileNotFoundError(f'No GhostScript executable was found on path ({"/".join(gs_names)})')
+
+def pdf_compression(filename: str):
+    gs = _get_ghostscript_path()
+    input_file_abs_path = os.path.abspath(f'reports/{filename}')
+    output_file_abs_path = os.path.abspath(f'reports/{filename.strip(".pdf")}-compressed.pdf')
+    print(input_file_abs_path)
+    print(output_file_abs_path)
+    print("---------------")
+    with open(f'{output_file_abs_path}', 'w') as _:
+        pass
+    subprocess.call([gs, '-sDEVICE=pdfwrite', '-dCompatibilityLevel=1.4',
+                    '-dPDFSETTINGS={}'.format('/default'),
+                    '-dNOPAUSE', '-dQUIET', '-dBATCH',
+                    '-sOutputFile={}'.format(output_file_abs_path),
+                     input_file_abs_path]
+    )
+

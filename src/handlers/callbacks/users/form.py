@@ -159,4 +159,4 @@ async def generate_report(bot: Bot, chat_id: int) -> types.FSInputFile:
     report_name = datetime.now().strftime("%m-%d-%Y_%H-%M-%S")
     report_dict = await report.dict_with_binary(bot)
     pdfGenerator(report_name).generate(report_dict)
-    return types.FSInputFile(f"./reports/{report_name}.pdf")
+    return types.FSInputFile(f"./reports/{report_name}-compressed.pdf")
