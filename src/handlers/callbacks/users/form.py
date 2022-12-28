@@ -150,13 +150,15 @@ async def callback_add_room_yes(
 async def send_pdf_report(bot: Bot, message: types.Message):
     await message.answer(_("Generating..."))
     await bot.send_chat_action(message.chat.id, action="upload_document")
-    pdf_report = await generate_report(bot, message.chat.id)
-    await message.answer_document(pdf_report, caption=_("Thank you for your work!"))
+    pdf_report_path = await generate_report(bot, message.chat.id)
+    await message.answer_document(
+        types.FSInputFile(pdf_report_path), caption=_("Thank you for your work!")
+    )
 
 
-async def generate_report(bot: Bot, chat_id: int) -> types.FSInputFile:
+async def generate_report(bot: Bot, chat_id: int) -> str:
     report = get.get_current_user_report(chat_id)
-    report_name = datetime.now().strftime("%m-%d-%Y_%H-%M-%S")
+    report_name = f"{report.client.name}_{datetime.now().strftime('%m-%d-%Y_%H-%M-%S')}"
     report_dict = await report.dict_with_binary(bot)
     pdfGenerator(report_name).generate(report_dict)
-    return types.FSInputFile(f"./reports/{report_name}.pdf")
+    return f"./reports/{report_name}-compressed.pdf"

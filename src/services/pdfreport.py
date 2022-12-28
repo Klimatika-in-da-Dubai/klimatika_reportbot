@@ -11,8 +11,9 @@ class pdfGenerator():
     canv = canvas.Canvas("./report.pdf", pagesize=(PDF_WIDTH, PDF_HEIGHT))
 
     def __init__(self, report_name: str = "report"):
+        self.report_name = report_name
+        self.canv = canvas.Canvas(f"{REPORTS_PATH}/{self.report_name}.pdf", pagesize=(PDF_WIDTH, PDF_HEIGHT))
     # set up fonts
-        self.canv = canvas.Canvas(f"{REPORTS_PATH}/{report_name}.pdf", pagesize=(PDF_WIDTH, PDF_HEIGHT))
         pdfmetrics.registerFont(TTFont(Fonts.regular['name'], Fonts.regular['path']))
         pdfmetrics.registerFont(TTFont(Fonts.bold['name'], Fonts.bold['path']))
         pdfmetrics.registerFont(TTFont(Fonts.italics['name'], Fonts.italics['path']))
@@ -268,4 +269,6 @@ class pdfGenerator():
         self.last_slides()
 
         self.canv.save()
+
+        pdf_compression(f"{self.report_name}.pdf")
 
