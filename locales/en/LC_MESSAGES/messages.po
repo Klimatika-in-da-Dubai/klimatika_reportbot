@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-12-15 16:07+0300\n"
+"POT-Creation-Date: 2022-12-28 20:52+0300\n"
 "PO-Revision-Date: 2022-11-23 19:48+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -18,28 +18,33 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: src/handlers/callbacks/users/form.py:36
+#: src/handlers/callbacks/users/form.py:39
 #: src/handlers/message/users/form.py:58
 msgid "Enter client address:"
 msgstr ""
 
-#: src/handlers/callbacks/users/form.py:50
-#: src/handlers/callbacks/users/form.py:64
-#: src/handlers/callbacks/users/form.py:129
-#: src/handlers/callbacks/users/form.py:138
+#: src/handlers/callbacks/users/form.py:53
+#: src/handlers/callbacks/users/form.py:67
+#: src/handlers/callbacks/users/form.py:132
+#: src/handlers/callbacks/users/form.py:141
 msgid "Send photo BEFORE works for grills"
 msgstr ""
 
-#: src/handlers/callbacks/users/form.py:107
+#: src/handlers/callbacks/users/form.py:110
 msgid "Please type other extra service"
 msgstr ""
 
-#: src/handlers/callbacks/users/form.py:151
+#: src/handlers/callbacks/users/form.py:154
+#: src/handlers/callbacks/users/form.py:165
 msgid "Generating..."
 msgstr ""
 
-#: src/handlers/callbacks/users/form.py:154
+#: src/handlers/callbacks/users/form.py:158
 msgid "Thank you for your work!"
+msgstr ""
+
+#: src/handlers/callbacks/users/form.py:173
+msgid "Link to your folder with report {link}"
 msgstr ""
 
 #: src/handlers/message/users/form.py:21

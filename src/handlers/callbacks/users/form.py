@@ -19,6 +19,9 @@ from src.callbackdata import (
     RoomTypeCB,
 )
 
+from pydrive.auth import GoogleAuth
+from pydrive.drive import GoogleDrive, GoogleDriveFile
+
 router = Router()
 
 
@@ -144,19 +147,76 @@ async def callback_add_room_yes(
 ):
     await callback.answer()
     await state.clear()
-    await send_pdf_report(bot, callback.message)
+    # await send_pdf_report(bot, callback.message)
+    await gdrive_upload_pdf_report(bot, callback.message)
 
 
 async def send_pdf_report(bot: Bot, message: types.Message):
     await message.answer(_("Generating..."))
     await bot.send_chat_action(message.chat.id, action="upload_document")
-    pdf_report = await generate_report(bot, message.chat.id)
-    await message.answer_document(pdf_report, caption=_("Thank you for your work!"))
+    pdf_report_path = await generate_report(bot, message.chat.id)
+    await message.answer_document(
+        types.FSInputFile(pdf_report_path), caption=_("Thank you for your work!")
+    )
 
 
-async def generate_report(bot: Bot, chat_id: int) -> types.FSInputFile:
+async def gdrive_upload_pdf_report(bot: Bot, message: types.Message):
+    gauth = GoogleAuth()
+    drive = GoogleDrive(gauth)
+    await message.answer(_("Generating..."))
+
+    pdf_report_path = await generate_report(bot, message.chat.id)
+    folder_name = message.chat.first_name + " " + message.chat.last_name
+    folder_id = get_folder_id_to_upload(drive, folder_name)
+    report = get.get_current_user_report(message.chat.id)
+
+    report_uploaded = drive.CreateFile(
+        {
+            "title": f"{report.client.name} {report.date.date()}.pdf",
+            "parents": [{"id": folder_id}],
+        }
+    )
+
+    report_uploaded.SetContentFile(pdf_report_path)
+    report_uploaded.Upload()
+    await message.answer(
+        _("Link to your folder with report {link}").format(
+            link=f"https://drive.google.com/drive/folders/{folder_id}"
+        )
+    )
+
+
+async def generate_report(bot: Bot, chat_id: int) -> str:
     report = get.get_current_user_report(chat_id)
     report_name = datetime.now().strftime("%m-%d-%Y_%H-%M-%S")
     report_dict = await report.dict_with_binary(bot)
     pdfGenerator(report_name).generate(report_dict)
-    return types.FSInputFile(f"./reports/{report_name}.pdf")
+    return f"./reports/{report_name}.pdf"
+
+
+def get_folder_id_to_upload(drive: GoogleDrive, folder_name: str):
+    root_folder_id = "1oLvQGGZEozjTIVSaRsby5eWyb23GPFUt"
+    folder = drive.ListFile(
+        {
+            "q": f"parents = '{root_folder_id}' and title = '{folder_name}' and mimeType='application/vnd.google-apps.folder' and trashed=false"
+        }
+    ).GetList()
+    if len(folder) != 0:
+        return folder[0]["id"]
+
+    folder = create_folder(drive, root_folder_id, folder_name)
+    return folder.get("id")
+
+
+def create_folder(
+    drive: GoogleDrive, root_folder_id: str, folder_name: str
+) -> GoogleDriveFile:
+    folder = drive.CreateFile(
+        {
+            "title": folder_name,
+            "parents": [{"id": root_folder_id}],
+            "mimeType": "application/vnd.google-apps.folder",
+        }
+    )
+    folder.Upload()
+    return folder
