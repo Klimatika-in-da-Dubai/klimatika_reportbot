@@ -1,12 +1,13 @@
 from aiogram.utils.i18n import gettext as _
 from aiogram import types
-from src.models import Room, Report, Client
+from src.models import Room, Report, Client, CleaningNode
 from .form import (
     get_client_type_keyboard,
     get_extra_service_keyboard,
     get_service_keyboard,
     get_yes_no_keyboard,
     get_room_type_keyboard,
+    get_cleaning_node_keyboard,
 )
 
 
@@ -139,5 +140,67 @@ async def edit_client_type_keyboard(message: types.Message):
                     _("Tenant"),
                 ),
             ],
+        ),
+    )
+
+
+async def send_cleaning_node_keyboard(message: types.Message):
+    await message.answer(
+        _("Choose cleaning nodes"),
+        reply_markup=get_cleaning_node_keyboard(
+            message.chat.id,
+            [
+                CleaningNode("grills", type=CleaningNode.Type.DEFAULT).for_button(
+                    _("grills")
+                ),
+                CleaningNode("duct", type=CleaningNode.Type.DEFAULT).for_button(
+                    _("duct")
+                ),
+                CleaningNode("pan", type=CleaningNode.Type.DEFAULT).for_button(
+                    _("pan")
+                ),
+                CleaningNode("radiator", type=CleaningNode.Type.DEFAULT).for_button(
+                    _("radiator")
+                ),
+                CleaningNode("filter", type=CleaningNode.Type.DEFAULT).for_button(
+                    _("filter")
+                ),
+                CleaningNode("blades", type=CleaningNode.Type.DEFAULT).for_button(
+                    _("blades")
+                ),
+            ],
+            other=_("Other"),
+            enter=_("Enter"),
+        ),
+    )
+
+
+async def edit_cleaning_node_keyboard(message: types.Message):
+    await message.edit_text(
+        _("Choose cleaning nodes"),
+        reply_markup=get_cleaning_node_keyboard(
+            message.chat.id,
+            [
+                CleaningNode("grills", type=CleaningNode.Type.DEFAULT).for_button(
+                    _("grills")
+                ),
+                CleaningNode("duct", type=CleaningNode.Type.DEFAULT).for_button(
+                    _("duct")
+                ),
+                CleaningNode("pan", type=CleaningNode.Type.DEFAULT).for_button(
+                    _("pan")
+                ),
+                CleaningNode("radiator", type=CleaningNode.Type.DEFAULT).for_button(
+                    _("radiator")
+                ),
+                CleaningNode("filter", type=CleaningNode.Type.DEFAULT).for_button(
+                    _("filter")
+                ),
+                CleaningNode("blades", type=CleaningNode.Type.DEFAULT).for_button(
+                    _("blades")
+                ),
+            ],
+            other=_("Other"),
+            enter=_("Enter"),
         ),
     )

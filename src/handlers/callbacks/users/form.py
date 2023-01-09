@@ -8,7 +8,7 @@ import src.keyboards.inline as inline
 from src.states import Form
 import src.misc.getters as get
 
-from src.models import Report, Client, Room
+from src.models import Report, Client, Room, CleaningNode
 
 from src.services.pdfreport import pdfGenerator
 from src.callbackdata import (
@@ -17,6 +17,7 @@ from src.callbackdata import (
     ExtraServiceCB,
     ClientCB,
     RoomTypeCB,
+    CleaningNodeCB,
 )
 
 router = Router()
@@ -59,9 +60,9 @@ async def callback_service_premium(
     await callback.answer()
     report = get.get_current_user_report(callback.message.chat.id)
     report.service = callback_data.service
-    await state.set_state(Form.room_before_vent)
 
-    await callback.message.answer(_("Send photo BEFORE works for grills"))
+    await state.set_state(Form.room_cleaning_nodes)
+    await inline.send_cleaning_node_keyboard(callback.message)
 
 
 @router.callback_query(
@@ -125,8 +126,54 @@ async def callback_extra_service_enter(
 ):
     await callback.answer()
 
-    await state.set_state(Form.room_before_vent)
-    await callback.message.answer(_("Send photo BEFORE works for grills"))
+    await state.set_state(Form.room_cleaning_nodes)
+    await inline.send_cleaning_node_keyboard(callback.message)
+
+
+@router.callback_query(
+    Form.room_cleaning_nodes, CleaningNodeCB.filter(F.action == "add")
+)
+async def callback_add_cleaning_node(
+    callback: types.CallbackQuery, callback_data: CleaningNodeCB
+):
+    await callback.answer()
+
+    room = get.get_current_user_room(callback.message.chat.id)
+    room.add_node(CleaningNode(callback_data.name, callback_data.type))
+    await inline.edit_cleaning_node_keyboard(callback.message)
+
+
+@router.callback_query(
+    Form.room_cleaning_nodes, CleaningNodeCB.filter(F.action == "delete")
+)
+async def callback_delete_cleaning_node(
+    callback: types.CallbackQuery, callback_data: CleaningNodeCB
+):
+    await callback.answer()
+
+    room = get.get_current_user_room(callback.message.chat.id)
+    room.delete_node(CleaningNode(callback_data.name, callback_data.type))
+    await inline.edit_cleaning_node_keyboard(callback.message)
+
+
+@router.callback_query(
+    Form.room_cleaning_nodes, CleaningNodeCB.filter(F.action == "add_other")
+)
+async def callback_add_other_cleaning_node(
+    callback: types.CallbackQuery, state: FSMContext
+):
+    await callback.answer()
+    await state.set_state(Form.cleaning_node_await_answer)
+    await callback.message.answer(_("Please type other cleaning node"))
+
+
+@router.callback_query(Form.room_cleaning_nodes, CleaningNodeCB(F.action == "enter"))
+async def callback_enter_cleaning_node(
+    callback: types.CallbackQuery, state: FSMContext
+):
+    await callback.answer()
+    await state.set_state(Form.cleaning_node_img_before)
+    ...
 
 
 @router.callback_query(Form.add_room, F.data == "yes")
@@ -134,8 +181,8 @@ async def callback_add_room_yes(callback: types.CallbackQuery, state: FSMContext
     await callback.answer()
     report = get.get_current_user_report(callback.message.chat.id)
     report.add_room()
-    await state.set_state(Form.room_before_vent)
-    await callback.message.answer(_("Send photo BEFORE works for grills"))
+    await state.set_state(Form.room_cleaning_nodes)
+    await inline.send_cleaning_node_keyboard(callback.message)
 
 
 @router.callback_query(Form.add_room, F.data == "no")
