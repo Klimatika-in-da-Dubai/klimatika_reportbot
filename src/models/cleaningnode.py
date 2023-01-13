@@ -1,5 +1,6 @@
 from typing import BinaryIO
 from aiogram import types, Bot
+from aiogram.utils.i18n import lazy_gettext as __
 
 from dataclasses import dataclass, field
 
@@ -17,9 +18,16 @@ class CleaningNode:
     type: Type
     photo_before: types.PhotoSize | None = None
     photo_after: types.PhotoSize | None = None
+    button_text: str = ""
 
-    def for_button(self, text: str) -> tuple[str, ...]:
-        return (text, self)
+    def __eq__(self, other):
+        if other is None:
+            return False
+        return self.name == other.name and self.type == other.type
+
+    def __post_init__(self):
+        if self.button_text == "":
+            self.button_text = self.name
 
 
 DEFAULT_CLEANING_NODES = [

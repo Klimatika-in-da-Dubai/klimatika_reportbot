@@ -150,23 +150,25 @@ async def send_cleaning_node_keyboard(message: types.Message):
         reply_markup=get_cleaning_node_keyboard(
             message.chat.id,
             [
-                CleaningNode("grills", type=CleaningNode.Type.DEFAULT).for_button(
-                    _("grills")
+                CleaningNode(
+                    "grills", button_text=_("grills"), type=CleaningNode.Type.DEFAULT
                 ),
-                CleaningNode("duct", type=CleaningNode.Type.DEFAULT).for_button(
-                    _("duct")
+                CleaningNode(
+                    "duct", button_text=_("duct"), type=CleaningNode.Type.DEFAULT
                 ),
-                CleaningNode("pan", type=CleaningNode.Type.DEFAULT).for_button(
-                    _("pan")
+                CleaningNode(
+                    "pan", button_text=_("pan"), type=CleaningNode.Type.DEFAULT
                 ),
-                CleaningNode("radiator", type=CleaningNode.Type.DEFAULT).for_button(
-                    _("radiator")
+                CleaningNode(
+                    "radiator",
+                    button_text=_("radiator"),
+                    type=CleaningNode.Type.DEFAULT,
                 ),
-                CleaningNode("filter", type=CleaningNode.Type.DEFAULT).for_button(
-                    _("filter")
+                CleaningNode(
+                    "filter", button_text=_("filter"), type=CleaningNode.Type.DEFAULT
                 ),
-                CleaningNode("blades", type=CleaningNode.Type.DEFAULT).for_button(
-                    _("blades")
+                CleaningNode(
+                    "blades", button_text=_("blades"), type=CleaningNode.Type.DEFAULT
                 ),
             ],
             other=_("Other"),
@@ -181,23 +183,25 @@ async def edit_cleaning_node_keyboard(message: types.Message):
         reply_markup=get_cleaning_node_keyboard(
             message.chat.id,
             [
-                CleaningNode("grills", type=CleaningNode.Type.DEFAULT).for_button(
-                    _("grills")
+                CleaningNode(
+                    "grills", button_text=_("grills"), type=CleaningNode.Type.DEFAULT
                 ),
-                CleaningNode("duct", type=CleaningNode.Type.DEFAULT).for_button(
-                    _("duct")
+                CleaningNode(
+                    "duct", button_text=_("duct"), type=CleaningNode.Type.DEFAULT
                 ),
-                CleaningNode("pan", type=CleaningNode.Type.DEFAULT).for_button(
-                    _("pan")
+                CleaningNode(
+                    "pan", button_text=_("pan"), type=CleaningNode.Type.DEFAULT
                 ),
-                CleaningNode("radiator", type=CleaningNode.Type.DEFAULT).for_button(
-                    _("radiator")
+                CleaningNode(
+                    "radiator",
+                    button_text=_("radiator"),
+                    type=CleaningNode.Type.DEFAULT,
                 ),
-                CleaningNode("filter", type=CleaningNode.Type.DEFAULT).for_button(
-                    _("filter")
+                CleaningNode(
+                    "filter", button_text=_("filter"), type=CleaningNode.Type.DEFAULT
                 ),
-                CleaningNode("blades", type=CleaningNode.Type.DEFAULT).for_button(
-                    _("blades")
+                CleaningNode(
+                    "blades", button_text=_("blades"), type=CleaningNode.Type.DEFAULT
                 ),
             ],
             other=_("Other"),

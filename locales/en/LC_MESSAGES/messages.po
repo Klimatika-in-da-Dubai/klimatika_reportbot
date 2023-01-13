@@ -1,14 +1,14 @@
 # English translations for PROJECT.
-# Copyright (C) 2022 ORGANIZATION
+# Copyright (C) 2023 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-01-09 12:54+0300\n"
-"PO-Revision-Date: 2022-11-23 19:48+0300\n"
+"POT-Creation-Date: 2023-01-14 00:47+0300\n"
+"PO-Revision-Date: 2023-01-14 00:47+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
 "Language-Team: en <LL@li.org>\n"
@@ -31,15 +31,24 @@ msgstr ""
 msgid "Please type other extra service"
 msgstr ""
 
-#: src/handlers/callbacks/users/form.py:171
+#: src/handlers/callbacks/users/form.py:167
 msgid "Please type other cleaning node"
 msgstr ""
 
-#: src/handlers/callbacks/users/form.py:193
+#: src/handlers/callbacks/users/form.py:185
+msgid "You didn't selected cleaning nodes"
+msgstr ""
+
+#: src/handlers/callbacks/users/form.py:189
+#: src/handlers/message/users/form.py:111
+msgid "Send photo BEFORE for"
+msgstr ""
+
+#: src/handlers/callbacks/users/form.py:211
 msgid "Generating..."
 msgstr ""
 
-#: src/handlers/callbacks/users/form.py:197
+#: src/handlers/callbacks/users/form.py:215
 msgid "Thank you for your work!"
 msgstr ""
 
@@ -70,52 +79,8 @@ msgstr ""
 msgid "Incorrect address"
 msgstr ""
 
-#: src/handlers/message/users/form.py:89
-msgid "Send photo BEFORE works for duct"
-msgstr ""
-
-#: src/handlers/message/users/form.py:99
-msgid "Send photo BEFORE works for pan"
-msgstr ""
-
-#: src/handlers/message/users/form.py:109
-msgid "Send photo BEFORE works for radiator"
-msgstr ""
-
-#: src/handlers/message/users/form.py:119
-msgid "Send photo BEFORE works for filter"
-msgstr ""
-
-#: src/handlers/message/users/form.py:129
-msgid "Send photo BEFORE works for blades"
-msgstr ""
-
-#: src/handlers/message/users/form.py:139
-msgid "Send photo AFTER works for grills"
-msgstr ""
-
-#: src/handlers/message/users/form.py:150
-msgid "Send photo AFTER works for duct"
-msgstr ""
-
-#: src/handlers/message/users/form.py:160
-msgid "Send photo AFTER works for pan"
-msgstr ""
-
-#: src/handlers/message/users/form.py:170
-msgid "Send photo AFTER works for radiator"
-msgstr ""
-
-#: src/handlers/message/users/form.py:180
-msgid "Send photo AFTER works for filter"
-msgstr ""
-
-#: src/handlers/message/users/form.py:190
-msgid "Send photo AFTER works for blades"
-msgstr ""
-
-#: src/handlers/message/users/form.py:200
-msgid "Do you want to add room?"
+#: src/handlers/message/users/form.py:96
+msgid "Send photo AFTER for"
 msgstr ""
 
 #: src/handlers/message/users/message.py:18
@@ -183,12 +148,12 @@ msgid "Repair Works"
 msgstr ""
 
 #: src/keyboards/inline/kbd.py:61 src/keyboards/inline/kbd.py:124
-#: src/keyboards/inline/kbd.py:172 src/keyboards/inline/kbd.py:203
+#: src/keyboards/inline/kbd.py:174 src/keyboards/inline/kbd.py:207
 msgid "Other"
 msgstr ""
 
 #: src/keyboards/inline/kbd.py:62 src/keyboards/inline/kbd.py:125
-#: src/keyboards/inline/kbd.py:173 src/keyboards/inline/kbd.py:204
+#: src/keyboards/inline/kbd.py:175 src/keyboards/inline/kbd.py:208
 msgid "Enter"
 msgstr ""
 
@@ -212,46 +177,31 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: src/keyboards/inline/kbd.py:149 src/keyboards/inline/kbd.py:180
+#: src/keyboards/inline/kbd.py:149 src/keyboards/inline/kbd.py:182
 msgid "Choose cleaning nodes"
 msgstr ""
 
-#: src/keyboards/inline/kbd.py:154 src/keyboards/inline/kbd.py:185
+#: src/keyboards/inline/kbd.py:154 src/keyboards/inline/kbd.py:187
 msgid "grills"
 msgstr ""
 
-#: src/keyboards/inline/kbd.py:157 src/keyboards/inline/kbd.py:188
+#: src/keyboards/inline/kbd.py:157 src/keyboards/inline/kbd.py:190
 msgid "duct"
 msgstr ""
 
-#: src/keyboards/inline/kbd.py:160 src/keyboards/inline/kbd.py:191
+#: src/keyboards/inline/kbd.py:160 src/keyboards/inline/kbd.py:193
 msgid "pan"
 msgstr ""
 
-#: src/keyboards/inline/kbd.py:163 src/keyboards/inline/kbd.py:194
+#: src/keyboards/inline/kbd.py:164 src/keyboards/inline/kbd.py:197
 msgid "radiator"
 msgstr ""
 
-#: src/keyboards/inline/kbd.py:166 src/keyboards/inline/kbd.py:197
+#: src/keyboards/inline/kbd.py:168 src/keyboards/inline/kbd.py:201
 msgid "filter"
 msgstr ""
 
-#: src/keyboards/inline/kbd.py:169 src/keyboards/inline/kbd.py:200
+#: src/keyboards/inline/kbd.py:171 src/keyboards/inline/kbd.py:204
 msgid "blades"
 msgstr ""
-
-#~ msgid "Send photo of grills before works"
-#~ msgstr ""
-
-#~ msgid "Enter date of visit in format DAY MONTH YEAR"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Enter date of visit in format DAY MONTH YEAR.\n"
-#~ "\n"
-#~ "For example: 1 1 2022 (January the 1st, 2022)"
-#~ msgstr ""
-
-#~ msgid "Enter room object"
-#~ msgstr ""
 

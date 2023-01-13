@@ -61,8 +61,7 @@ async def callback_service_premium(
     report = get.get_current_user_report(callback.message.chat.id)
     report.service = callback_data.service
 
-    await state.set_state(Form.room_cleaning_nodes)
-    await inline.send_cleaning_node_keyboard(callback.message)
+    await set_state_room_cleaning_nodes(callback.message, state)
 
 
 @router.callback_query(
@@ -126,8 +125,7 @@ async def callback_extra_service_enter(
 ):
     await callback.answer()
 
-    await state.set_state(Form.room_cleaning_nodes)
-    await inline.send_cleaning_node_keyboard(callback.message)
+    await set_state_room_cleaning_nodes(callback.message, state)
 
 
 @router.callback_query(
@@ -139,7 +137,13 @@ async def callback_add_cleaning_node(
     await callback.answer()
 
     room = get.get_current_user_room(callback.message.chat.id)
-    room.add_node(CleaningNode(callback_data.name, callback_data.type))
+    room.add_node(
+        CleaningNode(
+            callback_data.name,
+            button_text=callback_data.button_text,
+            type=callback_data.type,
+        )
+    )
     await inline.edit_cleaning_node_keyboard(callback.message)
 
 
@@ -167,13 +171,28 @@ async def callback_add_other_cleaning_node(
     await callback.message.answer(_("Please type other cleaning node"))
 
 
-@router.callback_query(Form.room_cleaning_nodes, CleaningNodeCB(F.action == "enter"))
+@router.callback_query(
+    Form.room_cleaning_nodes, CleaningNodeCB.filter(F.action == "enter")
+)
 async def callback_enter_cleaning_node(
     callback: types.CallbackQuery, state: FSMContext
 ):
     await callback.answer()
+
+    await start_getting_photos(callback.message, state)
+
+
+async def start_getting_photos(message: types.Message, state: FSMContext):
+    room = get.get_current_user_room(message.chat.id)
+    room.create_nodes_queue()
+    if room.nodes_queue.empty() and room.current_node == None:
+        await message.answer(_("You didn't selected cleaning nodes"))
+        return
+
     await state.set_state(Form.cleaning_node_img_before)
-    ...
+    await message.answer(
+        _("Send photo BEFORE for") + " " + room.current_node.button_text
+    )
 
 
 @router.callback_query(Form.add_room, F.data == "yes")
@@ -181,8 +200,14 @@ async def callback_add_room_yes(callback: types.CallbackQuery, state: FSMContext
     await callback.answer()
     report = get.get_current_user_report(callback.message.chat.id)
     report.add_room()
+    add_default_cleaning_nodes(callback.message)
+    await set_state_room_cleaning_nodes(callback.message, state)
+
+
+async def set_state_room_cleaning_nodes(message: types.Message, state: FSMContext):
+    add_default_cleaning_nodes(message)
     await state.set_state(Form.room_cleaning_nodes)
-    await inline.send_cleaning_node_keyboard(callback.message)
+    await inline.send_cleaning_node_keyboard(message)
 
 
 @router.callback_query(Form.add_room, F.data == "no")
@@ -209,3 +234,21 @@ async def generate_report(bot: Bot, chat_id: int) -> str:
     report_dict = await report.dict_with_binary(bot)
     pdfGenerator(report_name).generate(report_dict)
     return f"./reports/{report_name}-compressed.pdf"
+
+
+def add_default_cleaning_nodes(message: types.Message):
+    DEFAULT_CLEANING_NODES = [
+        CleaningNode("grills", button_text=_("grills"), type=CleaningNode.Type.DEFAULT),
+        CleaningNode("duct", button_text=_("duct"), type=CleaningNode.Type.DEFAULT),
+        CleaningNode("pan", button_text=_("pan"), type=CleaningNode.Type.DEFAULT),
+        CleaningNode(
+            "radiator",
+            button_text=_("radiator"),
+            type=CleaningNode.Type.DEFAULT,
+        ),
+        CleaningNode("filter", button_text=_("filter"), type=CleaningNode.Type.DEFAULT),
+        CleaningNode("blades", button_text=_("blades"), type=CleaningNode.Type.DEFAULT),
+    ]
+    room = get.get_current_user_room(message.chat.id)
+    for node in DEFAULT_CLEANING_NODES:
+        room.add_node(node)

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-01-09 12:54+0300\n"
+"POT-Creation-Date: 2023-01-14 00:47+0300\n"
 "PO-Revision-Date: 2022-11-26 11:48+0300\n"
 "Last-Translator: \n"
 "Language: ru\n"
@@ -32,16 +32,26 @@ msgstr "Прикрепите 1 фото ДО для решётки вентил�
 msgid "Please type other extra service"
 msgstr "Пожалуйста введите иную дополнительную услугу"
 
-#: src/handlers/callbacks/users/form.py:171
+#: src/handlers/callbacks/users/form.py:167
 #, fuzzy
 msgid "Please type other cleaning node"
 msgstr "Пожалуйста введите иную дополнительную услугу"
 
-#: src/handlers/callbacks/users/form.py:193
+#: src/handlers/callbacks/users/form.py:185
+msgid "You didn't selected cleaning nodes"
+msgstr ""
+
+#: src/handlers/callbacks/users/form.py:189
+#: src/handlers/message/users/form.py:111
+#, fuzzy
+msgid "Send photo BEFORE for"
+msgstr "Прикрепите 1 фото ПОСЛЕ для поддона"
+
+#: src/handlers/callbacks/users/form.py:211
 msgid "Generating..."
 msgstr "Генерирую..."
 
-#: src/handlers/callbacks/users/form.py:197
+#: src/handlers/callbacks/users/form.py:215
 msgid "Thank you for your work!"
 msgstr "Спасибо за вашу работу!"
 
@@ -74,53 +84,10 @@ msgstr "Некорректный номер телефона"
 msgid "Incorrect address"
 msgstr "Некорректный адрес"
 
-#: src/handlers/message/users/form.py:89
-msgid "Send photo BEFORE works for duct"
-msgstr "Прикрепите 1 фото ДО для воздуховода"
-
-#: src/handlers/message/users/form.py:99
-msgid "Send photo BEFORE works for pan"
-msgstr "Прикрепите 1 фото ДО для поддона"
-
-#: src/handlers/message/users/form.py:109
-msgid "Send photo BEFORE works for radiator"
-msgstr "Прикрепите 1 фото ДО для радиатора"
-
-#: src/handlers/message/users/form.py:119
-msgid "Send photo BEFORE works for filter"
-msgstr "Прикрепите 1 фото ДО для фильтра"
-
-#: src/handlers/message/users/form.py:129
-msgid "Send photo BEFORE works for blades"
-msgstr "Прикрепите 1 фото ДО для крыльчаток мотора"
-
-#: src/handlers/message/users/form.py:139
-msgid "Send photo AFTER works for grills"
-msgstr "Прикрепите 1 фото ПОСЛЕ для решётки вентиляции"
-
-#: src/handlers/message/users/form.py:150
-msgid "Send photo AFTER works for duct"
-msgstr "Прикрепите 1 фото ПОСЛЕ для воздуховода"
-
-#: src/handlers/message/users/form.py:160
-msgid "Send photo AFTER works for pan"
+#: src/handlers/message/users/form.py:96
+#, fuzzy
+msgid "Send photo AFTER for"
 msgstr "Прикрепите 1 фото ПОСЛЕ для поддона"
-
-#: src/handlers/message/users/form.py:170
-msgid "Send photo AFTER works for radiator"
-msgstr "Прикрепите 1 фото ПОСЛЕ для радиатора"
-
-#: src/handlers/message/users/form.py:180
-msgid "Send photo AFTER works for filter"
-msgstr "Прикрепите 1 фото ПОСЛЕ для фильтра"
-
-#: src/handlers/message/users/form.py:190
-msgid "Send photo AFTER works for blades"
-msgstr "Прикрепите 1 фото ПОСЛЕ для крыльчаток мотора"
-
-#: src/handlers/message/users/form.py:200
-msgid "Do you want to add room?"
-msgstr "Добавить ещё комнату?"
 
 #: src/handlers/message/users/message.py:18
 msgid "Hi! {first_name} {last_name}"
@@ -187,12 +154,12 @@ msgid "Repair Works"
 msgstr "Ремонт"
 
 #: src/keyboards/inline/kbd.py:61 src/keyboards/inline/kbd.py:124
-#: src/keyboards/inline/kbd.py:172 src/keyboards/inline/kbd.py:203
+#: src/keyboards/inline/kbd.py:174 src/keyboards/inline/kbd.py:207
 msgid "Other"
 msgstr "Иное"
 
 #: src/keyboards/inline/kbd.py:62 src/keyboards/inline/kbd.py:125
-#: src/keyboards/inline/kbd.py:173 src/keyboards/inline/kbd.py:204
+#: src/keyboards/inline/kbd.py:175 src/keyboards/inline/kbd.py:208
 msgid "Enter"
 msgstr "Готово"
 
@@ -216,31 +183,31 @@ msgstr "Да"
 msgid "No"
 msgstr "Нет"
 
-#: src/keyboards/inline/kbd.py:149 src/keyboards/inline/kbd.py:180
+#: src/keyboards/inline/kbd.py:149 src/keyboards/inline/kbd.py:182
 msgid "Choose cleaning nodes"
 msgstr ""
 
-#: src/keyboards/inline/kbd.py:154 src/keyboards/inline/kbd.py:185
+#: src/keyboards/inline/kbd.py:154 src/keyboards/inline/kbd.py:187
 msgid "grills"
-msgstr ""
+msgstr "Решётки"
 
-#: src/keyboards/inline/kbd.py:157 src/keyboards/inline/kbd.py:188
+#: src/keyboards/inline/kbd.py:157 src/keyboards/inline/kbd.py:190
 msgid "duct"
 msgstr ""
 
-#: src/keyboards/inline/kbd.py:160 src/keyboards/inline/kbd.py:191
+#: src/keyboards/inline/kbd.py:160 src/keyboards/inline/kbd.py:193
 msgid "pan"
 msgstr ""
 
-#: src/keyboards/inline/kbd.py:163 src/keyboards/inline/kbd.py:194
+#: src/keyboards/inline/kbd.py:164 src/keyboards/inline/kbd.py:197
 msgid "radiator"
 msgstr ""
 
-#: src/keyboards/inline/kbd.py:166 src/keyboards/inline/kbd.py:197
+#: src/keyboards/inline/kbd.py:168 src/keyboards/inline/kbd.py:201
 msgid "filter"
 msgstr ""
 
-#: src/keyboards/inline/kbd.py:169 src/keyboards/inline/kbd.py:200
+#: src/keyboards/inline/kbd.py:171 src/keyboards/inline/kbd.py:204
 msgid "blades"
 msgstr ""
 
@@ -249,4 +216,37 @@ msgstr ""
 
 #~ msgid "Enter room object"
 #~ msgstr "Напишите какая работа была проделана"
+
+#~ msgid "Send photo BEFORE works for duct"
+#~ msgstr "Прикрепите 1 фото ДО для воздуховода"
+
+#~ msgid "Send photo BEFORE works for pan"
+#~ msgstr "Прикрепите 1 фото ДО для поддона"
+
+#~ msgid "Send photo BEFORE works for radiator"
+#~ msgstr "Прикрепите 1 фото ДО для радиатора"
+
+#~ msgid "Send photo BEFORE works for filter"
+#~ msgstr "Прикрепите 1 фото ДО для фильтра"
+
+#~ msgid "Send photo BEFORE works for blades"
+#~ msgstr "Прикрепите 1 фото ДО для крыльчаток мотора"
+
+#~ msgid "Send photo AFTER works for grills"
+#~ msgstr "Прикрепите 1 фото ПОСЛЕ для решётки вентиляции"
+
+#~ msgid "Send photo AFTER works for duct"
+#~ msgstr "Прикрепите 1 фото ПОСЛЕ для воздуховода"
+
+#~ msgid "Send photo AFTER works for radiator"
+#~ msgstr "Прикрепите 1 фото ПОСЛЕ для радиатора"
+
+#~ msgid "Send photo AFTER works for filter"
+#~ msgstr "Прикрепите 1 фото ПОСЛЕ для фильтра"
+
+#~ msgid "Send photo AFTER works for blades"
+#~ msgstr "Прикрепите 1 фото ПОСЛЕ для крыльчаток мотора"
+
+#~ msgid "Do you want to add room?"
+#~ msgstr "Добавить ещё комнату?"
 

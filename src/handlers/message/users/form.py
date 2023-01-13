@@ -85,3 +85,31 @@ async def process_cleaning_node_add_other(message: types.Message, state: FSMCont
     room.add_node(CleaningNode(message.text, CleaningNode.Type.OTHER))
     await state.set_state(Form.room_cleaning_nodes)
     await inline.send_cleaning_node_keyboard(message)
+
+
+@form_router.message(Form.cleaning_node_img_before, F.photo)
+async def process_cleaning_node_img_before(message: types.Message, state: FSMContext):
+    room = get.get_current_user_room(message.chat.id)
+    room.current_node.photo_before = get.get_photo(message.photo)
+
+    await state.set_state(Form.cleaning_node_img_after)
+    await message.answer(
+        _("Send photo AFTER for") + " " + room.current_node.button_text
+    )
+
+
+@form_router.message(Form.cleaning_node_img_after, F.photo)
+async def process_cleaning_node_img_after(message: types.Message, state: FSMContext):
+    room = get.get_current_user_room(message.chat.id)
+    room.current_node.photo_after = get.get_photo(message.photo)
+    room.next_cleaning_node()
+
+    if room.nodes_queue.empty() and room.current_node == None:
+        await state.set_state(Form.add_room)
+        await inline.send_yes_no_keboard(message, _("Do you want to add room?"))
+        return
+
+    await state.set_state(Form.cleaning_node_img_before)
+    await message.answer(
+        _("Send photo BEFORE for") + " " + room.current_node.button_text
+    )

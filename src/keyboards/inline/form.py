@@ -104,24 +104,25 @@ def get_extra_service_keyboard(
 
 def get_cleaning_node_keyboard(
     chat_id: int,
-    cleaning_nodes: list[tuple[str, CleaningNode]],
+    cleaning_nodes: list[CleaningNode],
     other: str,
     enter: str,
 ) -> types.InlineKeyboardMarkup:
     builder = InlineKeyboardBuilder()
 
     room = get_current_user_room(chat_id)
-    for text, cleaning_node in cleaning_nodes:
+    for cleaning_node in cleaning_nodes:
         status = [cleaning_node, True] in room.default_cleaning_nodes
         status_text = "✅" if status else "❌"
         callback_data = CleaningNodeCB(
             action="delete" if status else "add",
             name=cleaning_node.name,
+            button_text=cleaning_node.button_text,
             type=cleaning_node.type,
         )
         builder.add(
             types.InlineKeyboardButton(
-                text=f"{text} {status_text}",
+                text=f"{cleaning_node.button_text} {status_text}",
                 callback_data=callback_data.pack(),
             )
         )
@@ -132,6 +133,7 @@ def get_cleaning_node_keyboard(
         callback_data = CleaningNodeCB(
             action="delete",
             name=cleaning_node.name,
+            button_text=cleaning_node.button_text,
             type=cleaning_node.type,
         )
         builder.add(
@@ -145,7 +147,10 @@ def get_cleaning_node_keyboard(
         types.InlineKeyboardButton(
             text=other + "➕",
             callback_data=CleaningNodeCB(
-                action="add_other", name="", type=CleaningNode.Type.UNKNOWN
+                action="add_other",
+                name="",
+                button_text="",
+                type=CleaningNode.Type.UNKNOWN,
             ).pack(),
         )
     )
@@ -154,7 +159,7 @@ def get_cleaning_node_keyboard(
         types.InlineKeyboardButton(
             text=enter,
             callback_data=CleaningNodeCB(
-                action="enter", name="", type=CleaningNode.Type.UNKNOWN
+                action="enter", name="", button_text="", type=CleaningNode.Type.UNKNOWN
             ).pack(),
         )
     )
