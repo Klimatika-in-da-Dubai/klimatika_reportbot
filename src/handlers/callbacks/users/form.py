@@ -245,3 +245,5 @@ def set_default_cleaning_nodes(message: types.Message):
     room = get.get_current_user_room(message.chat.id)
     for node in DEFAULT_CLEANING_NODES:
         room.set_default_node(node)
+
+
