@@ -15,18 +15,10 @@ class Form(StatesGroup):
     room_type = State()
     room_object = State()
 
-    room_before_vent = State()
-    room_before_duct = State()
-    room_before_pallet = State()
-    room_before_radiator = State()
-    room_before_filter = State()
-    room_before_impelers = State()
+    room_cleaning_nodes = State()
+    cleaning_node_await_answer = State()
 
-    room_after_vent = State()
-    room_after_duct = State()
-    room_after_pallet = State()
-    room_after_radiator = State()
-    room_after_filter = State()
-    room_after_impelers = State()
+    cleaning_node_img_before = State()
+    cleaning_node_img_after = State()
 
     add_room = State()
