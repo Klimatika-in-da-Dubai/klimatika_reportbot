@@ -251,14 +251,12 @@ class pdfGenerator():
                            outline["helped_with"],
                            outline["description"],
                            outline["cleaned"])
-
         rooms = report["Rooms"]
         for room in rooms["rooms_list"]:
-            for node in room['nodes']:
-                self.room_slide(node.name, node['img_before'], node['img_after'])
+            for name, img in room['nodes'].items():
+                self.room_slide(name, img['img_before'], img['img_after'])
 
         self.last_slides()
-
         self.canv.save()
 
         pdf_compression(f"{self.report_name}.pdf")
