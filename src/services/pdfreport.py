@@ -242,6 +242,7 @@ class pdfGenerator():
     
     def generate(self, report: dict):
         self.first_slide()
+
         outline = report["Outline"]
         self.outline_slide(outline["date"].strftime("%m/%d/%Y"),
                            outline["name"],
@@ -252,22 +253,10 @@ class pdfGenerator():
                            outline["cleaned"])
         rooms = report["Rooms"]
         for room in rooms["rooms_list"]:
-            room_item = {
-                "grills" : room['grills'],
-                "duct" : room['duct'],
-                "pan" : room['pan'],
-                "radiator" : room['radiator'],
-                "filter" : room['filter'],
-                "blades" : room['blades'],
-            }
-            for name, photos in room_item.items():
-                item_before = photos['img_before']
-                item_after = photos['img_after']
-                for i in range(len(item_before)):
-                    #self.room_slide(room['room'], item_before[i], item_after[i])
-                    self.room_slide(name, item_before[i], item_after[i])
-        self.last_slides()
+            for name, img in room['nodes'].items():
+                self.room_slide(name, img['img_before'], img['img_after'])
 
+        self.last_slides()
         self.canv.save()
 
         pdf_compression(f"{self.report_name}.pdf")
