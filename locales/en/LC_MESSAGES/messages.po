@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-01-14 00:47+0300\n"
+"POT-Creation-Date: 2023-01-16 09:57+0300\n"
 "PO-Revision-Date: 2023-01-14 00:47+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -23,33 +23,59 @@ msgstr ""
 msgid "Enter client address:"
 msgstr ""
 
-#: src/handlers/callbacks/users/form.py:51
-msgid "Send photo BEFORE works for grills"
-msgstr ""
-
-#: src/handlers/callbacks/users/form.py:108
+#: src/handlers/callbacks/users/form.py:106
 msgid "Please type other extra service"
 msgstr ""
 
-#: src/handlers/callbacks/users/form.py:167
+#: src/handlers/callbacks/users/form.py:164
 msgid "Please type other cleaning node"
 msgstr ""
 
-#: src/handlers/callbacks/users/form.py:185
+#: src/handlers/callbacks/users/form.py:182
 msgid "You didn't selected cleaning nodes"
 msgstr ""
 
-#: src/handlers/callbacks/users/form.py:189
-#: src/handlers/message/users/form.py:111
+#: src/handlers/callbacks/users/form.py:187
+#: src/handlers/message/users/form.py:114
 msgid "Send photo BEFORE for"
 msgstr ""
 
-#: src/handlers/callbacks/users/form.py:211
+#: src/handlers/callbacks/users/form.py:216
 msgid "Generating..."
 msgstr ""
 
-#: src/handlers/callbacks/users/form.py:215
+#: src/handlers/callbacks/users/form.py:220
 msgid "Thank you for your work!"
+msgstr ""
+
+#: src/handlers/callbacks/users/form.py:234 src/keyboards/inline/kbd.py:154
+#: src/keyboards/inline/kbd.py:187
+msgid "grills"
+msgstr ""
+
+#: src/handlers/callbacks/users/form.py:235 src/keyboards/inline/kbd.py:157
+#: src/keyboards/inline/kbd.py:190
+msgid "duct"
+msgstr ""
+
+#: src/handlers/callbacks/users/form.py:236 src/keyboards/inline/kbd.py:160
+#: src/keyboards/inline/kbd.py:193
+msgid "pan"
+msgstr ""
+
+#: src/handlers/callbacks/users/form.py:239 src/keyboards/inline/kbd.py:164
+#: src/keyboards/inline/kbd.py:197
+msgid "radiator"
+msgstr ""
+
+#: src/handlers/callbacks/users/form.py:242 src/keyboards/inline/kbd.py:168
+#: src/keyboards/inline/kbd.py:201
+msgid "filter"
+msgstr ""
+
+#: src/handlers/callbacks/users/form.py:243 src/keyboards/inline/kbd.py:171
+#: src/keyboards/inline/kbd.py:204
+msgid "blades"
 msgstr ""
 
 #: src/handlers/message/users/form.py:21
@@ -79,8 +105,12 @@ msgstr ""
 msgid "Incorrect address"
 msgstr ""
 
-#: src/handlers/message/users/form.py:96
+#: src/handlers/message/users/form.py:97
 msgid "Send photo AFTER for"
+msgstr ""
+
+#: src/handlers/message/users/form.py:109
+msgid "Do you want to add room?"
 msgstr ""
 
 #: src/handlers/message/users/message.py:18
@@ -181,27 +211,6 @@ msgstr ""
 msgid "Choose cleaning nodes"
 msgstr ""
 
-#: src/keyboards/inline/kbd.py:154 src/keyboards/inline/kbd.py:187
-msgid "grills"
-msgstr ""
-
-#: src/keyboards/inline/kbd.py:157 src/keyboards/inline/kbd.py:190
-msgid "duct"
-msgstr ""
-
-#: src/keyboards/inline/kbd.py:160 src/keyboards/inline/kbd.py:193
-msgid "pan"
-msgstr ""
-
-#: src/keyboards/inline/kbd.py:164 src/keyboards/inline/kbd.py:197
-msgid "radiator"
-msgstr ""
-
-#: src/keyboards/inline/kbd.py:168 src/keyboards/inline/kbd.py:201
-msgid "filter"
-msgstr ""
-
-#: src/keyboards/inline/kbd.py:171 src/keyboards/inline/kbd.py:204
-msgid "blades"
-msgstr ""
+#~ msgid "Send photo BEFORE works for grills"
+#~ msgstr ""
 

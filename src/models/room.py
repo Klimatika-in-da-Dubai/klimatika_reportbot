@@ -37,6 +37,11 @@ class Room:
             [[node, False] for node in DEFAULT_CLEANING_NODES]
         )
 
+    def set_default_node(self, node: CleaningNode) -> None:
+        pos = DEFAULT_CLEANING_NODES.index(node)
+        self.default_cleaning_nodes[pos][0] = node
+        self.default_cleaning_nodes[pos][1] = True
+
     def add_node(self, node: CleaningNode) -> None:
         if node.type == CleaningNode.Type.DEFAULT:
             self.add_default_node(node)
@@ -45,7 +50,6 @@ class Room:
 
     def add_default_node(self, node: CleaningNode) -> None:
         pos = DEFAULT_CLEANING_NODES.index(node)
-        self.default_cleaning_nodes[pos][0] = node
         self.default_cleaning_nodes[pos][1] = True
 
     def delete_node(self, node: CleaningNode) -> None:

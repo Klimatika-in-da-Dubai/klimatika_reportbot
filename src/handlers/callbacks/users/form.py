@@ -47,8 +47,7 @@ async def callback_service(
     report = get.get_current_user_report(callback.message.chat.id)
     report.service = callback_data.service
 
-    await state.set_state(Form.room_before_vent)
-    await callback.message.answer(_("Send photo BEFORE works for grills"))
+    await set_state_room_cleaning_nodes(callback.message, state)
 
 
 @router.callback_query(
@@ -137,13 +136,7 @@ async def callback_add_cleaning_node(
     await callback.answer()
 
     room = get.get_current_user_room(callback.message.chat.id)
-    room.add_node(
-        CleaningNode(
-            callback_data.name,
-            button_text=callback_data.button_text,
-            type=callback_data.type,
-        )
-    )
+    room.add_node(CleaningNode(callback_data.name, type=callback_data.type))
     await inline.edit_cleaning_node_keyboard(callback.message)
 
 
@@ -200,12 +193,12 @@ async def callback_add_room_yes(callback: types.CallbackQuery, state: FSMContext
     await callback.answer()
     report = get.get_current_user_report(callback.message.chat.id)
     report.add_room()
-    add_default_cleaning_nodes(callback.message)
+    set_default_cleaning_nodes(callback.message)
     await set_state_room_cleaning_nodes(callback.message, state)
 
 
 async def set_state_room_cleaning_nodes(message: types.Message, state: FSMContext):
-    add_default_cleaning_nodes(message)
+    set_default_cleaning_nodes(message)
     await state.set_state(Form.room_cleaning_nodes)
     await inline.send_cleaning_node_keyboard(message)
 
@@ -236,7 +229,7 @@ async def generate_report(bot: Bot, chat_id: int) -> str:
     return f"./reports/{report_name}-compressed.pdf"
 
 
-def add_default_cleaning_nodes(message: types.Message):
+def set_default_cleaning_nodes(message: types.Message):
     DEFAULT_CLEANING_NODES = [
         CleaningNode("grills", button_text=_("grills"), type=CleaningNode.Type.DEFAULT),
         CleaningNode("duct", button_text=_("duct"), type=CleaningNode.Type.DEFAULT),
@@ -251,4 +244,4 @@ def add_default_cleaning_nodes(message: types.Message):
     ]
     room = get.get_current_user_room(message.chat.id)
     for node in DEFAULT_CLEANING_NODES:
-        room.add_node(node)
+        room.set_default_node(node)

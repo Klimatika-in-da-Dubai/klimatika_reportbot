@@ -117,7 +117,6 @@ def get_cleaning_node_keyboard(
         callback_data = CleaningNodeCB(
             action="delete" if status else "add",
             name=cleaning_node.name,
-            button_text=cleaning_node.button_text,
             type=cleaning_node.type,
         )
         builder.add(
@@ -133,12 +132,11 @@ def get_cleaning_node_keyboard(
         callback_data = CleaningNodeCB(
             action="delete",
             name=cleaning_node.name,
-            button_text=cleaning_node.button_text,
             type=cleaning_node.type,
         )
         builder.add(
             types.InlineKeyboardButton(
-                text=f"{cleaning_node.name}",
+                text=f"{cleaning_node.button_text}",
                 callback_data=callback_data.pack(),
             )
         )
@@ -149,7 +147,6 @@ def get_cleaning_node_keyboard(
             callback_data=CleaningNodeCB(
                 action="add_other",
                 name="",
-                button_text="",
                 type=CleaningNode.Type.UNKNOWN,
             ).pack(),
         )
@@ -159,7 +156,7 @@ def get_cleaning_node_keyboard(
         types.InlineKeyboardButton(
             text=enter,
             callback_data=CleaningNodeCB(
-                action="enter", name="", button_text="", type=CleaningNode.Type.UNKNOWN
+                action="enter", name="", type=CleaningNode.Type.UNKNOWN
             ).pack(),
         )
     )

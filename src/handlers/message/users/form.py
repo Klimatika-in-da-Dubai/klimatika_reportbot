@@ -91,10 +91,18 @@ async def process_cleaning_node_add_other(message: types.Message, state: FSMCont
 async def process_cleaning_node_img_before(message: types.Message, state: FSMContext):
     room = get.get_current_user_room(message.chat.id)
     room.current_node.photo_before = get.get_photo(message.photo)
+    room.next_cleaning_node()
+    
+    if room.nodes_queue.empty() and room.current_node == None:
+        room.create_nodes_queue()
+        await state.set_state(Form.cleaning_node_img_after)
+        await message.answer(
+            _("Send photo AFTER for") + " " + room.current_node.button_text
+        )
+        return
 
-    await state.set_state(Form.cleaning_node_img_after)
     await message.answer(
-        _("Send photo AFTER for") + " " + room.current_node.button_text
+        _("Send photo BEFORE for") + " " + room.current_node.button_text
     )
 
 
@@ -109,7 +117,6 @@ async def process_cleaning_node_img_after(message: types.Message, state: FSMCont
         await inline.send_yes_no_keboard(message, _("Do you want to add room?"))
         return
 
-    await state.set_state(Form.cleaning_node_img_before)
     await message.answer(
-        _("Send photo BEFORE for") + " " + room.current_node.button_text
+        _("Send photo AFTER for") + " " + room.current_node.button_text
     )
