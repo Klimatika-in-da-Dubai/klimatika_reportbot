@@ -1,5 +1,5 @@
 from aiogram.filters.callback_data import CallbackData
-from src.models.report import Report, Client, Room
+from src.models import Report, Client, Room, CleaningNode
 
 
 class ClientCB(CallbackData, prefix="client"):
@@ -22,3 +22,9 @@ class OtherExtraServiceCB(CallbackData, prefix="oth_ex_service"):
 
 class RoomTypeCB(CallbackData, prefix="room"):
     type: Room.Type
+
+
+class CleaningNodeCB(CallbackData, prefix="cleaning_node"):
+    action: str
+    name: str
+    type: CleaningNode.Type

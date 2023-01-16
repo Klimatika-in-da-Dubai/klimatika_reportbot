@@ -2,14 +2,15 @@ from aiogram import types
 
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
-from src.misc.getters import get_current_user_report
-from src.models import Room, Report, Client
+from src.misc.getters import get_current_user_report, get_current_user_room
+from src.models import Room, Report, Client, CleaningNode
 from src.callbackdata import (
     ExtraServiceCB,
     ServiceCB,
     OtherExtraServiceCB,
     ClientCB,
     RoomTypeCB,
+    CleaningNodeCB,
 )
 
 
@@ -97,6 +98,68 @@ def get_extra_service_keyboard(
         )
     )
 
+    builder.adjust(1)
+    return builder.as_markup()
+
+
+def get_cleaning_node_keyboard(
+    chat_id: int,
+    cleaning_nodes: list[CleaningNode],
+    other: str,
+    enter: str,
+) -> types.InlineKeyboardMarkup:
+    builder = InlineKeyboardBuilder()
+
+    room = get_current_user_room(chat_id)
+    for cleaning_node in cleaning_nodes:
+        status = [cleaning_node, True] in room.default_cleaning_nodes
+        status_text = "✅" if status else "❌"
+        callback_data = CleaningNodeCB(
+            action="delete" if status else "add",
+            name=cleaning_node.name,
+            type=cleaning_node.type,
+        )
+        builder.add(
+            types.InlineKeyboardButton(
+                text=f"{cleaning_node.button_text} {status_text}",
+                callback_data=callback_data.pack(),
+            )
+        )
+
+    for cleaning_node in room.cleaning_nodes:
+        if cleaning_node in cleaning_nodes:
+            continue
+        callback_data = CleaningNodeCB(
+            action="delete",
+            name=cleaning_node.name,
+            type=cleaning_node.type,
+        )
+        builder.add(
+            types.InlineKeyboardButton(
+                text=f"{cleaning_node.button_text}",
+                callback_data=callback_data.pack(),
+            )
+        )
+
+    builder.add(
+        types.InlineKeyboardButton(
+            text=other + "➕",
+            callback_data=CleaningNodeCB(
+                action="add_other",
+                name="",
+                type=CleaningNode.Type.UNKNOWN,
+            ).pack(),
+        )
+    )
+
+    builder.add(
+        types.InlineKeyboardButton(
+            text=enter,
+            callback_data=CleaningNodeCB(
+                action="enter", name="", type=CleaningNode.Type.UNKNOWN
+            ).pack(),
+        )
+    )
     builder.adjust(1)
     return builder.as_markup()
 

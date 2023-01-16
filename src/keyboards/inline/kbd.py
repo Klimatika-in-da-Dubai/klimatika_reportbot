@@ -1,12 +1,13 @@
 from aiogram.utils.i18n import gettext as _
 from aiogram import types
-from src.models import Room, Report, Client
+from src.models import Room, Report, Client, CleaningNode
 from .form import (
     get_client_type_keyboard,
     get_extra_service_keyboard,
     get_service_keyboard,
     get_yes_no_keyboard,
     get_room_type_keyboard,
+    get_cleaning_node_keyboard,
 )
 
 
@@ -139,5 +140,71 @@ async def edit_client_type_keyboard(message: types.Message):
                     _("Tenant"),
                 ),
             ],
+        ),
+    )
+
+
+async def send_cleaning_node_keyboard(message: types.Message):
+    await message.answer(
+        _("Choose cleaning nodes"),
+        reply_markup=get_cleaning_node_keyboard(
+            message.chat.id,
+            [
+                CleaningNode(
+                    "grills", button_text=_("grills"), type=CleaningNode.Type.DEFAULT
+                ),
+                CleaningNode(
+                    "duct", button_text=_("duct"), type=CleaningNode.Type.DEFAULT
+                ),
+                CleaningNode(
+                    "pan", button_text=_("pan"), type=CleaningNode.Type.DEFAULT
+                ),
+                CleaningNode(
+                    "radiator",
+                    button_text=_("radiator"),
+                    type=CleaningNode.Type.DEFAULT,
+                ),
+                CleaningNode(
+                    "filter", button_text=_("filter"), type=CleaningNode.Type.DEFAULT
+                ),
+                CleaningNode(
+                    "blades", button_text=_("blades"), type=CleaningNode.Type.DEFAULT
+                ),
+            ],
+            other=_("Other"),
+            enter=_("Enter"),
+        ),
+    )
+
+
+async def edit_cleaning_node_keyboard(message: types.Message):
+    await message.edit_text(
+        _("Choose cleaning nodes"),
+        reply_markup=get_cleaning_node_keyboard(
+            message.chat.id,
+            [
+                CleaningNode(
+                    "grills", button_text=_("grills"), type=CleaningNode.Type.DEFAULT
+                ),
+                CleaningNode(
+                    "duct", button_text=_("duct"), type=CleaningNode.Type.DEFAULT
+                ),
+                CleaningNode(
+                    "pan", button_text=_("pan"), type=CleaningNode.Type.DEFAULT
+                ),
+                CleaningNode(
+                    "radiator",
+                    button_text=_("radiator"),
+                    type=CleaningNode.Type.DEFAULT,
+                ),
+                CleaningNode(
+                    "filter", button_text=_("filter"), type=CleaningNode.Type.DEFAULT
+                ),
+                CleaningNode(
+                    "blades", button_text=_("blades"), type=CleaningNode.Type.DEFAULT
+                ),
+            ],
+            other=_("Other"),
+            enter=_("Enter"),
         ),
     )
