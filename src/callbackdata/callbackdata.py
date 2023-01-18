@@ -26,5 +26,5 @@ class RoomTypeCB(CallbackData, prefix="room"):
 
 class CleaningNodeCB(CallbackData, prefix="cleaning_node"):
     action: str
-    name: str
+    index: int
     type: CleaningNode.Type

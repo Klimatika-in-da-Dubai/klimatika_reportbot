@@ -43,24 +43,20 @@ class Room:
         self.default_cleaning_nodes[pos][1] = True
 
     def add_node(self, node: CleaningNode) -> None:
-        if node.type == CleaningNode.Type.DEFAULT:
-            self.add_default_node(node)
-        elif node.type == CleaningNode.Type.OTHER:
+        if node.type == CleaningNode.Type.OTHER:
             self.cleaning_nodes.append(node)
 
-    def add_default_node(self, node: CleaningNode) -> None:
-        pos = DEFAULT_CLEANING_NODES.index(node)
-        self.default_cleaning_nodes[pos][1] = True
+    def add_default_node(self, index: int) -> None:
+        self.default_cleaning_nodes[index][1] = True
 
-    def delete_node(self, node: CleaningNode) -> None:
-        if node.type == CleaningNode.Type.DEFAULT:
-            self.delete_default_node(node)
-        elif node.type == CleaningNode.Type.OTHER:
-            self.cleaning_nodes.remove(node)
+    def delete_node(self, index: int, type: CleaningNode.Type) -> None:
+        if type == CleaningNode.Type.DEFAULT:
+            self.delete_default_node(index)
+        elif type == CleaningNode.Type.OTHER:
+            self.cleaning_nodes.pop(index)
 
-    def delete_default_node(self, node: CleaningNode):
-        pos = DEFAULT_CLEANING_NODES.index(node)
-        self.default_cleaning_nodes[pos][1] = False
+    def delete_default_node(self, index: int):
+        self.default_cleaning_nodes[index][1] = False
 
     def create_nodes_queue(self):
         for node, status in filter(lambda x: x[1], self.default_cleaning_nodes):
@@ -89,7 +85,7 @@ class Room:
             "nodes": dict(
                 [
                     (
-                        node.name,
+                        node.name.lower(),
                         {
                             "img_before": await download_image(bot, node.photo_before),
                             "img_after": await download_image(bot, node.photo_after),
