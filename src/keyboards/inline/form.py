@@ -111,12 +111,12 @@ def get_cleaning_node_keyboard(
     builder = InlineKeyboardBuilder()
 
     room = get_current_user_room(chat_id)
-    for cleaning_node in cleaning_nodes:
+    for index, cleaning_node in enumerate(cleaning_nodes):
         status = [cleaning_node, True] in room.default_cleaning_nodes
         status_text = "✅" if status else "❌"
         callback_data = CleaningNodeCB(
             action="delete" if status else "add",
-            name=cleaning_node.name,
+            index=index,
             type=cleaning_node.type,
         )
         builder.add(
@@ -126,12 +126,12 @@ def get_cleaning_node_keyboard(
             )
         )
 
-    for cleaning_node in room.cleaning_nodes:
+    for index, cleaning_node in enumerate(room.cleaning_nodes):
         if cleaning_node in cleaning_nodes:
             continue
         callback_data = CleaningNodeCB(
             action="delete",
-            name=cleaning_node.name,
+            index=index,
             type=cleaning_node.type,
         )
         builder.add(
@@ -146,7 +146,7 @@ def get_cleaning_node_keyboard(
             text=other + "➕",
             callback_data=CleaningNodeCB(
                 action="add_other",
-                name="",
+                index=-1,
                 type=CleaningNode.Type.UNKNOWN,
             ).pack(),
         )
@@ -156,7 +156,7 @@ def get_cleaning_node_keyboard(
         types.InlineKeyboardButton(
             text=enter,
             callback_data=CleaningNodeCB(
-                action="enter", name="", type=CleaningNode.Type.UNKNOWN
+                action="enter", index=-1, type=CleaningNode.Type.UNKNOWN
             ).pack(),
         )
     )

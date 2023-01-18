@@ -136,7 +136,7 @@ async def callback_add_cleaning_node(
     await callback.answer()
 
     room = get.get_current_user_room(callback.message.chat.id)
-    room.add_node(CleaningNode(callback_data.name, type=callback_data.type))
+    room.add_default_node(callback_data.index)
     await inline.edit_cleaning_node_keyboard(callback.message)
 
 
@@ -149,7 +149,7 @@ async def callback_delete_cleaning_node(
     await callback.answer()
 
     room = get.get_current_user_room(callback.message.chat.id)
-    room.delete_node(CleaningNode(callback_data.name, callback_data.type))
+    room.delete_node(callback_data.index, callback_data.type)
     await inline.edit_cleaning_node_keyboard(callback.message)
 
 
@@ -245,5 +245,3 @@ def set_default_cleaning_nodes(message: types.Message):
     room = get.get_current_user_room(message.chat.id)
     for node in DEFAULT_CLEANING_NODES:
         room.set_default_node(node)
-
-
