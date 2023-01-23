@@ -82,6 +82,9 @@ async def process_extra_service_add_other(message: types.Message, state: FSMCont
 @form_router.message(Form.cleaning_node_await_answer, F.text)
 async def process_cleaning_node_add_other(message: types.Message, state: FSMContext):
     room = get.get_current_user_room(message.chat.id)
+    if len(message.text) > 31:
+        await message.answer(_("Cleaning node name is too long! Should be < 31"))
+        return
     room.add_node(CleaningNode(message.text, CleaningNode.Type.OTHER))
     await state.set_state(Form.room_cleaning_nodes)
     await inline.send_cleaning_node_keyboard(message)
@@ -92,7 +95,7 @@ async def process_cleaning_node_img_before(message: types.Message, state: FSMCon
     room = get.get_current_user_room(message.chat.id)
     room.current_node.photo_before = get.get_photo(message.photo)
     room.next_cleaning_node()
-    
+
     if room.nodes_queue.empty() and room.current_node == None:
         room.create_nodes_queue()
         await state.set_state(Form.cleaning_node_img_after)
