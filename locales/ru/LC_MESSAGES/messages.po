@@ -22,7 +22,7 @@ msgstr ""
 #: src/handlers/callbacks/users/form.py:37
 #: src/handlers/message/users/form.py:58
 msgid "Enter client address:"
-msgstr "Введите адресс клиента:"
+msgstr "Введите адрес клиента:"
 
 #: src/handlers/callbacks/users/form.py:106
 msgid "Please type other extra service"
