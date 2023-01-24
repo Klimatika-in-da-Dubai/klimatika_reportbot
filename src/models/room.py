@@ -65,6 +65,10 @@ class Room:
         for node in self.cleaning_nodes:
             self.nodes_queue.put(node)
 
+        if self.nodes_queue.empty():
+            self.current_node = None
+            return
+
         self.current_node = self.nodes_queue.get()
 
     def next_cleaning_node(self):
