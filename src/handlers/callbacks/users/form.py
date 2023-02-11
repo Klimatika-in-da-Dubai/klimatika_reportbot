@@ -127,6 +127,11 @@ async def callback_extra_service_enter(
     await set_state_room_cleaning_nodes(callback.message, state)
 
 
+@router.callback_query(Form.work_factors)
+async def callback_work_factors(callback: types.CallbackQuery, state: FSMContext):
+    ...
+
+
 @router.callback_query(
     Form.room_cleaning_nodes, CleaningNodeCB.filter(F.action == "add")
 )
@@ -193,12 +198,13 @@ async def callback_add_room_yes(callback: types.CallbackQuery, state: FSMContext
     await callback.answer()
     report = get.get_current_user_report(callback.message.chat.id)
     report.add_room()
-    set_default_cleaning_nodes(callback.message)
     await set_state_room_cleaning_nodes(callback.message, state)
 
 
 async def set_state_room_cleaning_nodes(message: types.Message, state: FSMContext):
-    set_default_cleaning_nodes(message)
+    report = get.get_current_user_report(message.chat.id)
+    if report.service != Report.Service.OTHER_REPAIR_SERVICES:
+        set_default_cleaning_nodes(message)
     await state.set_state(Form.room_cleaning_nodes)
     await inline.send_cleaning_node_keyboard(message)
 

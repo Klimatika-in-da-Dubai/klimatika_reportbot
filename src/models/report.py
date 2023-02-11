@@ -2,34 +2,56 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from .room import Room
 from .client import Client
-from enum import Enum
+from enum import IntEnum, auto
 
 
 @dataclass
 class Report:
-    class Service(str, Enum):
-        UNKNOWN = ""
-        PREMIUM = "Premium"
-        PREMIUM_EXTRA = "Premium + Extra"
-        OTHER_REPAIR_SERVICES = "Other Repair Services"
+    class Service(IntEnum):
+        UNKNOWN = auto()
+        PREMIUM = auto()
+        PREMIUM_EXTRA = auto()
+        OTHER_REPAIR_SERVICES = auto()
 
         def __str__(self) -> str:
-            return str(self.value)
+            return SERVICE_NAMES[self]
 
-        def for_button(self, text: str) -> tuple[str, Enum]:
+        def get_description(self):
+            return SERVICE_DESCRIPTION[self]
+
+        def for_button(self, text: str) -> tuple[str, IntEnum]:
             return (text, self)
 
-    class ExtraService(str, Enum):
-        UNKNOWN = ""
-        THERMAIL_INSULATOR_CHANGE_JOB = "Thermal insulator change job"
-        NEW_POLYESTER_FILTERS_INSTALLATION = "New polyester filters installation"
-        COLD_FOG_MACHINE_DISINFECTIONS = "Cold fog machine disinfections"
-        REPAIR_WORKS = "Repair Works"
+    class ExtraService(IntEnum):
+        UNKNOWN = auto()
+        THERMAIL_INSULATOR_CHANGE_JOB = auto()
+        NEW_POLYESTER_FILTERS_INSTALLATION = auto()
+        COLD_FOG_MACHINE_DISINFECTIONS = auto()
+        REPAIR_WORKS = auto()
 
         def __str__(self) -> str:
-            return str(self.value)
+            return EXTRA_SERVICE_NAME[self]
 
-        def for_button(self, text: str) -> tuple[str, Enum]:
+        def get_description(self):
+            return EXTRA_SERVICE_DESCRIPTION[self]
+
+        def for_button(self, text: str) -> tuple[str, IntEnum]:
+            return (text, self)
+
+    class Factor(IntEnum):
+        DIFFICULT_ACCESS_TO_UNITS = auto()
+        NO_ACCESS_TO_OBJECT = auto()
+        CUSTOM_SIZES = auto()
+        DAY_OFF_WORK = auto()
+        WORKING_IN_ANOTHER_EMIRATE = auto()
+
+        def __str__(self) -> str:
+            return FACTOR_NAME[self]
+
+        def get_descripiton(self):
+            return FACTOR_DESCRIPTION[self]
+
+        def for_button(self, text: str) -> tuple[str, IntEnum]:
             return (text, self)
 
     date: datetime = datetime.now()
@@ -38,6 +60,8 @@ class Report:
     description: str = ""
     extra_services: list[ExtraService] = field(default_factory=list)
     other_extra_services: list[str] = field(default_factory=list)
+    work_factors: list[Factor] = field(default=list)
+
     rooms: list[Room] = field(default_factory=list)
 
     def __post_init__(self):
@@ -46,12 +70,6 @@ class Report:
     def add_room(self):
         self.rooms.append(Room())
 
-    def get_description(self):
-        if self.service in [Report.Service.PREMIUM, Report.Service.PREMIUM_EXTRA]:
-            return "This included supply/return grills cleaning (out-of-place) and sanitation, air supply/return duct vacuum and air-brush cleaning, duct sanitation (anti-germ and fungicide), air filters wash-throug and polyester filter installation."
-        if self.service in [Report.Service.OTHER_REPAIR_SERVICES]:
-            return "Minor repairs around the house, not related to the repair of air conditioners and ventilation"
-
     async def dict_with_binary(self, bot) -> dict:
         return {
             "Outline": {
@@ -59,7 +77,7 @@ class Report:
                 "name": self.client.name,
                 "phone_number": self.client.phone,
                 "address": self.client.address,
-                "description": self.get_description(),
+                "description": self.service.get_description(),
                 "helped_with": str(self.service),
                 "cleaned": ", ".join(
                     [str(service) for service in self.extra_services]
@@ -71,3 +89,49 @@ class Report:
                 "rooms_list": [await room.dict_with_binary(bot) for room in self.rooms],
             },
         }
+
+
+SERVICE_NAMES = {
+    Report.Service.UNKNOWN: "",
+    Report.Service.PREMIUM: "Premium",
+    Report.Service.PREMIUM_EXTRA: "Premium + Extra",
+    Report.Service.OTHER_REPAIR_SERVICES: "Other Repair Services",
+}
+
+SERVICE_DESCRIPTION = {
+    Report.Service.PREMIUM: "This included supply/return grills cleaning (out-of-place) and sanitation, air supply/return duct vacuum and air-brush cleaning, duct sanitation (anti-germ and fungicide), air filters wash-throug and polyester filter installation.",
+    Report.Service.PREMIUM_EXTRA: "This included supply/return grills cleaning (out-of-place) and sanitation, air supply/return duct vacuum and air-brush cleaning, duct sanitation (anti-germ and fungicide), air filters wash-throug and polyester filter installation.",
+    Report.Service.OTHER_REPAIR_SERVICES: "Minor repairs around the house, not related to the repair of air conditioners and ventilation",
+}
+
+EXTRA_SERVICE_NAME = {
+    Report.ExtraService.UNKNOWN: "",
+    Report.ExtraService.THERMAIL_INSULATOR_CHANGE_JOB: "Thermal insulator change job",
+    Report.ExtraService.NEW_POLYESTER_FILTERS_INSTALLATION: "New polyester filters installation",
+    Report.ExtraService.COLD_FOG_MACHINE_DISINFECTIONS: "Cold fog machine disinfections",
+    Report.ExtraService.REPAIR_WORKS: "Repair Works",
+}
+
+EXTRA_SERVICE_DESCRIPTION = {
+    Report.ExtraService.UNKNOWN: "",
+    Report.ExtraService.THERMAIL_INSULATOR_CHANGE_JOB: "Thermal insulator change job",
+    Report.ExtraService.NEW_POLYESTER_FILTERS_INSTALLATION: "fog machine sanitation with OxyPro 7.5 All Purpose Disinfectant Activated Stabilised Hydrogen Peroxide Concentrate",
+    Report.ExtraService.COLD_FOG_MACHINE_DISINFECTIONS: "polyester or other recommended by us type of air filter installation/change/wash-through",
+    Report.ExtraService.REPAIR_WORKS: "minor repair and maintenance works as described in detail in the invoice",
+}
+
+FACTOR_NAME = {
+    Report.Factor.DIFFICULT_ACCESS_TO_UNITS: "Cumbersome and difficult access",
+    Report.Factor.NO_ACCESS_TO_OBJECT: "NO_ACCESS_TO_OBJECT",
+    Report.Factor.CUSTOM_SIZES: "CUSTOM_SIZES",
+    Report.Factor.DAY_OFF_WORK: "DAY_OFF_WORK",
+    Report.Factor.WORKING_IN_ANOTHER_EMIRATE: "WORKING_INT_ANOTHER_EMIRATE",
+}
+
+FACTOR_DESCRIPTION = {
+    Report.Factor.DIFFICULT_ACCESS_TO_UNITS: "Cumbersome and otherwise difficult access to units (ceiling access panels located far from AC units, access panels being less than 60 cm and similar) which affected the overall time of works",
+    Report.Factor.NO_ACCESS_TO_OBJECT: "Property access permit not applied for/provided/procured for by the Client in advance",
+    Report.Factor.CUSTOM_SIZES: "Duct grills and/or diffusers are of the length more than 2 meters long and system has not been serviced for a long time",
+    Report.Factor.DAY_OFF_WORK: "The works performed on a weekend or on a UAE National Holiday",
+    Report.Factor.WORKING_IN_ANOTHER_EMIRATE: "The Client's premises are located outside Dubai, in other emirate",
+}

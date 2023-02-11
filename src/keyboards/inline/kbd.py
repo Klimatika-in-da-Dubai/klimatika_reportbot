@@ -8,6 +8,7 @@ from .form import (
     get_yes_no_keyboard,
     get_room_type_keyboard,
     get_cleaning_node_keyboard,
+    get_factors_keyboard,
 )
 
 
@@ -206,5 +207,24 @@ async def edit_cleaning_node_keyboard(message: types.Message):
             ],
             other=_("Other"),
             enter=_("Enter"),
+        ),
+    )
+
+
+async def send_factors_keyboard(message: types.Message):
+    await message.answer(
+        _("Select factors"),
+        reply=get_factors_keyboard(
+            message.chat.id[
+                Report.Factor.DIFFICULT_ACCESS_TO_UNITS.for_button(
+                    _("Difficult access")
+                ),
+                Report.Factor.NO_ACCESS_TO_OBJECT.for_button(_("No access to object")),
+                Report.Factor.CUSTOM_SIZES.for_button(_("Custom sizes of vent")),
+                Report.Factor.DAY_OFF_WORK.for_button(_("Day off work")),
+                Report.Factor.WORKING_IN_ANOTHER_EMIRATE.for_button(
+                    _("Working in another emirate")
+                ),
+            ]
         ),
     )
