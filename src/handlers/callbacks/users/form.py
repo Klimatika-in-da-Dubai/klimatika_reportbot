@@ -18,6 +18,7 @@ from src.callbackdata import (
     ClientCB,
     RoomTypeCB,
     CleaningNodeCB,
+    FactorCB,
 )
 
 router = Router()
@@ -47,7 +48,7 @@ async def callback_service(
     report = get.get_current_user_report(callback.message.chat.id)
     report.service = callback_data.service
 
-    await set_state_room_cleaning_nodes(callback.message, state)
+    await set_state_work_factors(callback.message, state)
 
 
 @router.callback_query(
@@ -59,8 +60,9 @@ async def callback_service_premium(
     await callback.answer()
     report = get.get_current_user_report(callback.message.chat.id)
     report.service = callback_data.service
+    await state.set_state(Form.work_factors)
 
-    await set_state_room_cleaning_nodes(callback.message, state)
+    await set_state_work_factors(callback.message, state)
 
 
 @router.callback_query(
@@ -123,13 +125,70 @@ async def callback_extra_service_enter(
     callback: types.CallbackQuery, state: FSMContext
 ):
     await callback.answer()
+    await set_state_work_factors(callback.message, state)
+
+
+async def set_state_work_factors(message: types.Message, state: FSMContext) -> None:
+    await state.set_state(Form.work_factors)
+    await inline.send_factors_keyboard(message)
+
+
+@router.callback_query(Form.work_factors, FactorCB.filter(F.action == "add"))
+async def callback_add_work_factor(
+    callback: types.CallbackQuery, callback_data: FactorCB
+):
+    await callback.answer()
+
+    report = get.get_current_user_report(callback.message.chat.id)
+    factor = callback_data.factor
+    report.add_factor(factor)
+
+    await inline.edit_factors_keyboard(callback.message)
+
+
+@router.callback_query(Form.work_factors, FactorCB.filter(F.action == "delete"))
+async def callback_delete_work_factor(
+    callback: types.CallbackQuery, callback_data: FactorCB
+):
+    await callback.answer()
+
+    report = get.get_current_user_report(callback.message.chat.id)
+    factor = callback_data.factor
+    report.pop_factor(factor)
+    await inline.edit_factors_keyboard(callback.message)
+
+
+@router.callback_query(Form.work_factors, FactorCB.filter(F.action == "enter"))
+async def callback_enter_work_factor(callback: types.CallbackQuery, state: FSMContext):
+    await callback.answer()
 
     await set_state_room_cleaning_nodes(callback.message, state)
 
 
-@router.callback_query(Form.work_factors)
-async def callback_work_factors(callback: types.CallbackQuery, state: FSMContext):
-    ...
+async def set_state_room_cleaning_nodes(message: types.Message, state: FSMContext):
+    report = get.get_current_user_report(message.chat.id)
+    if report.service != Report.Service.OTHER_REPAIR_SERVICES:
+        set_default_cleaning_nodes(message)
+    await state.set_state(Form.room_cleaning_nodes)
+    await inline.send_cleaning_node_keyboard(message)
+
+
+def set_default_cleaning_nodes(message: types.Message):
+    DEFAULT_CLEANING_NODES = [
+        CleaningNode("grills", button_text=_("grills"), type=CleaningNode.Type.DEFAULT),
+        CleaningNode("duct", button_text=_("duct"), type=CleaningNode.Type.DEFAULT),
+        CleaningNode("pan", button_text=_("pan"), type=CleaningNode.Type.DEFAULT),
+        CleaningNode(
+            "radiator",
+            button_text=_("radiator"),
+            type=CleaningNode.Type.DEFAULT,
+        ),
+        CleaningNode("filter", button_text=_("filter"), type=CleaningNode.Type.DEFAULT),
+        CleaningNode("blades", button_text=_("blades"), type=CleaningNode.Type.DEFAULT),
+    ]
+    room = get.get_current_user_room(message.chat.id)
+    for node in DEFAULT_CLEANING_NODES:
+        room.set_default_node(node)
 
 
 @router.callback_query(
@@ -201,14 +260,6 @@ async def callback_add_room_yes(callback: types.CallbackQuery, state: FSMContext
     await set_state_room_cleaning_nodes(callback.message, state)
 
 
-async def set_state_room_cleaning_nodes(message: types.Message, state: FSMContext):
-    report = get.get_current_user_report(message.chat.id)
-    if report.service != Report.Service.OTHER_REPAIR_SERVICES:
-        set_default_cleaning_nodes(message)
-    await state.set_state(Form.room_cleaning_nodes)
-    await inline.send_cleaning_node_keyboard(message)
-
-
 @router.callback_query(Form.add_room, F.data == "no")
 async def callback_add_room_yes(
     callback: types.CallbackQuery, state: FSMContext, bot: Bot
@@ -233,21 +284,3 @@ async def generate_report(bot: Bot, chat_id: int) -> str:
     report_dict = await report.dict_with_binary(bot)
     pdfGenerator(report_name).generate(report_dict)
     return f"./reports/{report_name}-compressed.pdf"
-
-
-def set_default_cleaning_nodes(message: types.Message):
-    DEFAULT_CLEANING_NODES = [
-        CleaningNode("grills", button_text=_("grills"), type=CleaningNode.Type.DEFAULT),
-        CleaningNode("duct", button_text=_("duct"), type=CleaningNode.Type.DEFAULT),
-        CleaningNode("pan", button_text=_("pan"), type=CleaningNode.Type.DEFAULT),
-        CleaningNode(
-            "radiator",
-            button_text=_("radiator"),
-            type=CleaningNode.Type.DEFAULT,
-        ),
-        CleaningNode("filter", button_text=_("filter"), type=CleaningNode.Type.DEFAULT),
-        CleaningNode("blades", button_text=_("blades"), type=CleaningNode.Type.DEFAULT),
-    ]
-    room = get.get_current_user_room(message.chat.id)
-    for node in DEFAULT_CLEANING_NODES:
-        room.set_default_node(node)

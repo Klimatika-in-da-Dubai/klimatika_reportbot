@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-01-23 11:36+0300\n"
+"POT-Creation-Date: 2023-02-14 14:15+0300\n"
 "PO-Revision-Date: 2022-11-26 11:48+0300\n"
 "Last-Translator: \n"
 "Language: ru\n"
@@ -19,65 +19,65 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: src/handlers/callbacks/users/form.py:37
+#: src/handlers/callbacks/users/form.py:38
 #: src/handlers/message/users/form.py:58
 msgid "Enter client address:"
 msgstr "Введите адрес клиента:"
 
-#: src/handlers/callbacks/users/form.py:106
+#: src/handlers/callbacks/users/form.py:108
 msgid "Please type other extra service"
 msgstr "Пожалуйста введите иную дополнительную услугу"
 
-#: src/handlers/callbacks/users/form.py:164
+#: src/handlers/callbacks/users/form.py:178 src/keyboards/inline/kbd.py:155
+#: src/keyboards/inline/kbd.py:188
+msgid "grills"
+msgstr "Решётки вентиляции"
+
+#: src/handlers/callbacks/users/form.py:179 src/keyboards/inline/kbd.py:158
+#: src/keyboards/inline/kbd.py:191
+msgid "duct"
+msgstr "Воздуховод"
+
+#: src/handlers/callbacks/users/form.py:180 src/keyboards/inline/kbd.py:161
+#: src/keyboards/inline/kbd.py:194
+msgid "pan"
+msgstr "Поддон"
+
+#: src/handlers/callbacks/users/form.py:183 src/keyboards/inline/kbd.py:165
+#: src/keyboards/inline/kbd.py:198
+msgid "radiator"
+msgstr "Радиатор"
+
+#: src/handlers/callbacks/users/form.py:186 src/keyboards/inline/kbd.py:169
+#: src/keyboards/inline/kbd.py:202
+msgid "filter"
+msgstr "Фильтр"
+
+#: src/handlers/callbacks/users/form.py:187 src/keyboards/inline/kbd.py:172
+#: src/keyboards/inline/kbd.py:205
+msgid "blades"
+msgstr "Крыльчатки мотора"
+
+#: src/handlers/callbacks/users/form.py:228
 msgid "Please type other cleaning node"
 msgstr "Пожалуйста введите иной узел чистки"
 
-#: src/handlers/callbacks/users/form.py:182
+#: src/handlers/callbacks/users/form.py:246
 msgid "You didn't selected cleaning nodes"
 msgstr "Вы не выбрали узлы чистки"
 
-#: src/handlers/callbacks/users/form.py:187
+#: src/handlers/callbacks/users/form.py:251
 #: src/handlers/message/users/form.py:108
 msgid "Send photo BEFORE for"
 msgstr "Прикрепите 1 фото ДО для"
 
-#: src/handlers/callbacks/users/form.py:216
+#: src/handlers/callbacks/users/form.py:273
 msgid "Generating..."
 msgstr "Генерирую..."
 
-#: src/handlers/callbacks/users/form.py:220
+#: src/handlers/callbacks/users/form.py:277
 msgid "Thank you for your work!"
 msgstr "Спасибо за вашу работу!"
-
-#: src/handlers/callbacks/users/form.py:234 src/keyboards/inline/kbd.py:154
-#: src/keyboards/inline/kbd.py:187
-msgid "grills"
-msgstr "Решётки вентиляции"
-
-#: src/handlers/callbacks/users/form.py:235 src/keyboards/inline/kbd.py:157
-#: src/keyboards/inline/kbd.py:190
-msgid "duct"
-msgstr "Воздуховод"
-
-#: src/handlers/callbacks/users/form.py:236 src/keyboards/inline/kbd.py:160
-#: src/keyboards/inline/kbd.py:193
-msgid "pan"
-msgstr "Поддон"
-
-#: src/handlers/callbacks/users/form.py:239 src/keyboards/inline/kbd.py:164
-#: src/keyboards/inline/kbd.py:197
-msgid "radiator"
-msgstr "Радиатор"
-
-#: src/handlers/callbacks/users/form.py:242 src/keyboards/inline/kbd.py:168
-#: src/keyboards/inline/kbd.py:201
-msgid "filter"
-msgstr "Фильтр"
-
-#: src/handlers/callbacks/users/form.py:243 src/keyboards/inline/kbd.py:171
-#: src/keyboards/inline/kbd.py:204
-msgid "blades"
-msgstr "Крыльчатки мотора"
 
 #: src/handlers/message/users/form.py:21
 msgid "Incorrect Name"
@@ -133,91 +133,116 @@ msgstr "Укажите имя клиента"
 msgid "Cancelled!"
 msgstr "Отмененно!"
 
-#: src/keyboards/inline/kbd.py:16
+#: src/keyboards/inline/kbd.py:17
 msgid "Select room type:"
 msgstr "Выберите тип комнаты:"
 
-#: src/keyboards/inline/kbd.py:20
+#: src/keyboards/inline/kbd.py:21
 msgid "Kitchen"
 msgstr "Кухня"
 
-#: src/keyboards/inline/kbd.py:21
+#: src/keyboards/inline/kbd.py:22
 msgid "Bedroom"
 msgstr "Спальня"
 
-#: src/keyboards/inline/kbd.py:22
+#: src/keyboards/inline/kbd.py:23
 msgid "Living Room"
 msgstr "Гостиная"
 
-#: src/keyboards/inline/kbd.py:30 src/keyboards/inline/kbd.py:93
+#: src/keyboards/inline/kbd.py:31 src/keyboards/inline/kbd.py:94
 msgid "Choose service:"
 msgstr "Выберите выполненные услуги:"
 
-#: src/keyboards/inline/kbd.py:34 src/keyboards/inline/kbd.py:97
+#: src/keyboards/inline/kbd.py:35 src/keyboards/inline/kbd.py:98
 msgid "Premium"
 msgstr "Премиум"
 
-#: src/keyboards/inline/kbd.py:35 src/keyboards/inline/kbd.py:98
+#: src/keyboards/inline/kbd.py:36 src/keyboards/inline/kbd.py:99
 msgid "Premium + Extra"
 msgstr "Премиум + дополнительные услуги"
 
-#: src/keyboards/inline/kbd.py:37 src/keyboards/inline/kbd.py:100
+#: src/keyboards/inline/kbd.py:38 src/keyboards/inline/kbd.py:101
 msgid "Other Repair Services"
 msgstr "Другие ремонтные услуги"
 
-#: src/keyboards/inline/kbd.py:46 src/keyboards/inline/kbd.py:109
+#: src/keyboards/inline/kbd.py:47 src/keyboards/inline/kbd.py:110
 msgid "Choose extra services"
 msgstr "Какие дополнительные услуги были оказаны?"
 
-#: src/keyboards/inline/kbd.py:51 src/keyboards/inline/kbd.py:114
+#: src/keyboards/inline/kbd.py:52 src/keyboards/inline/kbd.py:115
 msgid "Cold Fog Machine Disinfections"
 msgstr "Обработка против грибка"
 
-#: src/keyboards/inline/kbd.py:54 src/keyboards/inline/kbd.py:117
+#: src/keyboards/inline/kbd.py:55 src/keyboards/inline/kbd.py:118
 msgid "New Polyester Filters Installation"
 msgstr "Установка/Замена фильтров"
 
-#: src/keyboards/inline/kbd.py:57 src/keyboards/inline/kbd.py:120
+#: src/keyboards/inline/kbd.py:58 src/keyboards/inline/kbd.py:121
 msgid "Thermal Insulator Change Job"
 msgstr "Замена теплоизоляции"
 
-#: src/keyboards/inline/kbd.py:59 src/keyboards/inline/kbd.py:122
+#: src/keyboards/inline/kbd.py:60 src/keyboards/inline/kbd.py:123
 msgid "Repair Works"
 msgstr "Ремонт"
 
-#: src/keyboards/inline/kbd.py:61 src/keyboards/inline/kbd.py:124
-#: src/keyboards/inline/kbd.py:174 src/keyboards/inline/kbd.py:207
+#: src/keyboards/inline/kbd.py:62 src/keyboards/inline/kbd.py:125
+#: src/keyboards/inline/kbd.py:175 src/keyboards/inline/kbd.py:208
 msgid "Other"
 msgstr "Иное"
 
-#: src/keyboards/inline/kbd.py:62 src/keyboards/inline/kbd.py:125
-#: src/keyboards/inline/kbd.py:175 src/keyboards/inline/kbd.py:208
+#: src/keyboards/inline/kbd.py:63 src/keyboards/inline/kbd.py:126
+#: src/keyboards/inline/kbd.py:176 src/keyboards/inline/kbd.py:209
+#: src/keyboards/inline/kbd.py:230 src/keyboards/inline/kbd.py:251
 msgid "Enter"
 msgstr "Готово"
 
-#: src/keyboards/inline/kbd.py:69 src/keyboards/inline/kbd.py:132
+#: src/keyboards/inline/kbd.py:70 src/keyboards/inline/kbd.py:133
 msgid "Select client is an owner or a tenant"
 msgstr "Укажите клиент собственник или арендатор"
 
-#: src/keyboards/inline/kbd.py:74 src/keyboards/inline/kbd.py:137
+#: src/keyboards/inline/kbd.py:75 src/keyboards/inline/kbd.py:138
 msgid "Owner"
 msgstr "Владелец"
 
-#: src/keyboards/inline/kbd.py:77 src/keyboards/inline/kbd.py:140
+#: src/keyboards/inline/kbd.py:78 src/keyboards/inline/kbd.py:141
 msgid "Tenant"
 msgstr "Арендатор"
 
-#: src/keyboards/inline/kbd.py:87
+#: src/keyboards/inline/kbd.py:88
 msgid "Yes"
 msgstr "Да"
 
-#: src/keyboards/inline/kbd.py:87
+#: src/keyboards/inline/kbd.py:88
 msgid "No"
 msgstr "Нет"
 
-#: src/keyboards/inline/kbd.py:149 src/keyboards/inline/kbd.py:182
+#: src/keyboards/inline/kbd.py:150 src/keyboards/inline/kbd.py:183
 msgid "Choose cleaning nodes"
 msgstr "Выберите узлы чистки"
+
+#: src/keyboards/inline/kbd.py:216 src/keyboards/inline/kbd.py:237
+msgid "What were the factors complicating the work?"
+msgstr "Какие были факторы, осложняющие работу?"
+
+#: src/keyboards/inline/kbd.py:221 src/keyboards/inline/kbd.py:242
+msgid "Difficult access"
+msgstr "Сложный доступ"
+
+#: src/keyboards/inline/kbd.py:223 src/keyboards/inline/kbd.py:244
+msgid "No access to object"
+msgstr "Нет допуска на объект"
+
+#: src/keyboards/inline/kbd.py:224 src/keyboards/inline/kbd.py:245
+msgid "Custom sizes of vent"
+msgstr "Нестандартные размеры"
+
+#: src/keyboards/inline/kbd.py:225 src/keyboards/inline/kbd.py:246
+msgid "Day off work"
+msgstr "Работа в выходной день"
+
+#: src/keyboards/inline/kbd.py:227 src/keyboards/inline/kbd.py:248
+msgid "Working in another emirate"
+msgstr "Работа в другом эмирате"
 
 #~ msgid "Enter date of visit in format DAY MONTH YEAR"
 #~ msgstr "Укажите дату визита в формате <ДЕНЬ> <МЕСЯЦ> <ГОД>"

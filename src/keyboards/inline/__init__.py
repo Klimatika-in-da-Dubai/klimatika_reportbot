@@ -9,4 +9,6 @@ from .kbd import (
     edit_extra_service_keyboard,
     send_cleaning_node_keyboard,
     edit_cleaning_node_keyboard,
+    send_factors_keyboard,
+    edit_factors_keyboard,
 )
