@@ -39,6 +39,7 @@ class Report:
             return (text, self)
 
     class Factor(IntEnum):
+        UNKNOWN = auto()
         DIFFICULT_ACCESS_TO_UNITS = auto()
         NO_ACCESS_TO_OBJECT = auto()
         CUSTOM_SIZES = auto()
