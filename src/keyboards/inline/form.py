@@ -169,3 +169,10 @@ def get_yes_no_keyboard(chat_id: int, yes: str, no: str) -> types.InlineKeyboard
     builder.add(types.InlineKeyboardButton(text=yes, callback_data="yes"))
     builder.add(types.InlineKeyboardButton(text=no, callback_data="no"))
     return builder.as_markup()
+
+
+def get_factors_keyboard(
+    chat_id: int, factors: list[Report.Factor], enter: str
+) -> types.InlineKeyboardMarkup:
+    builder = InlineKeyboardBuilder()
+    report = get_current_user_report(chat_id)
