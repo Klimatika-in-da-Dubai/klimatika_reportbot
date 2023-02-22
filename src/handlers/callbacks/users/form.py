@@ -6,6 +6,8 @@ from datetime import datetime
 
 import src.keyboards.inline as inline
 from src.states import Form
+from src.states import setters as set_state
+
 import src.misc.getters as get
 
 from src.models import Report, Client, Room, CleaningNode
@@ -20,6 +22,7 @@ from src.callbackdata import (
     CleaningNodeCB,
     FactorCB,
 )
+
 
 router = Router()
 
@@ -48,7 +51,8 @@ async def callback_service(
     report = get.get_current_user_report(callback.message.chat.id)
     report.service = callback_data.service
 
-    await set_state_work_factors(callback.message, state)
+    await set_state.set_state_room_cleaning_nodes(callback.message, state)
+
 
 
 @router.callback_query(
@@ -62,7 +66,8 @@ async def callback_service_premium(
     report.service = callback_data.service
     await state.set_state(Form.work_factors)
 
-    await set_state_work_factors(callback.message, state)
+    await set_state.set_state_room_cleaning_nodes(callback.message, state)
+
 
 
 @router.callback_query(
@@ -162,7 +167,7 @@ async def callback_delete_work_factor(
 async def callback_enter_work_factor(callback: types.CallbackQuery, state: FSMContext):
     await callback.answer()
 
-    await set_state_room_cleaning_nodes(callback.message, state)
+    await set_state.set_state_room_cleaning_nodes(callback.message, state)
 
 
 async def set_state_room_cleaning_nodes(message: types.Message, state: FSMContext):
@@ -242,7 +247,7 @@ async def callback_enter_cleaning_node(
 async def start_getting_photos(message: types.Message, state: FSMContext):
     room = get.get_current_user_room(message.chat.id)
     room.create_nodes_queue()
-    if room.nodes_queue.empty() and room.current_node == None:
+    if room.nodes_queue_empty() and room.current_node == None:
         await message.answer(_("You didn't selected cleaning nodes"))
         return
 
@@ -257,7 +262,9 @@ async def callback_add_room_yes(callback: types.CallbackQuery, state: FSMContext
     await callback.answer()
     report = get.get_current_user_report(callback.message.chat.id)
     report.add_room()
-    await set_state_room_cleaning_nodes(callback.message, state)
+    await set_state.set_state_room_cleaning_nodes(callback.message, state)
+
+
 
 
 @router.callback_query(Form.add_room, F.data == "no")
@@ -284,3 +291,4 @@ async def generate_report(bot: Bot, chat_id: int) -> str:
     report_dict = await report.dict_with_binary(bot)
     pdfGenerator(report_name).generate(report_dict)
     return f"./reports/{report_name}-compressed.pdf"
+

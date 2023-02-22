@@ -28,9 +28,8 @@ class Room:
     default_cleaning_nodes: list[list[CleaningNode, bool]] = field(default_factory=list)
     cleaning_nodes: list[CleaningNode] = field(default_factory=list)
 
-    nodes_queue: Queue[CleaningNode] = field(default_factory=Queue)
-
-    current_node: CleaningNode | None = None
+    nodes_queue: list[CleaningNode] = field(default_factory=list)
+    _index: int = 0
 
     def __post_init__(self):
         self.default_cleaning_nodes.extend(
@@ -59,25 +58,35 @@ class Room:
         self.default_cleaning_nodes[index][1] = False
 
     def create_nodes_queue(self):
+        self.nodes_queue.clear()
+        self._index = 0
         for node, status in filter(lambda x: x[1], self.default_cleaning_nodes):
-            self.nodes_queue.put(node)
+            self.nodes_queue.append(node)
 
         for node in self.cleaning_nodes:
-            self.nodes_queue.put(node)
+            self.nodes_queue.append(node)
 
-        if self.nodes_queue.empty():
+        if len(self.nodes_queue) == 0:
             self.current_node = None
             return
 
-        self.current_node = self.nodes_queue.get()
+    @property
+    def current_node(self) -> CleaningNode | None:
+        if self.nodes_queue_empty():
+            return None
+        return self.nodes_queue[self._index]
 
     def next_cleaning_node(self):
-        if self.nodes_queue.empty():
-            self.current_node = None
-            return
-
-        self.current_node = self.nodes_queue.get()
+        self._index += 1
         return self.current_node
+
+    def nodes_queue_empty(self):
+        return self._index == len(self.nodes_queue)
+
+    def nodes_queue_back(self):
+        if self._index == 0:
+            raise Exception("_index is zero")
+        self._index -= 1
 
     async def dict_with_binary(self, bot: Bot) -> dict:
         nodes = [
