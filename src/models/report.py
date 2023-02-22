@@ -39,6 +39,7 @@ class Report:
             return (text, self)
 
     class Factor(IntEnum):
+        UNKNOWN = auto()
         DIFFICULT_ACCESS_TO_UNITS = auto()
         NO_ACCESS_TO_OBJECT = auto()
         CUSTOM_SIZES = auto()
@@ -60,7 +61,7 @@ class Report:
     description: str = ""
     extra_services: list[ExtraService] = field(default_factory=list)
     other_extra_services: list[str] = field(default_factory=list)
-    work_factors: list[Factor] = field(default=list)
+    work_factors: list[Factor] = field(default_factory=list)
 
     rooms: list[Room] = field(default_factory=list)
 
@@ -69,6 +70,14 @@ class Report:
 
     def add_room(self):
         self.rooms.append(Room())
+
+    def add_factor(self, factor: Factor) -> None:
+        if factor in self.work_factors:
+            return
+        self.work_factors.append(factor)
+
+    def pop_factor(self, factor: Factor) -> None:
+        self.work_factors.remove(factor)
 
     async def dict_with_binary(self, bot) -> dict:
         return {

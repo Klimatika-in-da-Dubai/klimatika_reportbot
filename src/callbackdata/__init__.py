@@ -5,4 +5,5 @@ from .callbackdata import (
     ClientCB,
     RoomTypeCB,
     CleaningNodeCB,
+    FactorCB,
 )

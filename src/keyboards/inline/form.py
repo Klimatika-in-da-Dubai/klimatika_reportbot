@@ -11,6 +11,7 @@ from src.callbackdata import (
     ClientCB,
     RoomTypeCB,
     CleaningNodeCB,
+    FactorCB,
 )
 
 
@@ -172,7 +173,28 @@ def get_yes_no_keyboard(chat_id: int, yes: str, no: str) -> types.InlineKeyboard
 
 
 def get_factors_keyboard(
-    chat_id: int, factors: list[Report.Factor], enter: str
+    chat_id: int, factors: list[tuple[str, Report.Factor]], enter: str
 ) -> types.InlineKeyboardMarkup:
     builder = InlineKeyboardBuilder()
     report = get_current_user_report(chat_id)
+    for i, (factor_button_text, factor) in enumerate(factors):
+        status = factor in report.work_factors
+        status_text = "✅" if status else "❌"
+        action = "delete" if status else "add"
+        callback_data = FactorCB(action=action, factor=factor, index=i).pack()
+        builder.add(
+            types.InlineKeyboardButton(
+                text=f"{factor_button_text} {status_text}", callback_data=callback_data
+            )
+        )
+
+    builder.add(
+        types.InlineKeyboardButton(
+            text=f"{enter}",
+            callback_data=FactorCB(
+                action="enter", factor=Report.Factor.UNKNOWN, index=-1
+            ).pack(),
+        )
+    )
+    builder.adjust(1)
+    return builder.as_markup()
