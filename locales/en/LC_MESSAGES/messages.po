@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-02-14 14:15+0300\n"
+"POT-Creation-Date: 2023-02-22 20:04+0300\n"
 "PO-Revision-Date: 2023-01-14 00:47+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -18,116 +18,61 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: src/handlers/callbacks/users/form.py:38
-#: src/handlers/message/users/form.py:58
+#: src/handlers/callbacks/users/form.py:41 src/states/setters.py:34
 msgid "Enter client address:"
 msgstr ""
 
-#: src/handlers/callbacks/users/form.py:108
+#: src/handlers/callbacks/users/form.py:113
 msgid "Please type other extra service"
 msgstr ""
 
-#: src/handlers/callbacks/users/form.py:178 src/keyboards/inline/kbd.py:155
-#: src/keyboards/inline/kbd.py:188
-msgid "grills"
-msgstr ""
-
-#: src/handlers/callbacks/users/form.py:179 src/keyboards/inline/kbd.py:158
-#: src/keyboards/inline/kbd.py:191
-msgid "duct"
-msgstr ""
-
-#: src/handlers/callbacks/users/form.py:180 src/keyboards/inline/kbd.py:161
-#: src/keyboards/inline/kbd.py:194
-msgid "pan"
-msgstr ""
-
-#: src/handlers/callbacks/users/form.py:183 src/keyboards/inline/kbd.py:165
-#: src/keyboards/inline/kbd.py:198
-msgid "radiator"
-msgstr ""
-
-#: src/handlers/callbacks/users/form.py:186 src/keyboards/inline/kbd.py:169
-#: src/keyboards/inline/kbd.py:202
-msgid "filter"
-msgstr ""
-
-#: src/handlers/callbacks/users/form.py:187 src/keyboards/inline/kbd.py:172
-#: src/keyboards/inline/kbd.py:205
-msgid "blades"
-msgstr ""
-
-#: src/handlers/callbacks/users/form.py:228
+#: src/handlers/callbacks/users/form.py:208
 msgid "Please type other cleaning node"
 msgstr ""
 
-#: src/handlers/callbacks/users/form.py:246
+#: src/handlers/callbacks/users/form.py:226
 msgid "You didn't selected cleaning nodes"
 msgstr ""
 
-#: src/handlers/callbacks/users/form.py:251
-#: src/handlers/message/users/form.py:108
+#: src/handlers/callbacks/users/form.py:231
+#: src/handlers/message/users/form.py:96 src/states/setters.py:84
 msgid "Send photo BEFORE for"
 msgstr ""
 
-#: src/handlers/callbacks/users/form.py:273
+#: src/handlers/callbacks/users/form.py:255
 msgid "Generating..."
 msgstr ""
 
-#: src/handlers/callbacks/users/form.py:277
+#: src/handlers/callbacks/users/form.py:259
 msgid "Thank you for your work!"
 msgstr ""
 
-#: src/handlers/message/users/form.py:21
+#: src/handlers/message/users/form.py:22
 msgid "Incorrect Name"
 msgstr ""
 
-#: src/handlers/message/users/form.py:29
-msgid ""
-"Enter date of visit in format DAY MONTH YEAR.\n"
-"\n"
-"For example: 1 12 2022 (December the 1st, 2022)"
-msgstr ""
-
-#: src/handlers/message/users/form.py:38
+#: src/handlers/message/users/form.py:34
 msgid "Incorrect Date"
 msgstr ""
 
-#: src/handlers/message/users/form.py:45
-msgid "Enter Phone number"
-msgstr ""
-
-#: src/handlers/message/users/form.py:51
+#: src/handlers/message/users/form.py:46
 msgid "Incorrect phone"
 msgstr ""
 
-#: src/handlers/message/users/form.py:64
+#: src/handlers/message/users/form.py:58
 msgid "Incorrect address"
 msgstr ""
 
-#: src/handlers/message/users/form.py:86
+#: src/handlers/message/users/form.py:78
 msgid "Cleaning node name is too long! Should be < 31"
 msgstr ""
 
-#: src/handlers/message/users/form.py:103
-#: src/handlers/message/users/form.py:124
+#: src/handlers/message/users/form.py:111 src/states/setters.py:92
 msgid "Send photo AFTER for"
 msgstr ""
 
-#: src/handlers/message/users/form.py:120
-msgid "Do you want to add room?"
-msgstr ""
-
-#: src/handlers/message/users/message.py:18
+#: src/handlers/message/users/message.py:21
 msgid "Hi! {first_name} {last_name}"
-msgstr ""
-
-#: src/handlers/message/users/message.py:23
-msgid "Enter clients Name"
-msgstr ""
-
-#: src/handlers/message/users/message.py:35
-msgid "Cancelled!"
 msgstr ""
 
 #: src/keyboards/inline/kbd.py:17
@@ -217,6 +162,36 @@ msgstr ""
 msgid "Choose cleaning nodes"
 msgstr ""
 
+#: src/keyboards/inline/kbd.py:155 src/keyboards/inline/kbd.py:188
+#: src/states/setters.py:64
+msgid "grills"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:158 src/keyboards/inline/kbd.py:191
+#: src/states/setters.py:65
+msgid "duct"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:161 src/keyboards/inline/kbd.py:194
+#: src/states/setters.py:66
+msgid "pan"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:165 src/keyboards/inline/kbd.py:198
+#: src/states/setters.py:69
+msgid "radiator"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:169 src/keyboards/inline/kbd.py:202
+#: src/states/setters.py:72
+msgid "filter"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:172 src/keyboards/inline/kbd.py:205
+#: src/states/setters.py:73
+msgid "blades"
+msgstr ""
+
 #: src/keyboards/inline/kbd.py:216 src/keyboards/inline/kbd.py:237
 msgid "What were the factors complicating the work?"
 msgstr ""
@@ -241,6 +216,28 @@ msgstr ""
 msgid "Working in another emirate"
 msgstr ""
 
+#: src/states/setters.py:15
+msgid "Enter clients Name"
+msgstr ""
+
+#: src/states/setters.py:21
+msgid ""
+"Enter date of visit in format DAY MONTH YEAR.\n"
+"\n"
+"For example: 1 12 2022 (December the 1st, 2022)"
+msgstr ""
+
+#: src/states/setters.py:29
+msgid "Enter Phone number"
+msgstr ""
+
+#: src/states/setters.py:98
+msgid "Do you want to add room?"
+msgstr ""
+
 #~ msgid "Send photo BEFORE works for grills"
+#~ msgstr ""
+
+#~ msgid "Cancelled!"
 #~ msgstr ""
 
