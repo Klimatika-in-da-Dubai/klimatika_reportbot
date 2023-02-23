@@ -51,6 +51,13 @@ async def cancel_extra_service(message: types.Message, state: FSMContext) -> Non
     await set_state.set_service_state(message, state)
 
 
+@router.message(Form.extra_service_await_answer, Command(commands=["cancel"]))
+async def cancel_extra_service_answer(
+    message: types.Message, state: FSMContext
+) -> None:
+    await set_state.set_extra_service_state(message, state)
+
+
 @router.message(Form.room_cleaning_nodes, Command(commands=["cancel"]))
 async def cancel_room_cleaning_nodes(message: types.Message, state: FSMContext) -> None:
     report = get.get_current_user_report(message.chat.id)
@@ -64,6 +71,11 @@ async def cancel_room_cleaning_nodes(message: types.Message, state: FSMContext) 
         await set_state.set_extra_service_state(message, state)
     else:
         await set_state.set_service_state(message, state)
+
+
+@router.message(Form.cleaning_node_await_answer, Command(commands=["cancel"]))
+async def cancel_cleaning_node_answer(message: types.Message, state: FSMContext):
+    await set_state.set_room_cleaning_nodes_state(message, state)
 
 
 @router.message(Form.cleaning_node_img_before, Command(commands=["cancel"]))
@@ -94,4 +106,3 @@ async def cancel_add_room(message: types.Message, state: FSMContext) -> None:
     room = get.get_current_user_room(message.chat.id)
     room.nodes_queue_back()
     await set_state.set_img_after_state(message, state)
-
