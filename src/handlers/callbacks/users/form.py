@@ -54,7 +54,6 @@ async def callback_service(
     await set_state.set_state_room_cleaning_nodes(callback.message, state)
 
 
-
 @router.callback_query(
     Form.service, ServiceCB.filter(F.service == Report.Service.PREMIUM)
 )
@@ -67,7 +66,6 @@ async def callback_service_premium(
     await state.set_state(Form.work_factors)
 
     await set_state.set_state_room_cleaning_nodes(callback.message, state)
-
 
 
 @router.callback_query(
@@ -130,12 +128,7 @@ async def callback_extra_service_enter(
     callback: types.CallbackQuery, state: FSMContext
 ):
     await callback.answer()
-    await set_state_work_factors(callback.message, state)
-
-
-async def set_state_work_factors(message: types.Message, state: FSMContext) -> None:
-    await state.set_state(Form.work_factors)
-    await inline.send_factors_keyboard(message)
+    await set_state.set_state_room_cleaning_nodes(callback.message, state)
 
 
 @router.callback_query(Form.work_factors, FactorCB.filter(F.action == "add"))
@@ -168,7 +161,6 @@ async def callback_enter_work_factor(callback: types.CallbackQuery, state: FSMCo
     await callback.answer()
 
     await set_state.set_state_room_cleaning_nodes(callback.message, state)
-
 
 
 @router.callback_query(
@@ -226,10 +218,7 @@ async def start_getting_photos(message: types.Message, state: FSMContext):
         await message.answer(_("You didn't selected cleaning nodes"))
         return
 
-    await state.set_state(Form.cleaning_node_img_before)
-    await message.answer(
-        _("Send photo BEFORE for") + " " + room.current_node.button_text
-    )
+    await set_state.set_img_before_state(message, state)
 
 
 @router.callback_query(Form.add_room, F.data == "yes")
@@ -238,8 +227,6 @@ async def callback_add_room_yes(callback: types.CallbackQuery, state: FSMContext
     report = get.get_current_user_report(callback.message.chat.id)
     report.add_room()
     await set_state.set_state_room_cleaning_nodes(callback.message, state)
-
-
 
 
 @router.callback_query(Form.add_room, F.data == "no")
@@ -266,4 +253,3 @@ async def generate_report(bot: Bot, chat_id: int) -> str:
     report_dict = await report.dict_with_binary(bot)
     pdfGenerator(report_name).generate(report_dict)
     return f"./reports/{report_name}-compressed.pdf"
-

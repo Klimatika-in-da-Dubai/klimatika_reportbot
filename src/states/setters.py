@@ -44,6 +44,11 @@ async def set_extra_service_state(message: types.Message, state: FSMContext) -> 
     await inline.send_extra_service_keyboard(message)
 
 
+async def set_state_work_factors(message: types.Message, state: FSMContext) -> None:
+    await state.set_state(Form.work_factors)
+    await inline.send_factors_keyboard(message)
+
+
 async def set_room_cleaning_nodes_state(
     message: types.Message, state: FSMContext
 ) -> None:
