@@ -26,6 +26,11 @@ async def command_start(message: types.Message, state: FSMContext) -> None:
     await set_state.set_client_name_state(message, state)
 
 
+@router.message(Form.client_name, Command(commands=["cancel"]))
+async def cancel_client_name(message: types.Message, state: FSMContext) -> None:
+    await set_state.set_client_name_state(message, state)
+
+
 @router.message(Form.date, Command(commands=["cancel"]))
 async def cancel_date(message: types.Message, state: FSMContext) -> None:
     await set_state.set_client_name_state(message, state)

@@ -66,10 +66,6 @@ class Room:
         for node in self.cleaning_nodes:
             self.nodes_queue.append(node)
 
-        if len(self.nodes_queue) == 0:
-            self.current_node = None
-            return
-
     @property
     def current_node(self) -> CleaningNode | None:
         if self.nodes_queue_empty():
