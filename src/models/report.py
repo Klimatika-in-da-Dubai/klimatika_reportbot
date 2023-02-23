@@ -79,6 +79,10 @@ class Report:
     def pop_factor(self, factor: Factor) -> None:
         self.work_factors.remove(factor)
 
+    def clear_extra_services(self) -> None:
+        self.extra_services.clear()
+        self.other_extra_services.clear()
+
     async def dict_with_binary(self, bot) -> dict:
         return {
             "Outline": {

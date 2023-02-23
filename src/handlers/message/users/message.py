@@ -53,6 +53,8 @@ async def cancel_service(message: types.Message, state: FSMContext) -> None:
 
 @router.message(Form.extra_service, Command(commands=["cancel"]))
 async def cancel_extra_service(message: types.Message, state: FSMContext) -> None:
+    report = get.get_current_user_report(message.chat.id)
+    report.clear_extra_services()
     await set_state.set_service_state(message, state)
 
 
