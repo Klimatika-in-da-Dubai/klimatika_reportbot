@@ -36,6 +36,20 @@ class Room:
             [[node, False] for node in DEFAULT_CLEANING_NODES]
         )
 
+    @property
+    def last_cleaning_node(self) -> CleaningNode | None:
+        if self.cleaning_nodes_empty():
+            return None
+        return self.cleaning_nodes[-1]
+
+    def pop_cleaning_node(self) -> None:
+        if self.cleaning_nodes_empty():
+            return
+        self.cleaning_nodes.pop()
+
+    def cleaning_nodes_empty(self) -> bool:
+        return len(self.cleaning_nodes) == 0
+
     def set_default_node(self, node: CleaningNode) -> None:
         pos = DEFAULT_CLEANING_NODES.index(node)
         self.default_cleaning_nodes[pos][0] = node
@@ -94,13 +108,14 @@ class Room:
             "nodes": dict(
                 [
                     (
-                        node.name.lower(),
+                        index,
                         {
+                            "name": node.name.lower(),
                             "img_before": await download_image(bot, node.photo_before),
                             "img_after": await download_image(bot, node.photo_after),
                         },
                     )
-                    for node in nodes
+                    for index, node in enumerate(nodes)
                 ]
             ),
         }
