@@ -44,7 +44,7 @@ async def set_extra_service_state(message: types.Message, state: FSMContext) -> 
     await inline.send_extra_service_keyboard(message)
 
 
-async def set_state_work_factors(message: types.Message, state: FSMContext) -> None:
+async def set_work_factors_state(message: types.Message, state: FSMContext) -> None:
     await state.set_state(Form.work_factors)
     await inline.send_factors_keyboard(message)
 
@@ -56,10 +56,8 @@ async def set_room_cleaning_nodes_state(
     await inline.send_cleaning_node_keyboard(message)
 
 
-async def set_state_room_cleaning_nodes(message: types.Message, state: FSMContext):
-    report = get.get_current_user_report(message.chat.id)
-    if report.service != Report.Service.OTHER_REPAIR_SERVICES:
-        set_default_cleaning_nodes(message)
+async def set_room_cleaning_nodes_state(message: types.Message, state: FSMContext):
+    set_default_cleaning_nodes(message)
     await state.set_state(Form.room_cleaning_nodes)
     await inline.send_cleaning_node_keyboard(message)
 
@@ -101,3 +99,21 @@ async def set_img_after_state(message: types.Message, state: FSMContext) -> None
 async def set_add_room_state(message: types.Message, state: FSMContext) -> None:
     await state.set_state(Form.add_room)
     await inline.send_yes_no_keboard(message, _("Do you want to add room?"))
+
+
+async def set_add_repair_unit_state(message: types.Message, state: FSMContext) -> None:
+    await state.set_state(Form.add_repair_unit)
+    await inline.send_yes_no_keboard(message, _("Do you want to add repair unit?"))
+
+
+async def set_repair_img_before_state(
+    message: types.Message, state: FSMContext
+) -> None:
+
+    await state.set_state(Form.repair_img_before)
+    await message.answer(_("Send image BEFORE for repair work"))
+
+
+async def set_repair_img_after_state(message: types.Message, state: FSMContext) -> None:
+    await state.set_state(Form.repair_img_after)
+    await message.answer(_("Send image AFTER for repair work"))
