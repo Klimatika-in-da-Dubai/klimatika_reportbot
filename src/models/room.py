@@ -50,6 +50,12 @@ class Room:
     def cleaning_nodes_empty(self) -> bool:
         return len(self.cleaning_nodes) == 0
 
+    def clear_all_cleaning_nodes(self) -> None:
+        for default_node in self.default_cleaning_nodes:
+            default_node[1] = False
+
+        self.cleaning_nodes.clear()
+
     def set_default_node(self, node: CleaningNode) -> None:
         pos = DEFAULT_CLEANING_NODES.index(node)
         self.default_cleaning_nodes[pos][0] = node

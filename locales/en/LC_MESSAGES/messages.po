@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-02-22 20:04+0300\n"
+"POT-Creation-Date: 2023-03-01 18:21+0300\n"
 "PO-Revision-Date: 2023-01-14 00:47+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -32,11 +32,6 @@ msgstr ""
 
 #: src/handlers/callbacks/users/form.py:226
 msgid "You didn't selected cleaning nodes"
-msgstr ""
-
-#: src/handlers/callbacks/users/form.py:231
-#: src/handlers/message/users/form.py:96 src/states/setters.py:84
-msgid "Send photo BEFORE for"
 msgstr ""
 
 #: src/handlers/callbacks/users/form.py:255
@@ -67,7 +62,11 @@ msgstr ""
 msgid "Cleaning node name is too long! Should be < 31"
 msgstr ""
 
-#: src/handlers/message/users/form.py:111 src/states/setters.py:92
+#: src/handlers/message/users/form.py:96 src/states/setters.py:87
+msgid "Send photo BEFORE for"
+msgstr ""
+
+#: src/handlers/message/users/form.py:111 src/states/setters.py:95
 msgid "Send photo AFTER for"
 msgstr ""
 
@@ -163,32 +162,32 @@ msgid "Choose cleaning nodes"
 msgstr ""
 
 #: src/keyboards/inline/kbd.py:155 src/keyboards/inline/kbd.py:188
-#: src/states/setters.py:64
+#: src/states/setters.py:67
 msgid "grills"
 msgstr ""
 
 #: src/keyboards/inline/kbd.py:158 src/keyboards/inline/kbd.py:191
-#: src/states/setters.py:65
+#: src/states/setters.py:68
 msgid "duct"
 msgstr ""
 
 #: src/keyboards/inline/kbd.py:161 src/keyboards/inline/kbd.py:194
-#: src/states/setters.py:66
+#: src/states/setters.py:69
 msgid "pan"
 msgstr ""
 
 #: src/keyboards/inline/kbd.py:165 src/keyboards/inline/kbd.py:198
-#: src/states/setters.py:69
+#: src/states/setters.py:72
 msgid "radiator"
 msgstr ""
 
 #: src/keyboards/inline/kbd.py:169 src/keyboards/inline/kbd.py:202
-#: src/states/setters.py:72
+#: src/states/setters.py:75
 msgid "filter"
 msgstr ""
 
 #: src/keyboards/inline/kbd.py:172 src/keyboards/inline/kbd.py:205
-#: src/states/setters.py:73
+#: src/states/setters.py:76
 msgid "blades"
 msgstr ""
 
@@ -231,8 +230,20 @@ msgstr ""
 msgid "Enter Phone number"
 msgstr ""
 
-#: src/states/setters.py:98
+#: src/states/setters.py:101
 msgid "Do you want to add room?"
+msgstr ""
+
+#: src/states/setters.py:106
+msgid "Do you want to add repair unit?"
+msgstr ""
+
+#: src/states/setters.py:114
+msgid "Send image BEFORE for repair work"
+msgstr ""
+
+#: src/states/setters.py:119
+msgid "Send image AFTER for repair work"
 msgstr ""
 
 #~ msgid "Send photo BEFORE works for grills"

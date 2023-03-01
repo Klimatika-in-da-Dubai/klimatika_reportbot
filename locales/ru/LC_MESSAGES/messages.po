@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-02-22 20:04+0300\n"
+"POT-Creation-Date: 2023-03-01 18:21+0300\n"
 "PO-Revision-Date: 2022-11-26 11:48+0300\n"
 "Last-Translator: \n"
 "Language: ru\n"
@@ -34,11 +34,6 @@ msgstr "Пожалуйста введите иной узел чистки"
 #: src/handlers/callbacks/users/form.py:226
 msgid "You didn't selected cleaning nodes"
 msgstr "Вы не выбрали узлы чистки"
-
-#: src/handlers/callbacks/users/form.py:231
-#: src/handlers/message/users/form.py:96 src/states/setters.py:84
-msgid "Send photo BEFORE for"
-msgstr "Прикрепите 1 фото ДО для"
 
 #: src/handlers/callbacks/users/form.py:255
 msgid "Generating..."
@@ -68,7 +63,11 @@ msgstr "Некорректный адрес"
 msgid "Cleaning node name is too long! Should be < 31"
 msgstr "Имя узла чистки слишком длинное! Должно быть меньше 31-ого символа"
 
-#: src/handlers/message/users/form.py:111 src/states/setters.py:92
+#: src/handlers/message/users/form.py:96 src/states/setters.py:87
+msgid "Send photo BEFORE for"
+msgstr "Прикрепите 1 фото ДО для"
+
+#: src/handlers/message/users/form.py:111 src/states/setters.py:95
 msgid "Send photo AFTER for"
 msgstr "Прикрепите 1 фото ПОСЛЕ для"
 
@@ -164,32 +163,32 @@ msgid "Choose cleaning nodes"
 msgstr "Выберите узлы чистки"
 
 #: src/keyboards/inline/kbd.py:155 src/keyboards/inline/kbd.py:188
-#: src/states/setters.py:64
+#: src/states/setters.py:67
 msgid "grills"
 msgstr "Решётки вентиляции"
 
 #: src/keyboards/inline/kbd.py:158 src/keyboards/inline/kbd.py:191
-#: src/states/setters.py:65
+#: src/states/setters.py:68
 msgid "duct"
 msgstr "Воздуховод"
 
 #: src/keyboards/inline/kbd.py:161 src/keyboards/inline/kbd.py:194
-#: src/states/setters.py:66
+#: src/states/setters.py:69
 msgid "pan"
 msgstr "Поддон"
 
 #: src/keyboards/inline/kbd.py:165 src/keyboards/inline/kbd.py:198
-#: src/states/setters.py:69
+#: src/states/setters.py:72
 msgid "radiator"
 msgstr "Радиатор"
 
 #: src/keyboards/inline/kbd.py:169 src/keyboards/inline/kbd.py:202
-#: src/states/setters.py:72
+#: src/states/setters.py:75
 msgid "filter"
 msgstr "Фильтр"
 
 #: src/keyboards/inline/kbd.py:172 src/keyboards/inline/kbd.py:205
-#: src/states/setters.py:73
+#: src/states/setters.py:76
 msgid "blades"
 msgstr "Крыльчатки мотора"
 
@@ -234,9 +233,21 @@ msgstr ""
 msgid "Enter Phone number"
 msgstr "Укажите номер телефона клиента"
 
-#: src/states/setters.py:98
+#: src/states/setters.py:101
 msgid "Do you want to add room?"
 msgstr "Вы хотите добавить комнату или другое место проведения работ?"
+
+#: src/states/setters.py:106
+msgid "Do you want to add repair unit?"
+msgstr "Вы хотите добавить ремонтный узел?"
+
+#: src/states/setters.py:114
+msgid "Send image BEFORE for repair work"
+msgstr "Прикрепите 1 фото ДО для ремонтной работы"
+
+#: src/states/setters.py:119
+msgid "Send image AFTER for repair work"
+msgstr "Прикрепите 1 фото ПОСЛЕ для ремонтной работы"
 
 #~ msgid "Enter date of visit in format DAY MONTH YEAR"
 #~ msgstr "Укажите дату визита в формате <ДЕНЬ> <МЕСЯЦ> <ГОД>"
