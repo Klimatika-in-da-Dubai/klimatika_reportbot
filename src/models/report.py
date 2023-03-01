@@ -96,22 +96,22 @@ class Report:
 
         return extra_sevices_str
 
-    def get_working_factors_descriptions(self) -> list[str]:
-        working_factors_str = []
+    def get_work_factors_descriptions(self) -> list[str]:
+        work_factors_str = []
         if (
             Report.ExtraService.NEW_POLYESTER_FILTERS_INSTALLATION
             in self.extra_services
         ):
-            working_factors_str.append(
+            work_factors_str.append(
                 EXTRA_SERVICE_DESCRIPTION[
                     Report.ExtraService.NEW_POLYESTER_FILTERS_INSTALLATION
                 ]
             )
 
         for factor in self.work_factors:
-            working_factors_str.append(FACTOR_DESCRIPTION[factor])
+            work_factors_str.append(FACTOR_DESCRIPTION[factor])
 
-        return working_factors_str
+        return work_factors_str
 
     async def dict_with_binary(self, bot) -> dict:
         return {
@@ -123,7 +123,7 @@ class Report:
                 "description": self.service.get_description(),
                 "helped_with": str(self.service),
                 "extra_services": self.get_extra_services_descriptions(),
-                "working_factors": self.get_working_factors_descriptions(),
+                "working_factors": self.get_work_factors_descriptions(),
             },
             "Rooms": {
                 "number_of_rooms": len(self.rooms),
