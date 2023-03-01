@@ -238,7 +238,6 @@ msgid "Do you want to add room?"
 msgstr "Вы хотите добавить комнату или другое место проведения работ?"
 
 #: src/states/setters.py:106
-#, fuzzy
 msgid "Do you want to add repair unit?"
 msgstr "Вы хотите добавить ремонтный узел?"
 
