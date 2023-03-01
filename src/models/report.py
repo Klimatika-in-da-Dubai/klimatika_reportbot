@@ -83,6 +83,36 @@ class Report:
         self.extra_services.clear()
         self.other_extra_services.clear()
 
+    def clear_working_factors(self):
+        self.work_factors.clear()
+
+    def get_extra_services_descriptions(self) -> list[str]:
+        extra_sevices_str = []
+        for service in self.extra_services:
+            if service == Report.ExtraService.NEW_POLYESTER_FILTERS_INSTALLATION:
+                continue
+
+            extra_sevices_str.append(EXTRA_SERVICE_DESCRIPTION[service])
+
+        return extra_sevices_str
+
+    def get_working_factors_descriptions(self) -> list[str]:
+        working_factors_str = []
+        if (
+            Report.ExtraService.NEW_POLYESTER_FILTERS_INSTALLATION
+            in self.extra_services
+        ):
+            working_factors_str.append(
+                EXTRA_SERVICE_DESCRIPTION[
+                    Report.ExtraService.NEW_POLYESTER_FILTERS_INSTALLATION
+                ]
+            )
+
+        for factor in self.work_factors:
+            working_factors_str.append(FACTOR_DESCRIPTION[factor])
+
+        return working_factors_str
+
     async def dict_with_binary(self, bot) -> dict:
         return {
             "Outline": {
@@ -92,10 +122,8 @@ class Report:
                 "address": self.client.address,
                 "description": self.service.get_description(),
                 "helped_with": str(self.service),
-                "cleaned": ", ".join(
-                    [str(service) for service in self.extra_services]
-                    + [str(service) for service in self.other_extra_services]
-                ),
+                "extra_services": self.get_extra_services_descriptions(),
+                "working_factors": self.get_working_factors_descriptions(),
             },
             "Rooms": {
                 "number_of_rooms": len(self.rooms),
