@@ -62,6 +62,9 @@ async def cancel_room_cleaning_nodes(message: types.Message, state: FSMContext) 
         await set_state.set_add_room_state(message, state)
         return
 
+    room = get.get_current_user_room(message.chat.id)
+    room.clear_all_cleaning_nodes()
+
     if report.service == Report.Service.PREMIUM_EXTRA:
         await set_state.set_extra_service_state(message, state)
     else:
@@ -115,7 +118,7 @@ async def cancel_repair_img_before(message: types.Message, state: FSMContext) ->
     room = get.get_current_user_room(message.chat.id)
     room.pop_cleaning_node()
     if room.cleaning_nodes_empty() and len(report.rooms) == 1:
-        await set_state.set_service_state(message, state)   
+        await set_state.set_service_state(message, state)
         return
 
     if room.cleaning_nodes_empty():
