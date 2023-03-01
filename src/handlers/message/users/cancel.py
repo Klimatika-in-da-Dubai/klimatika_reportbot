@@ -53,6 +53,17 @@ async def cancel_extra_service_answer(
     await set_state.set_extra_service_state(message, state)
 
 
+@router.message(Form.work_factors, Command(commands=["cancel"]))
+async def cancel_working_factors(message: types.Message, state: FSMContext):
+    report = get.get_current_user_report(message.chat.id)
+    report.clear_working_factors()
+    if report.service == Report.Service.PREMIUM_EXTRA:
+        await set_state.set_extra_service_state(message, state)
+        return
+
+    await set_state.set_service_state(message, state)
+
+
 @router.message(Form.room_cleaning_nodes, Command(commands=["cancel"]))
 async def cancel_room_cleaning_nodes(message: types.Message, state: FSMContext) -> None:
     report = get.get_current_user_report(message.chat.id)
@@ -65,10 +76,7 @@ async def cancel_room_cleaning_nodes(message: types.Message, state: FSMContext) 
     room = get.get_current_user_room(message.chat.id)
     room.clear_all_cleaning_nodes()
 
-    if report.service == Report.Service.PREMIUM_EXTRA:
-        await set_state.set_extra_service_state(message, state)
-    else:
-        await set_state.set_service_state(message, state)
+    await set_state.set_work_factors_state(message, state)
 
 
 @router.message(Form.cleaning_node_await_answer, Command(commands=["cancel"]))
@@ -118,7 +126,7 @@ async def cancel_repair_img_before(message: types.Message, state: FSMContext) ->
     room = get.get_current_user_room(message.chat.id)
     room.pop_cleaning_node()
     if room.cleaning_nodes_empty() and len(report.rooms) == 1:
-        await set_state.set_service_state(message, state)
+        await set_state.set_work_factors_state(message, state)
         return
 
     if room.cleaning_nodes_empty():

@@ -54,9 +54,9 @@ async def send_extra_service_keyboard(message: types.Message):
                 Report.ExtraService.NEW_POLYESTER_FILTERS_INSTALLATION.for_button(
                     _("New Polyester Filters Installation")
                 ),
-                Report.ExtraService.THERMAIL_INSULATOR_CHANGE_JOB.for_button(
-                    _("Thermal Insulator Change Job")
-                ),
+                # Report.ExtraService.THERMAIL_INSULATOR_CHANGE_JOB.for_button(
+                #     _("Thermal Insulator Change Job")
+                # ),
                 Report.ExtraService.REPAIR_WORKS.for_button(_("Repair Works")),
             ],
             other=_("Other"),
@@ -117,9 +117,9 @@ async def edit_extra_service_keyboard(message: types.Message):
                 Report.ExtraService.NEW_POLYESTER_FILTERS_INSTALLATION.for_button(
                     _("New Polyester Filters Installation")
                 ),
-                Report.ExtraService.THERMAIL_INSULATOR_CHANGE_JOB.for_button(
-                    _("Thermal Insulator Change Job")
-                ),
+                # Report.ExtraService.THERMAIL_INSULATOR_CHANGE_JOB.for_button(
+                #     _("Thermal Insulator Change Job")
+                # ),
                 Report.ExtraService.REPAIR_WORKS.for_button(_("Repair Works")),
             ],
             other=_("Other"),
