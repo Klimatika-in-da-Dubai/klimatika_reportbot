@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-03-01 18:21+0300\n"
+"POT-Creation-Date: 2023-03-05 00:23+0300\n"
 "PO-Revision-Date: 2023-01-14 00:47+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -22,23 +22,23 @@ msgstr ""
 msgid "Enter client address:"
 msgstr ""
 
-#: src/handlers/callbacks/users/form.py:113
+#: src/handlers/callbacks/users/form.py:111
 msgid "Please type other extra service"
 msgstr ""
 
-#: src/handlers/callbacks/users/form.py:208
+#: src/handlers/callbacks/users/form.py:212
 msgid "Please type other cleaning node"
 msgstr ""
 
-#: src/handlers/callbacks/users/form.py:226
+#: src/handlers/callbacks/users/form.py:230
 msgid "You didn't selected cleaning nodes"
 msgstr ""
 
-#: src/handlers/callbacks/users/form.py:255
+#: src/handlers/callbacks/users/form.py:259
 msgid "Generating..."
 msgstr ""
 
-#: src/handlers/callbacks/users/form.py:259
+#: src/handlers/callbacks/users/form.py:263
 msgid "Thank you for your work!"
 msgstr ""
 
@@ -62,11 +62,11 @@ msgstr ""
 msgid "Cleaning node name is too long! Should be < 31"
 msgstr ""
 
-#: src/handlers/message/users/form.py:96 src/states/setters.py:87
+#: src/handlers/message/users/form.py:96 src/states/setters.py:92
 msgid "Send photo BEFORE for"
 msgstr ""
 
-#: src/handlers/message/users/form.py:111 src/states/setters.py:95
+#: src/handlers/message/users/form.py:111 src/states/setters.py:100
 msgid "Send photo AFTER for"
 msgstr ""
 
@@ -118,22 +118,18 @@ msgstr ""
 msgid "New Polyester Filters Installation"
 msgstr ""
 
-#: src/keyboards/inline/kbd.py:58 src/keyboards/inline/kbd.py:121
-msgid "Thermal Insulator Change Job"
-msgstr ""
-
 #: src/keyboards/inline/kbd.py:60 src/keyboards/inline/kbd.py:123
 msgid "Repair Works"
 msgstr ""
 
 #: src/keyboards/inline/kbd.py:62 src/keyboards/inline/kbd.py:125
-#: src/keyboards/inline/kbd.py:175 src/keyboards/inline/kbd.py:208
+#: src/keyboards/inline/kbd.py:180 src/keyboards/inline/kbd.py:218
 msgid "Other"
 msgstr ""
 
 #: src/keyboards/inline/kbd.py:63 src/keyboards/inline/kbd.py:126
-#: src/keyboards/inline/kbd.py:176 src/keyboards/inline/kbd.py:209
-#: src/keyboards/inline/kbd.py:230 src/keyboards/inline/kbd.py:251
+#: src/keyboards/inline/kbd.py:181 src/keyboards/inline/kbd.py:219
+#: src/keyboards/inline/kbd.py:240 src/keyboards/inline/kbd.py:261
 msgid "Enter"
 msgstr ""
 
@@ -157,61 +153,66 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: src/keyboards/inline/kbd.py:150 src/keyboards/inline/kbd.py:183
+#: src/keyboards/inline/kbd.py:150 src/keyboards/inline/kbd.py:188
 msgid "Choose cleaning nodes"
 msgstr ""
 
-#: src/keyboards/inline/kbd.py:155 src/keyboards/inline/kbd.py:188
+#: src/keyboards/inline/kbd.py:155 src/keyboards/inline/kbd.py:193
 #: src/states/setters.py:67
 msgid "grills"
 msgstr ""
 
-#: src/keyboards/inline/kbd.py:158 src/keyboards/inline/kbd.py:191
+#: src/keyboards/inline/kbd.py:158 src/keyboards/inline/kbd.py:196
 #: src/states/setters.py:68
 msgid "duct"
 msgstr ""
 
-#: src/keyboards/inline/kbd.py:161 src/keyboards/inline/kbd.py:194
+#: src/keyboards/inline/kbd.py:161 src/keyboards/inline/kbd.py:199
 #: src/states/setters.py:69
 msgid "pan"
 msgstr ""
 
-#: src/keyboards/inline/kbd.py:165 src/keyboards/inline/kbd.py:198
+#: src/keyboards/inline/kbd.py:165 src/keyboards/inline/kbd.py:203
 #: src/states/setters.py:72
 msgid "radiator"
 msgstr ""
 
-#: src/keyboards/inline/kbd.py:169 src/keyboards/inline/kbd.py:202
+#: src/keyboards/inline/kbd.py:169 src/keyboards/inline/kbd.py:207
 #: src/states/setters.py:75
 msgid "filter"
 msgstr ""
 
-#: src/keyboards/inline/kbd.py:172 src/keyboards/inline/kbd.py:205
+#: src/keyboards/inline/kbd.py:172 src/keyboards/inline/kbd.py:210
 #: src/states/setters.py:76
 msgid "blades"
 msgstr ""
 
-#: src/keyboards/inline/kbd.py:216 src/keyboards/inline/kbd.py:237
+#: src/keyboards/inline/kbd.py:176 src/keyboards/inline/kbd.py:214
+#: src/states/setters.py:79
+msgid "ceiling area"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:226 src/keyboards/inline/kbd.py:247
 msgid "What were the factors complicating the work?"
 msgstr ""
 
-#: src/keyboards/inline/kbd.py:221 src/keyboards/inline/kbd.py:242
+#: src/keyboards/inline/kbd.py:231 src/keyboards/inline/kbd.py:252
 msgid "Difficult access"
 msgstr ""
 
-#: src/keyboards/inline/kbd.py:223 src/keyboards/inline/kbd.py:244
+#: src/keyboards/inline/kbd.py:233 src/keyboards/inline/kbd.py:254
 msgid "No access to object"
 msgstr ""
 
-#: src/keyboards/inline/kbd.py:224 src/keyboards/inline/kbd.py:245
+#: src/keyboards/inline/kbd.py:234 src/keyboards/inline/kbd.py:255
 msgid "Custom sizes of vent"
 msgstr ""
 
-#: src/keyboards/inline/kbd.py:225 src/keyboards/inline/kbd.py:246
+#: src/keyboards/inline/kbd.py:235 src/keyboards/inline/kbd.py:256
 msgid "Day off work"
 msgstr ""
 
-#: src/keyboards/inline/kbd.py:227 src/keyboards/inline/kbd.py:248
+#: src/keyboards/inline/kbd.py:237 src/keyboards/inline/kbd.py:258
 msgid "Working in another emirate"
 msgstr ""
 
@@ -230,19 +231,19 @@ msgstr ""
 msgid "Enter Phone number"
 msgstr ""
 
-#: src/states/setters.py:101
+#: src/states/setters.py:106
 msgid "Do you want to add room?"
 msgstr ""
 
-#: src/states/setters.py:106
+#: src/states/setters.py:111
 msgid "Do you want to add repair unit?"
 msgstr ""
 
-#: src/states/setters.py:114
+#: src/states/setters.py:119
 msgid "Send image BEFORE for repair work"
 msgstr ""
 
-#: src/states/setters.py:119
+#: src/states/setters.py:124
 msgid "Send image AFTER for repair work"
 msgstr ""
 
@@ -250,5 +251,8 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Cancelled!"
+#~ msgstr ""
+
+#~ msgid "Thermal Insulator Change Job"
 #~ msgstr ""
 
