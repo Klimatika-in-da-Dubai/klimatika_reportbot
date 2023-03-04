@@ -123,7 +123,7 @@ class Report:
                 "description": self.service.get_description(),
                 "helped_with": str(self.service),
                 "extra_services": self.get_extra_services_descriptions(),
-                "working_factors": self.get_work_factors_descriptions(),
+                "work_factors": self.get_work_factors_descriptions(),
             },
             "Rooms": {
                 "number_of_rooms": len(self.rooms),
