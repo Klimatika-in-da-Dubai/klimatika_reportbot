@@ -145,15 +145,14 @@ class pdfGenerator:
             textobject.setFont(Fonts.bold["name"], 33)
             textobject.setLeading(55)
             textobject.textLine("Description: ")
-            textobject.setFont(Fonts.regular["name"], 31)
+            textobject.setFont(Fonts.regular["name"], 29)
 
             textobject.setFillColor("#6F7378")
-            textobject.setLeading(45)
             textobject.textLine(description["text"])
 
-            textobject.setTextOrigin(Indent.get_x() * 2, PDF_HEIGHT // 2 - 80)
+            textobject.setTextOrigin(Indent.get_x() * 2, PDF_HEIGHT // 2 - 73)
             for line in description["points"]:
-                textobject.setLeading(45)
+                textobject.setLeading(42)
                 textobject.setFillColor("#E2000F")
                 textobject.textOut("• ")
                 textobject.setFillColor("#6F7378")
