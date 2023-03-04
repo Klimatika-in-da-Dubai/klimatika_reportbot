@@ -74,6 +74,11 @@ def set_default_cleaning_nodes(message: types.Message):
         ),
         CleaningNode("filter", button_text=_("filter"), type=CleaningNode.Type.DEFAULT),
         CleaningNode("blades", button_text=_("blades"), type=CleaningNode.Type.DEFAULT),
+        CleaningNode(
+            "ceiling area",
+            button_text=_("ceiling area"),
+            type=CleaningNode.Type.DEFAULT,
+        ),
     ]
     room = get.get_current_user_room(message.chat.id)
     for node in DEFAULT_CLEANING_NODES:
