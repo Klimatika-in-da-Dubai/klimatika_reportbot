@@ -178,6 +178,30 @@ class pdfGenerator:
 
         canv.showPage()
 
+    def repair_slide(self, before: BinaryIO, after: BinaryIO):
+        canv = self.canv
+
+        img_before = image_crop(before)
+        img_after = image_crop(after)
+        add_image(canv, img_before, 860, Indent.get_x(), Indent.get_y() * 3)
+        add_image(
+            canv, img_after, 860, PDF_WIDTH - 860 - Indent.get_x(), Indent.get_y() * 3
+        )
+
+        textobject = canv.beginText()
+        textobject.setTextOrigin(
+            Indent.get_x(), PDF_HEIGHT - Indent.get_y() * 2 - HEDING_FONT_SIZE
+        )
+
+        textobject.setFont(Fonts.bold["name"], HEDING_FONT_SIZE)
+        textobject.setFillColor("#E2000F")
+        textobject.setLeading(HEDING_FONT_SIZE)
+        textobject.textLine(text=f"BEFORE and AFTER")
+
+        canv.drawText(textobject)
+
+        canv.showPage()
+
     def last_slides(self):
         canv = self.canv
 
@@ -284,7 +308,10 @@ class pdfGenerator:
         rooms = report["Rooms"]
         for room in rooms["rooms_list"]:
             for _node, node in room["nodes"].items():
-                self.room_slide(node["name"], node["img_before"], node["img_after"])
+                if outline["helped_with"] == "Other Repair Services":
+                    self.repair_slide(node["img_before"], node["img_after"])
+                else:
+                    self.room_slide(node["name"], node["img_before"], node["img_after"])
 
         self.last_slides()
         self.canv.save()
