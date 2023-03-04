@@ -81,17 +81,18 @@ class pdfGenerator:
 
         canv.showPage()
 
-    def summary_first(self,
-            date: str,
-            name: str,
-            phone_number: str,
-            address: str,
-            description: dict,
-            helped_with: str,
-        ):
+    def summary_first(
+        self,
+        date: str,
+        name: str,
+        phone_number: str,
+        address: str,
+        description: dict,
+        helped_with: str,
+    ):
         canv = self.canv
         textobject = canv.beginText()
-        
+
         textobject.setTextOrigin(Indent.get_x(), PDF_HEIGHT - Indent.get_y() * 2)
 
         textobject.setFont(Fonts.bold["name"], HEDING_FONT_SIZE)
@@ -161,7 +162,7 @@ class pdfGenerator:
                 count = 0
                 for i in new_line:
                     if count > 0:
-                        textobject.textOut("   ")     
+                        textobject.textOut("   ")
                     textobject.textLine(i)
                     count += 1
             # new_description = divide_by_len(description, 80)
@@ -170,13 +171,14 @@ class pdfGenerator:
         canv.drawText(textobject)
         canv.showPage()
 
-    def summary_second(self,
-            extra_services: list,
-            working_factors: list,
-        ):
+    def summary_second(
+        self,
+        extra_services: list,
+        working_factors: list,
+    ):
         canv = self.canv
         textobject = canv.beginText()
-        
+
         textobject.setTextOrigin(Indent.get_x(), PDF_HEIGHT - Indent.get_y() * 2)
 
         textobject.setFont(Fonts.bold["name"], HEDING_FONT_SIZE)
@@ -184,7 +186,9 @@ class pdfGenerator:
         textobject.setFillColor("#E2000F")
         textobject.textLine(text="Summary (2 of 3)")
 
-        textobject.setTextOrigin(Indent.get_x() * 2, PDF_HEIGHT - Indent.get_y() * 2 - HEDING_FONT_SIZE * 1.5)
+        textobject.setTextOrigin(
+            Indent.get_x() * 2, PDF_HEIGHT - Indent.get_y() * 2 - HEDING_FONT_SIZE * 1.5
+        )
 
         if extra_services != []:
             textobject.setFont(Fonts.bold["name"], 40)
@@ -205,7 +209,7 @@ class pdfGenerator:
                 textobject.textOut("• ")
                 for i in new_line:
                     if count > 0:
-                        textobject.textOut("   ")     
+                        textobject.textOut("   ")
                     textobject.textLine(i)
                     count += 1
                     if count == len(new_line) - 1:
@@ -215,7 +219,9 @@ class pdfGenerator:
             textobject.setFont(Fonts.bold["name"], 40)
             textobject.setFillColor("#E2000F")
             textobject.setLeading(60)
-            textobject.textLine("Factors on your premises affecting the final price and length of our services:")
+            textobject.textLine(
+                "Factors on your premises affecting the final price and length of our services:"
+            )
             textobject.setFont(Fonts.regular["name"], 32)
             textobject.setFillColor("#6F7378")
             for i in working_factors:
@@ -228,7 +234,7 @@ class pdfGenerator:
                 textobject.textOut("• ")
                 for i in new_line:
                     if count > 0:
-                        textobject.textOut("   ")     
+                        textobject.textOut("   ")
                     textobject.textLine(i)
                     count += 1
                     if count == len(new_line) - 1:
@@ -236,11 +242,12 @@ class pdfGenerator:
         canv.drawText(textobject)
         canv.showPage()
 
-
-    def summary_third(self,):
+    def summary_third(
+        self,
+    ):
         canv = self.canv
         textobject = canv.beginText()
-        
+
         textobject.setTextOrigin(Indent.get_x(), PDF_HEIGHT - Indent.get_y() * 2)
 
         textobject.setFont(Fonts.bold["name"], HEDING_FONT_SIZE)
@@ -254,38 +261,56 @@ class pdfGenerator:
         textobject.setLeading(HEDING_FONT_SIZE)
         textobject.textLine("Hereby we:")
 
-        textobject.setTextOrigin(Indent.get_x() * 2, PDF_HEIGHT - Indent.get_y() * 2 - HEDING_FONT_SIZE * 3)
+        textobject.setTextOrigin(
+            Indent.get_x() * 2, PDF_HEIGHT - Indent.get_y() * 2 - HEDING_FONT_SIZE * 3
+        )
         textobject.setFont(Fonts.regular["name"], 31)
         textobject.setLeading(50)
 
         textobject.setFillColor("#E2000F")
         textobject.textOut("• ")
         textobject.setFillColor("#6F7378")
-        textobject.textLine("represent the outline of what we actually did where " +
-                            "photos evidence that our services had been performed as shown to the best extent")
+        textobject.textLine(
+            "represent the outline of what we actually did where "
+            + "photos evidence that our services had been performed as shown to the best extent"
+        )
         textobject.setLeading(60)
-        textobject.textLine("   possible given the circumstances, access and work conditions;")
+        textobject.textLine(
+            "   possible given the circumstances, access and work conditions;"
+        )
 
         textobject.setFillColor("#E2000F")
         textobject.textOut("• ")
         textobject.setFillColor("#6F7378")
         textobject.setLeading(60)
-        textobject.textLine("gaurantee that photos are genuine and had not been used from other clients' premises;")
+        textobject.textLine(
+            "gaurantee that photos are genuine and had not been used from other clients' premises;"
+        )
 
         textobject.setFillColor("#E2000F")
         textobject.textOut("• ")
         textobject.setFillColor("#6F7378")
         textobject.setLeading(50)
-        textobject.textLine("kindly ask you to take into account that mild dust " +
-                            "layer in the duct and some dirt in the trays/drain may add up very quickly (in 2-3 days")
-        textobject.textLine("   after cleaning) in the GCC region due to cliamte " +
-                            "conditions and AC system work, this is normal and does not indicate that our services")
-        textobject.textLine("   have been performed loosely or unduly. " +
-                            "Please provide evidence if you feel strong that it was our fault, otherwise we won't be able to")
-        textobject.textLine("   process it in a proper way. For frivoulous " +
-                            "claims not supported by convicing evidence we reserve the right to dispute such claims based")
-        textobject.textLine("   on this report and solely on the fact that no objections " + 
-                            "from your side were raised when you received this report and paid for our")
+        textobject.textLine(
+            "kindly ask you to take into account that mild dust "
+            + "layer in the duct and some dirt in the trays/drain may add up very quickly (in 2-3 days"
+        )
+        textobject.textLine(
+            "   after cleaning) in the GCC region due to cliamte "
+            + "conditions and AC system work, this is normal and does not indicate that our services"
+        )
+        textobject.textLine(
+            "   have been performed loosely or unduly. "
+            + "Please provide evidence if you feel strong that it was our fault, otherwise we won't be able to"
+        )
+        textobject.textLine(
+            "   process it in a proper way. For frivoulous "
+            + "claims not supported by convicing evidence we reserve the right to dispute such claims based"
+        )
+        textobject.textLine(
+            "   on this report and solely on the fact that no objections "
+            + "from your side were raised when you received this report and paid for our"
+        )
         textobject.setLeading(60)
         textobject.textLine("   services.")
 
@@ -293,22 +318,29 @@ class pdfGenerator:
         textobject.textOut("• ")
         textobject.setFillColor("#6F7378")
         textobject.setLeading(50)
-        textobject.textLine("kindly inform you if you do not raise any objections " + 
-                            "to what you see in this report or invoice within 24 hours after receiving this")
+        textobject.textLine(
+            "kindly inform you if you do not raise any objections "
+            + "to what you see in this report or invoice within 24 hours after receiving this"
+        )
         textobject.setLeading(60)
-        textobject.textLine("   report/invoice, we assume that you accept the works " +
-                            "as they are depicted in photos in full and have no objections whatsoever.")
+        textobject.textLine(
+            "   report/invoice, we assume that you accept the works "
+            + "as they are depicted in photos in full and have no objections whatsoever."
+        )
 
         textobject.setFillColor("#E2000F")
         textobject.textOut("• ")
         textobject.setLeading(50)
-        textobject.textLine("highly recommend that you have your AC units and " + 
-                            "Duct system serviced at least 3-4 times a year, so that you enjoy fresh air, system")
-        textobject.textLine("   work properly and you pay less for electricity bills or AC repair.")
-        
+        textobject.textLine(
+            "highly recommend that you have your AC units and "
+            + "Duct system serviced at least 3-4 times a year, so that you enjoy fresh air, system"
+        )
+        textobject.textLine(
+            "   work properly and you pay less for electricity bills or AC repair."
+        )
+
         canv.drawText(textobject)
         canv.showPage()
-
 
     def summary_slides(
         self,
@@ -443,7 +475,6 @@ class pdfGenerator:
         self.first_slide()
 
         outline = report["Outline"]
-        outline = report
         self.summary_slides(
             outline["date"].strftime("%m/%d/%Y"),
             outline["name"],
@@ -452,7 +483,7 @@ class pdfGenerator:
             outline["description"],
             outline["helped_with"],
             outline["extra_services"],
-            outline["working_factors"],
+            outline["work_factors"],
         )
         rooms = report["Rooms"]
         for room in rooms["rooms_list"]:
@@ -463,4 +494,3 @@ class pdfGenerator:
         self.canv.save()
 
         pdf_compression(f"{self.report_name}.pdf")
-
