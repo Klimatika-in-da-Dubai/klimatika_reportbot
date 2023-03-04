@@ -194,7 +194,7 @@ msgstr "Крыльчатки мотора"
 
 #: src/keyboards/inline/kbd.py:216 src/keyboards/inline/kbd.py:237
 msgid "What were the factors complicating the work?"
-msgstr "Какие были факторы, осложняющие работу?"
+msgstr "Какие были факторы осложняющие работу?"
 
 #: src/keyboards/inline/kbd.py:221 src/keyboards/inline/kbd.py:242
 msgid "Difficult access"

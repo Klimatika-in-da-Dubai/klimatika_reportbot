@@ -51,9 +51,7 @@ async def callback_service(
     report = get.get_current_user_report(callback.message.chat.id)
     report.service = callback_data.service
 
-    room = get.get_current_user_room(callback.message.chat.id)
-    room.add_node(CleaningNode("", type=CleaningNode.Type.OTHER))
-    await set_state.set_repair_img_before_state(callback.message, state)
+    await set_state.set_work_factors_state(callback.message, state)
 
 
 @router.callback_query(
@@ -67,7 +65,7 @@ async def callback_service_premium(
     report.service = callback_data.service
     await state.set_state(Form.work_factors)
 
-    await set_state.set_room_cleaning_nodes_state(callback.message, state)
+    await set_state.set_work_factors_state(callback.message, state)
 
 
 @router.callback_query(
@@ -130,7 +128,7 @@ async def callback_extra_service_enter(
     callback: types.CallbackQuery, state: FSMContext
 ):
     await callback.answer()
-    await set_state.set_room_cleaning_nodes_state(callback.message, state)
+    await set_state.set_work_factors_state(callback.message, state)
 
 
 @router.callback_query(Form.work_factors, FactorCB.filter(F.action == "add"))
@@ -168,7 +166,13 @@ async def callback_enter_work_factor(callback: types.CallbackQuery, state: FSMCo
         room.add_node(CleaningNode("", type=CleaningNode.Type.OTHER))
         await set_state.set_repair_img_before_state(callback.message, state)
         return
-    await set_state.set_room_cleaning_nodes_state(callback.message, state)
+
+    if report.Service == Report.Service.OTHER_REPAIR_SERVICES:
+        room = get.get_current_user_room(callback.message.chat.id)
+        room.add_node(CleaningNode("", type=CleaningNode.Type.OTHER))
+        await set_state.set_repair_img_before_state(callback.message, state)
+    else:
+        await set_state.set_room_cleaning_nodes_state(callback.message, state)
 
 
 @router.callback_query(

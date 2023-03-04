@@ -16,8 +16,11 @@ class Report:
         def __str__(self) -> str:
             return SERVICE_NAMES[self]
 
-        def get_description(self):
-            return SERVICE_DESCRIPTION[self]
+        def get_description_text(self):
+            return SERVICE_DESCRIPTION_TEXT[self]
+
+        def get_description_points(self):
+            return SERVICE_DESCRIPTION_POINTS[self]
 
         def for_button(self, text: str) -> tuple[str, IntEnum]:
             return (text, self)
@@ -83,6 +86,36 @@ class Report:
         self.extra_services.clear()
         self.other_extra_services.clear()
 
+    def clear_working_factors(self):
+        self.work_factors.clear()
+
+    def get_extra_services_descriptions(self) -> list[str]:
+        extra_sevices_str = []
+        for service in self.extra_services:
+            if service == Report.ExtraService.NEW_POLYESTER_FILTERS_INSTALLATION:
+                continue
+
+            extra_sevices_str.append(EXTRA_SERVICE_DESCRIPTION[service])
+
+        return extra_sevices_str
+
+    def get_work_factors_descriptions(self) -> list[str]:
+        work_factors_str = []
+        if (
+            Report.ExtraService.NEW_POLYESTER_FILTERS_INSTALLATION
+            in self.extra_services
+        ):
+            work_factors_str.append(
+                EXTRA_SERVICE_DESCRIPTION[
+                    Report.ExtraService.NEW_POLYESTER_FILTERS_INSTALLATION
+                ]
+            )
+
+        for factor in self.work_factors:
+            work_factors_str.append(FACTOR_DESCRIPTION[factor])
+
+        return work_factors_str
+
     async def dict_with_binary(self, bot) -> dict:
         return {
             "Outline": {
@@ -90,12 +123,13 @@ class Report:
                 "name": self.client.name,
                 "phone_number": self.client.phone,
                 "address": self.client.address,
-                "description": self.service.get_description(),
+                "description": {
+                    "text": self.service.get_description_text(),
+                    "points": self.service.get_description_points(),
+                },
                 "helped_with": str(self.service),
-                "cleaned": ", ".join(
-                    [str(service) for service in self.extra_services]
-                    + [str(service) for service in self.other_extra_services]
-                ),
+                "extra_services": self.get_extra_services_descriptions(),
+                "work_factors": self.get_work_factors_descriptions(),
             },
             "Rooms": {
                 "number_of_rooms": len(self.rooms),
@@ -111,10 +145,34 @@ SERVICE_NAMES = {
     Report.Service.OTHER_REPAIR_SERVICES: "Other Repair Services",
 }
 
-SERVICE_DESCRIPTION = {
-    Report.Service.PREMIUM: "This included supply/return grills cleaning (out-of-place) and sanitation, air supply/return duct vacuum and air-brush cleaning, duct sanitation (anti-germ and fungicide), air filters wash-through and polyester filter installation.",
-    Report.Service.PREMIUM_EXTRA: "This included supply/return grills cleaning (out-of-place) and sanitation, air supply/return duct vacuum and air-brush cleaning, duct sanitation (anti-germ and fungicide), air filters wash-through.",
+SERVICE_DESCRIPTION_TEXT = {
+    Report.Service.PREMIUM: "Premium cleaning service included:",
+    Report.Service.PREMIUM_EXTRA: "Premium cleaning service included:",
     Report.Service.OTHER_REPAIR_SERVICES: "Minor repairs around the house, not related to the repair of air conditioners and ventilation",
+}
+
+SERVICE_DESCRIPTION_POINTS = {
+    Report.Service.PREMIUM: [
+        "Deep cleaning of fan coil unit (VAV, blower fans, air-filter, evaporator coil, drain tray (if accessible))",
+        "Check-up and adjustment of valves, fan belts, pulleys, coil, filter, strainer, pipe joints, insulation, bearings, drain trays, drain pipes and manometer tubes. VRV system errors and pressure check-up (as applicable to your type of property)",
+        "Checking for noise, leaks, smell, vibration and general performance issues (for villas - refrigerant level check-up, board of roof-top AC unit control clean-up and check-up, controls calibrations checks)",
+        "Check-up of thermostat (for villas – starters, relays and timers)",
+        "Cleaning of above-ceiling areas (construction work left-overs clean-up, vacuum cleaning with special hose and brush, hand-washing with water)",
+        "Disinfection with antibacterial detergent (ShieldMe)",
+        "Using anti-dust protection curtains (Zipwall US)",
+        "All works performed with german hand tools - DeWalt, Karcher.",
+    ],
+    Report.Service.PREMIUM_EXTRA: [
+        "Deep cleaning of fan coil unit (VAV, blower fans, air-filter, evaporator coil, drain tray (if accessible))",
+        "Check-up and adjustment of valves, fan belts, pulleys, coil, filter, strainer, pipe joints, insulation, bearings, drain trays, drain pipes and manometer tubes. VRV system errors and pressure check-up (as applicable to your type of property)",
+        "Checking for noise, leaks, smell, vibration and general performance issues (for villas - refrigerant level check-up, board of roof-top AC unit control clean-up and check-up, controls calibrations checks)",
+        "Check-up of thermostat (for villas – starters, relays and timers)",
+        "Cleaning of above-ceiling areas (construction work left-overs clean-up, vacuum cleaning with special hose and brush, hand-washing with water)",
+        "Disinfection with antibacterial detergent (ShieldMe)",
+        "Using anti-dust protection curtains (Zipwall US)",
+        "All works performed with german hand tools - DeWalt, Karcher.",
+    ],
+    Report.Service.OTHER_REPAIR_SERVICES: [],
 }
 
 EXTRA_SERVICE_NAME = {
