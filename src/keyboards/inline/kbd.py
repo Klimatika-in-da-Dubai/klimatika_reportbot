@@ -171,6 +171,11 @@ async def send_cleaning_node_keyboard(message: types.Message):
                 CleaningNode(
                     "blades", button_text=_("blades"), type=CleaningNode.Type.DEFAULT
                 ),
+                CleaningNode(
+                    "ceiling area",
+                    button_text=_("ceiling area"),
+                    type=CleaningNode.Type.DEFAULT,
+                ),
             ],
             other=_("Other"),
             enter=_("Enter"),
@@ -203,6 +208,11 @@ async def edit_cleaning_node_keyboard(message: types.Message):
                 ),
                 CleaningNode(
                     "blades", button_text=_("blades"), type=CleaningNode.Type.DEFAULT
+                ),
+                CleaningNode(
+                    "ceiling area",
+                    button_text=_("ceiling area"),
+                    type=CleaningNode.Type.DEFAULT,
                 ),
             ],
             other=_("Other"),
