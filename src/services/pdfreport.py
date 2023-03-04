@@ -88,6 +88,7 @@ class pdfGenerator:
             address: str,
             description: dict,
             helped_with: str,
+            summary_num: int
         ):
         canv = self.canv
         textobject = canv.beginText()
@@ -98,7 +99,10 @@ class pdfGenerator:
         textobject.setCharSpace(-1)
         textobject.setFillColor("#E2000F")
         textobject.setLeading(HEDING_FONT_SIZE * 1.5)
-        textobject.textLine(text="Summary (1 of 3)")
+        summary_text="Summary (1 of 3)"
+        if summary_num == 2:
+            summary_text="Summary (1 of 2)"
+        textobject.textLine(summary_text)
 
         textobject.setFillColor("#E2000F")
         textobject.setFont(Fonts.bold["name"], 35)
@@ -233,7 +237,7 @@ class pdfGenerator:
         canv.showPage()
 
 
-    def summary_third(self,):
+    def summary_third(self, summary_num: int):
         canv = self.canv
         textobject = canv.beginText()
         
@@ -243,7 +247,10 @@ class pdfGenerator:
         textobject.setCharSpace(-1)
         textobject.setFillColor("#E2000F")
         textobject.setLeading(HEDING_FONT_SIZE * 2)
-        textobject.textLine(text="Summary (3 of 3)")
+        summary_text="Summary (3 of 3)"
+        if summary_num == 2:
+            summary_text="Summary (2 of 2)"
+        textobject.textLine(summary_text)
 
         textobject.setFont(Fonts.bold["name"], 50)
         textobject.setFillColor("#E2000F")
@@ -317,9 +324,13 @@ class pdfGenerator:
         extra_services: list,
         working_factors: list,
     ):
-        self.summary_first(date, name, phone_number, address, description, helped_with)
-        self.summary_second(extra_services, working_factors)
-        self.summary_third()
+        if extra_services != [] or working_factors != []:
+            self.summary_first(date, name, phone_number, address, description, helped_with, 1)
+            self.summary_second(extra_services, working_factors)
+            self.summary_third(3)
+        else:
+            self.summary_first(date, name, phone_number, address, description, helped_with, 2)
+            self.summary_third(2)
 
     def room_slide(self, obj: str, before: BinaryIO, after: BinaryIO):
         canv = self.canv
