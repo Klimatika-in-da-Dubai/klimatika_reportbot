@@ -112,8 +112,8 @@ SERVICE_NAMES = {
 }
 
 SERVICE_DESCRIPTION = {
-    Report.Service.PREMIUM: "This included supply/return grills cleaning (out-of-place) and sanitation, air supply/return duct vacuum and air-brush cleaning, duct sanitation (anti-germ and fungicide), air filters wash-throug and polyester filter installation.",
-    Report.Service.PREMIUM_EXTRA: "This included supply/return grills cleaning (out-of-place) and sanitation, air supply/return duct vacuum and air-brush cleaning, duct sanitation (anti-germ and fungicide), air filters wash-throug and polyester filter installation.",
+    Report.Service.PREMIUM: "This included supply/return grills cleaning (out-of-place) and sanitation, air supply/return duct vacuum and air-brush cleaning, duct sanitation (anti-germ and fungicide), air filters wash-through and polyester filter installation.",
+    Report.Service.PREMIUM_EXTRA: "This included supply/return grills cleaning (out-of-place) and sanitation, air supply/return duct vacuum and air-brush cleaning, duct sanitation (anti-germ and fungicide), air filters wash-through.",
     Report.Service.OTHER_REPAIR_SERVICES: "Minor repairs around the house, not related to the repair of air conditioners and ventilation",
 }
 
