@@ -164,9 +164,6 @@ class pdfGenerator:
                         textobject.textOut("   ")     
                     textobject.textLine(i)
                     count += 1
-            # new_description = divide_by_len(description, 80)
-            # for i in new_description:
-            #     textobject.textLine("   " + i)
         canv.drawText(textobject)
         canv.showPage()
 
@@ -456,7 +453,7 @@ class pdfGenerator:
         )
         rooms = report["Rooms"]
         for room in rooms["rooms_list"]:
-            for _node, node in room["nodes"].items():
+            for _, node in room["nodes"].items():
                 self.room_slide(node["name"], node["img_before"], node["img_after"])
 
         self.last_slides()
