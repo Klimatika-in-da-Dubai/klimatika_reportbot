@@ -59,7 +59,7 @@ class Report:
             return (text, self)
 
     date: datetime = datetime.now()
-    client: Client = Client()
+    client: Client = field(default_factory=Client)
     service: Service = Service.UNKNOWN
     description: str = ""
     extra_services: list[ExtraService] = field(default_factory=list)
