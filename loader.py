@@ -7,7 +7,10 @@ from config import BOT_TOKEN
 
 import logging
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s %(module)s %(funcName)s %(message)s",
+)
 
 
 users = {}  # Need replace with DB
