@@ -83,12 +83,12 @@ def get_extra_service_keyboard(
             )
         )
 
-    builder.add(
-        types.InlineKeyboardButton(
-            text=other + "➕",
-            callback_data=OtherExtraServiceCB(action="add", id=-1).pack(),
-        )
-    )
+    # builder.add(
+    #     types.InlineKeyboardButton(
+    #         text=other + "➕",
+    #         callback_data=OtherExtraServiceCB(action="add", id=-1).pack(),
+    #     )
+    # )
 
     builder.add(
         types.InlineKeyboardButton(
