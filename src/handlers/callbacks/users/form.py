@@ -266,7 +266,7 @@ async def send_pdf_report(bot: Bot, message: types.Message):
 
 async def generate_report(bot: Bot, chat_id: int) -> str:
     report = get.get_current_user_report(chat_id)
-    client_name = "_".join(report.client.name.split(" "))
+    client_name = report.client.name.replace(" ", "_").replace("\n", "_")
     report_name = f"{client_name}_{datetime.now().strftime('%m-%d-%Y_%H-%M-%S')}"
     report_dict = await report.dict_with_binary(bot)
     pdfGenerator(report_name).generate(report_dict)
