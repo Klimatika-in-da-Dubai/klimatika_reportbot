@@ -205,7 +205,8 @@ def _get_ghostscript_path():
 def pdf_compression(filename: str):
     gs = _get_ghostscript_path()
     input_file_abs_path = os.path.abspath(f'reports/{filename}')
-    output_file_abs_path = os.path.abspath(f'reports/{filename.strip(".pdf")}-compressed.pdf')
+    new_filename = os.path.splitext(filename)[0]
+    output_file_abs_path = os.path.abspath(f'reports/{new_filename}-compressed.pdf')
     # print(input_file_abs_path)
     # print(output_file_abs_path)
     # print("---------------")
