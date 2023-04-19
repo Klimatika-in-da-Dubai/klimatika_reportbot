@@ -23,7 +23,7 @@ def get_date(text: str | None) -> datetime:
 def get_name(text: str | None) -> str:
     if text is None:
         return ""
-    return slugify(text)
+    return text 
 
 
 def get_email(text: str | None) -> str:
