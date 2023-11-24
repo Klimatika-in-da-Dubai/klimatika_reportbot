@@ -1,3 +1,4 @@
+import os
 from aiogram import Router, types, F, Bot
 from aiogram.fsm.context import FSMContext
 from aiogram.utils.i18n import gettext as _
@@ -10,7 +11,7 @@ from src.states import setters as set_state
 
 import src.misc.getters as get
 
-from src.models import Report, Client, Room, CleaningNode
+from src.models import Report, CleaningNode
 
 from src.services.pdfreport import pdfGenerator
 from src.callbackdata import (
@@ -18,7 +19,6 @@ from src.callbackdata import (
     ServiceCB,
     ExtraServiceCB,
     ClientCB,
-    RoomTypeCB,
     CleaningNodeCB,
     FactorCB,
 )
@@ -252,7 +252,13 @@ async def callback_add_room_yes(
 ):
     await callback.answer()
     await state.clear()
-    await send_pdf_report(bot, callback.message)
+    try:
+        await send_pdf_report(bot, callback.message)
+    except Exception as e:
+        await callback.message.answer(
+            f"Произошла ошибка во время генерации или отправки отчёта. Пожалуйста сообщите администратору и перешлите данное сообщение.\n{datetime.now()}\n{e}\n"
+        )
+        raise e
 
 
 async def send_pdf_report(bot: Bot, message: types.Message):
@@ -262,6 +268,7 @@ async def send_pdf_report(bot: Bot, message: types.Message):
     await message.answer_document(
         types.FSInputFile(pdf_report_path), caption=_("Thank you for your work!")
     )
+    os.remove(pdf_report_path)
 
 
 async def generate_report(bot: Bot, chat_id: int) -> str:
@@ -269,5 +276,5 @@ async def generate_report(bot: Bot, chat_id: int) -> str:
     client_name = slugify(report.client.name, allow_unicode=True)
     report_name = f"{client_name}_{datetime.now().strftime('%m-%d-%Y_%H-%M-%S')}"
     report_dict = await report.dict_with_binary(bot)
-    pdfGenerator(report_name).generate(report_dict)
-    return f"./reports/{report_name}-compressed.pdf"
+    path = pdfGenerator(report_name).generate(report_dict)
+    return path

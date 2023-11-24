@@ -1,11 +1,10 @@
 from typing import BinaryIO
 from aiogram import types, Bot
-from queue import Queue
 
 from dataclasses import dataclass, field
 from .cleaningnode import CleaningNode, DEFAULT_CLEANING_NODES
 
-from enum import Enum, auto
+from enum import Enum
 
 
 @dataclass
@@ -135,7 +134,7 @@ async def download_images(bot, photos: list[types.PhotoSize]) -> list[BinaryIO] 
     return [await download_image(bot, image) for image in photos]
 
 
-async def download_image(bot: Bot, photo: types.PhotoSize | None) -> BinaryIO | None:
+async def download_image(bot: Bot, photo: types.PhotoSize | None) -> BinaryIO:
     if photo is None:
         raise ValueError("Photo is None")
     return await bot.download(photo.file_id)

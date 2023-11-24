@@ -1,3 +1,4 @@
+from pathlib import Path
 from typing import BinaryIO
 from reportlab.pdfgen import canvas
 from PIL import Image
@@ -5,114 +6,61 @@ import subprocess
 import shutil
 import os
 
+px = 0.75
+SCALE = 1
+SCALED_PX = px * SCALE
+
 PDF_HEIGHT, PDF_WIDTH = 1080, 1920
 HEDING_FONT_SIZE = 80
-INDENTS = (50, 50) # indents by x and y
-REPORTS_PATH = "./reports"
-KLIMATIKA_LOGO_PATH = "./img/logo_klimatika.png"
-LOGO_PATH = "./img/logo_part.png"
-LETS_TALK_LOGO_PATH = "./img/logo_lets_talk.png"
-FIRST_SLIDE_TEMPLATE_PATH = "./img/first_slide_template.jpg"
-PRE_LAST_SLIDE_TEMPLATE_PATH = "img/pre-last_slide_template.jpg"
+INDENTS = (50, 50)  # indents by x and y
+REPORTS_PATH = Path("reports")
+
+
+IMG_FOLDER = Path(__file__).parent / "imgs"
+
+FIRST_SLIDE = IMG_FOLDER / "first_slide_bg.png"
+PRE_LAST_SLIDE = IMG_FOLDER / "pre_last_slide_bg.png"
+LAST_SLIDE = IMG_FOLDER / "last_slide_bg.png"
+
 
 class Indent:
     x = INDENTS[0]
     y = INDENTS[1]
 
     @staticmethod
-    def get_x() -> int:
+    def get_x() -> float:
         return Indent.x
+
     @staticmethod
-    def get_y() -> int:
+    def get_y() -> float:
         return Indent.y
+
+
+FONTS_PATH = Path(__file__).parent / "fonts"
+
 
 class Fonts:
     regular = {
-            "name" : 'TTNormsPro',
-            "path" : '../fonts/TTNormsPro.ttf'
+        "name": "IBMPlexSansRegular",
+        "path": FONTS_PATH / "IBMPlexSans-Regular.ttf",
     }
-    bold =    {
-            "name" : 'TTNormsProBold',
-            "path" : '../fonts/TTNormsProB.ttf'
-    }
-    italics = {
-            "name" : 'TTNormsProItalics',
-            "path" : '../fonts/TTNormsProI.ttf'
-    }
-    medium =  {
-            "name" : 'TTNormsProMedium',
-            "path" : '../fonts/TTNormsProM.ttf'
-    }
-    light =   {
-            "name" : 'TTNormsProLight',
-            "path" : '../fonts/TTNormsProL.ttf'
-    }
-
-class Indent:
-    x = INDENTS[0]
-    y = INDENTS[1]
-
-    @staticmethod
-    def get_x() -> int:
-        return Indent.x
-    @staticmethod
-    def get_y() -> int:
-        return Indent.y
-
-class Fonts:
-    regular = {
-            "name" : 'TTNormsPro',
-            "path" : '../fonts/TTNormsPro.ttf'
-    }
-    bold =    {
-            "name" : 'TTNormsProBold',
-            "path" : '../fonts/TTNormsProB.ttf'
+    bold = {
+        "name": "IBMPlexSansBold",
+        "path": FONTS_PATH / "IBMPlexSans-Bold.ttf",
     }
     italics = {
-            "name" : 'TTNormsProItalics',
-            "path" : '../fonts/TTNormsProI.ttf'
+        "name": "IBMPlexSansRegular",
+        "path": FONTS_PATH / "IBMPlexSans-Regular.ttf",
     }
-    medium =  {
-            "name" : 'TTNormsProMedium',
-            "path" : '../fonts/TTNormsProM.ttf'
+    medium = {
+        "name": "IBMPlexSansRegular",
+        "path": FONTS_PATH / "IBMPlexSans-Regular.ttf",
     }
-    light =   {
-            "name" : 'TTNormsProLight',
-            "path" : '../fonts/TTNormsProL.ttf'
+    light = {
+        "name": "IBMPlexSansRegular",
+        "path": FONTS_PATH / "IBMPlexSans-Regular.ttf",
     }
 
-class Indent:
-    x = INDENTS[0]
-    y = INDENTS[1]
-
-    @staticmethod
-    def get_x() -> int:
-        return Indent.x
-    @staticmethod
-    def get_y() -> int:
-        return Indent.y
-
-class Fonts:
-    regular = {
-            "name" : 'TTNormsPro',
-            "path" : '../fonts/TTNormsPro.ttf'
-    }
-    bold =    {
-            "name" : 'TTNormsProBold',
-            "path" : '../fonts/TTNormsProB.ttf'
-    }
-    italics = {
-            "name" : 'TTNormsProItalics',
-            "path" : '../fonts/TTNormsProI.ttf'
-    }
-    medium =  {
-            "name" : 'TTNormsProMedium',
-            "path" : '../fonts/TTNormsProM.ttf'
-    }
-    light =   {
-            "name" : 'TTNormsProLight',
-            "path" : '../fonts/TTNormsProL.ttf'
-    }
 
 class Formatter:
     IMAGE_WIDTH = 0
@@ -150,7 +98,7 @@ def divide_by_len(text: str, line_len: int) -> list:
             if end_j >= len(text):
                 end_j = len(text) - 1
             for end in range(end_j, start, -1):
-                if end + 1 == len(text) or text[end] == ' ':
+                if end + 1 == len(text) or text[end] == " ":
                     end += 1
                     new_text.append(text[start:end])
                     start = end
@@ -163,19 +111,19 @@ def image_crop(img_bin: BinaryIO, w_size=4, h_size=3) -> Image.Image:
     img = Image.open(img_bin)
     width, height = img.size
 
-    relation = width/height
+    relation = width / height
     left = 0
     top = 0
     right = width
     bottom = height
 
-    if relation > w_size/h_size:
-        to_crop = (width - (height * w_size)/h_size) / 2
+    if relation > w_size / h_size:
+        to_crop = (width - (height * w_size) / h_size) / 2
         left = to_crop
         right = width - to_crop
         bottom = height
-    elif relation < w_size/h_size:
-        to_crop = (height - (width * h_size)/w_size) / 2
+    elif relation < w_size / h_size:
+        to_crop = (height - (width * h_size) / w_size) / 2
         top = to_crop
         right = width
         bottom = height - to_crop
@@ -193,29 +141,40 @@ def image_formatter(img, exp_width: int) -> canvas.ImageReader:
 def add_image(canv, img: Image.Image, img_width: float, x: float, y: float):
     format_const = Formatter(img_width, INDENTS[0], y)
     img_f = image_formatter(img, int(format_const.width()))
-    canv.drawImage(img_f, x=x, y=y, mask='auto')
+    canv.drawImage(img_f, x=x, y=y, mask="auto")
+
 
 def _get_ghostscript_path():
-    gs_names = ['gs', 'gswin32', 'gswin64']
+    gs_names = ["gs", "gswin32", "gswin64"]
     for name in gs_names:
         if shutil.which(name):
             return shutil.which(name)
-    raise FileNotFoundError(f'No GhostScript executable was found on path ({"/".join(gs_names)})')
-
-def pdf_compression(filename: str):
-    gs = _get_ghostscript_path()
-    input_file_abs_path = os.path.abspath(f'reports/{filename}')
-    new_filename = os.path.splitext(filename)[0]
-    output_file_abs_path = os.path.abspath(f'reports/{new_filename}-compressed.pdf')
-    # print(input_file_abs_path)
-    # print(output_file_abs_path)
-    # print("---------------")
-    with open(f'{output_file_abs_path}', 'w') as _:
-        pass
-    subprocess.call([gs, '-sDEVICE=pdfwrite', '-dCompatibilityLevel=1.4',
-                    '-dPDFSETTINGS={}'.format('/default'),
-                    '-dNOPAUSE', '-dQUIET', '-dBATCH',
-                    '-sOutputFile={}'.format(output_file_abs_path),
-                     input_file_abs_path]
+    raise FileNotFoundError(
+        f'No GhostScript executable was found on path ({"/".join(gs_names)})'
     )
 
+
+def pdf_compression(filepath: str, remove_input_file=True) -> str:
+    gs = _get_ghostscript_path()
+    input_file_abs_path = filepath
+    new_filename = os.path.splitext(filepath)[0]
+    output_file_abs_path = os.path.abspath(f"{new_filename}-compressed.pdf")
+
+    with open(f"{output_file_abs_path}", "w") as _:
+        pass
+    subprocess.call(
+        [
+            gs,
+            "-sDEVICE=pdfwrite",
+            "-dCompatibilityLevel=1.4",
+            "-dPDFSETTINGS={}".format("/default"),
+            "-dNOPAUSE",
+            "-dQUIET",
+            "-dBATCH",
+            "-sOutputFile={}".format(output_file_abs_path),
+            input_file_abs_path,
+        ]
+    )
+    if remove_input_file:
+        os.remove(input_file_abs_path)
+    return output_file_abs_path

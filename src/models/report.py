@@ -92,24 +92,12 @@ class Report:
     def get_extra_services_descriptions(self) -> list[str]:
         extra_sevices_str = []
         for service in self.extra_services:
-            if service == Report.ExtraService.NEW_POLYESTER_FILTERS_INSTALLATION:
-                continue
-
             extra_sevices_str.append(EXTRA_SERVICE_DESCRIPTION[service])
 
         return extra_sevices_str
 
     def get_work_factors_descriptions(self) -> list[str]:
         work_factors_str = []
-        if (
-            Report.ExtraService.NEW_POLYESTER_FILTERS_INSTALLATION
-            in self.extra_services
-        ):
-            work_factors_str.append(
-                EXTRA_SERVICE_DESCRIPTION[
-                    Report.ExtraService.NEW_POLYESTER_FILTERS_INSTALLATION
-                ]
-            )
 
         for factor in self.work_factors:
             work_factors_str.append(FACTOR_DESCRIPTION[factor])
@@ -127,7 +115,7 @@ class Report:
                     "text": self.service.get_description_text(),
                     "points": self.service.get_description_points(),
                 },
-                "helped_with": str(self.service),
+                "performed_service": str(self.service),
                 "extra_services": self.get_extra_services_descriptions(),
                 "work_factors": self.get_work_factors_descriptions(),
             },
