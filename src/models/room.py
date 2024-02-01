@@ -1,11 +1,10 @@
 from typing import BinaryIO
 from aiogram import types, Bot
-from queue import Queue
 
 from dataclasses import dataclass, field
 from .cleaningnode import CleaningNode, DEFAULT_CLEANING_NODES
 
-from enum import Enum, auto
+from enum import Enum
 
 
 @dataclass
@@ -28,14 +27,33 @@ class Room:
     default_cleaning_nodes: list[list[CleaningNode, bool]] = field(default_factory=list)
     cleaning_nodes: list[CleaningNode] = field(default_factory=list)
 
-    nodes_queue: Queue[CleaningNode] = field(default_factory=Queue)
-
-    current_node: CleaningNode | None = None
+    nodes_queue: list[CleaningNode] = field(default_factory=list)
+    _index: int = 0
 
     def __post_init__(self):
         self.default_cleaning_nodes.extend(
             [[node, False] for node in DEFAULT_CLEANING_NODES]
         )
+
+    @property
+    def last_cleaning_node(self) -> CleaningNode | None:
+        if self.cleaning_nodes_empty():
+            return None
+        return self.cleaning_nodes[-1]
+
+    def pop_cleaning_node(self) -> None:
+        if self.cleaning_nodes_empty():
+            return
+        self.cleaning_nodes.pop()
+
+    def cleaning_nodes_empty(self) -> bool:
+        return len(self.cleaning_nodes) == 0
+
+    def clear_all_cleaning_nodes(self) -> None:
+        for default_node in self.default_cleaning_nodes:
+            default_node[1] = False
+
+        self.cleaning_nodes.clear()
 
     def set_default_node(self, node: CleaningNode) -> None:
         pos = DEFAULT_CLEANING_NODES.index(node)
@@ -59,21 +77,31 @@ class Room:
         self.default_cleaning_nodes[index][1] = False
 
     def create_nodes_queue(self):
+        self.nodes_queue.clear()
+        self._index = 0
         for node, status in filter(lambda x: x[1], self.default_cleaning_nodes):
-            self.nodes_queue.put(node)
+            self.nodes_queue.append(node)
 
         for node in self.cleaning_nodes:
-            self.nodes_queue.put(node)
+            self.nodes_queue.append(node)
 
-        self.current_node = self.nodes_queue.get()
+    @property
+    def current_node(self) -> CleaningNode | None:
+        if self.nodes_queue_empty():
+            return None
+        return self.nodes_queue[self._index]
 
     def next_cleaning_node(self):
-        if self.nodes_queue.empty():
-            self.current_node = None
-            return
-
-        self.current_node = self.nodes_queue.get()
+        self._index += 1
         return self.current_node
+
+    def nodes_queue_empty(self):
+        return self._index == len(self.nodes_queue)
+
+    def nodes_queue_back(self):
+        if self._index == 0:
+            raise Exception("_index is zero")
+        self._index -= 1
 
     async def dict_with_binary(self, bot: Bot) -> dict:
         nodes = [
@@ -85,13 +113,14 @@ class Room:
             "nodes": dict(
                 [
                     (
-                        node.name.lower(),
+                        index,
                         {
+                            "name": node.name.lower(),
                             "img_before": await download_image(bot, node.photo_before),
                             "img_after": await download_image(bot, node.photo_after),
                         },
                     )
-                    for node in nodes
+                    for index, node in enumerate(nodes)
                 ]
             ),
         }
@@ -105,7 +134,7 @@ async def download_images(bot, photos: list[types.PhotoSize]) -> list[BinaryIO] 
     return [await download_image(bot, image) for image in photos]
 
 
-async def download_image(bot: Bot, photo: types.PhotoSize | None) -> BinaryIO | None:
+async def download_image(bot: Bot, photo: types.PhotoSize | None) -> BinaryIO:
     if photo is None:
         raise ValueError("Photo is None")
     return await bot.download(photo.file_id)

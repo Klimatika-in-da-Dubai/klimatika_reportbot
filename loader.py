@@ -1,13 +1,22 @@
-from aiogram import Bot, Dispatcher, types
+from datetime import datetime
+from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.utils.i18n import I18n, SimpleI18nMiddleware
 
-from pathlib import Path
 from config import BOT_TOKEN
 
 import logging
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s %(module)s %(funcName)s %(message)s",
+    handlers=[
+        logging.FileHandler(
+            f"logs/logs_{datetime.now().strftime('%Y-%m-%d_%H:%M:%S')}.log"
+        ),
+        logging.StreamHandler(),
+    ],
+)
 
 
 users = {}  # Need replace with DB

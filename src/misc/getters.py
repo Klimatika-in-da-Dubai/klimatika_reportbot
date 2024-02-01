@@ -8,6 +8,8 @@ from loader import users
 from src.models.room import Room
 from src.models.report import Report
 
+from src.misc.utils import slugify
+
 
 def get_date(text: str | None) -> datetime:
     if text is None:
@@ -21,7 +23,7 @@ def get_date(text: str | None) -> datetime:
 def get_name(text: str | None) -> str:
     if text is None:
         return ""
-    return text
+    return text 
 
 
 def get_email(text: str | None) -> str:

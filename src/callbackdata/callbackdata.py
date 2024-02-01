@@ -28,3 +28,9 @@ class CleaningNodeCB(CallbackData, prefix="cleaning_node"):
     action: str
     index: int
     type: CleaningNode.Type
+
+
+class FactorCB(CallbackData, prefix="factor"):
+    action: str
+    factor: Report.Factor
+    index: int

@@ -37,4 +37,5 @@ DEFAULT_CLEANING_NODES = [
     CleaningNode("radiator", type=CleaningNode.Type.DEFAULT),
     CleaningNode("filter", type=CleaningNode.Type.DEFAULT),
     CleaningNode("blades", type=CleaningNode.Type.DEFAULT),
+    CleaningNode("ceiling area", type=CleaningNode.Type.DEFAULT),
 ]

@@ -12,8 +12,14 @@ class Form(StatesGroup):
     extra_service = State()
     extra_service_await_answer = State()
 
+    work_factors = State()
+
     room_type = State()
     room_object = State()
+
+    add_repair_unit = State()
+    repair_img_before = State()
+    repair_img_after = State()
 
     room_cleaning_nodes = State()
     cleaning_node_await_answer = State()

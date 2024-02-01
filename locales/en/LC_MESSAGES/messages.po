@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-01-16 09:57+0300\n"
+"POT-Creation-Date: 2023-03-05 00:23+0300\n"
 "PO-Revision-Date: 2023-01-14 00:47+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -18,199 +18,241 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: src/handlers/callbacks/users/form.py:37
-#: src/handlers/message/users/form.py:58
+#: src/handlers/callbacks/users/form.py:41 src/states/setters.py:34
 msgid "Enter client address:"
 msgstr ""
 
-#: src/handlers/callbacks/users/form.py:106
+#: src/handlers/callbacks/users/form.py:111
 msgid "Please type other extra service"
 msgstr ""
 
-#: src/handlers/callbacks/users/form.py:164
+#: src/handlers/callbacks/users/form.py:212
 msgid "Please type other cleaning node"
 msgstr ""
 
-#: src/handlers/callbacks/users/form.py:182
+#: src/handlers/callbacks/users/form.py:230
 msgid "You didn't selected cleaning nodes"
 msgstr ""
 
-#: src/handlers/callbacks/users/form.py:187
-#: src/handlers/message/users/form.py:114
-msgid "Send photo BEFORE for"
-msgstr ""
-
-#: src/handlers/callbacks/users/form.py:216
+#: src/handlers/callbacks/users/form.py:259
 msgid "Generating..."
 msgstr ""
 
-#: src/handlers/callbacks/users/form.py:220
+#: src/handlers/callbacks/users/form.py:263
 msgid "Thank you for your work!"
 msgstr ""
 
-#: src/handlers/callbacks/users/form.py:234 src/keyboards/inline/kbd.py:154
-#: src/keyboards/inline/kbd.py:187
-msgid "grills"
-msgstr ""
-
-#: src/handlers/callbacks/users/form.py:235 src/keyboards/inline/kbd.py:157
-#: src/keyboards/inline/kbd.py:190
-msgid "duct"
-msgstr ""
-
-#: src/handlers/callbacks/users/form.py:236 src/keyboards/inline/kbd.py:160
-#: src/keyboards/inline/kbd.py:193
-msgid "pan"
-msgstr ""
-
-#: src/handlers/callbacks/users/form.py:239 src/keyboards/inline/kbd.py:164
-#: src/keyboards/inline/kbd.py:197
-msgid "radiator"
-msgstr ""
-
-#: src/handlers/callbacks/users/form.py:242 src/keyboards/inline/kbd.py:168
-#: src/keyboards/inline/kbd.py:201
-msgid "filter"
-msgstr ""
-
-#: src/handlers/callbacks/users/form.py:243 src/keyboards/inline/kbd.py:171
-#: src/keyboards/inline/kbd.py:204
-msgid "blades"
-msgstr ""
-
-#: src/handlers/message/users/form.py:21
+#: src/handlers/message/users/form.py:22
 msgid "Incorrect Name"
 msgstr ""
 
-#: src/handlers/message/users/form.py:29
+#: src/handlers/message/users/form.py:34
+msgid "Incorrect Date"
+msgstr ""
+
+#: src/handlers/message/users/form.py:46
+msgid "Incorrect phone"
+msgstr ""
+
+#: src/handlers/message/users/form.py:58
+msgid "Incorrect address"
+msgstr ""
+
+#: src/handlers/message/users/form.py:78
+msgid "Cleaning node name is too long! Should be < 31"
+msgstr ""
+
+#: src/handlers/message/users/form.py:96 src/states/setters.py:92
+msgid "Send photo BEFORE for"
+msgstr ""
+
+#: src/handlers/message/users/form.py:111 src/states/setters.py:100
+msgid "Send photo AFTER for"
+msgstr ""
+
+#: src/handlers/message/users/message.py:21
+msgid "Hi! {first_name} {last_name}"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:17
+msgid "Select room type:"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:21
+msgid "Kitchen"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:22
+msgid "Bedroom"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:23
+msgid "Living Room"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:31 src/keyboards/inline/kbd.py:94
+msgid "Choose service:"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:35 src/keyboards/inline/kbd.py:98
+msgid "Premium"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:36 src/keyboards/inline/kbd.py:99
+msgid "Premium + Extra"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:38 src/keyboards/inline/kbd.py:101
+msgid "Other Repair Services"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:47 src/keyboards/inline/kbd.py:110
+msgid "Choose extra services"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:52 src/keyboards/inline/kbd.py:115
+msgid "Cold Fog Machine Disinfections"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:55 src/keyboards/inline/kbd.py:118
+msgid "New Polyester Filters Installation"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:60 src/keyboards/inline/kbd.py:123
+msgid "Repair Works"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:62 src/keyboards/inline/kbd.py:125
+#: src/keyboards/inline/kbd.py:180 src/keyboards/inline/kbd.py:218
+msgid "Other"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:63 src/keyboards/inline/kbd.py:126
+#: src/keyboards/inline/kbd.py:181 src/keyboards/inline/kbd.py:219
+#: src/keyboards/inline/kbd.py:240 src/keyboards/inline/kbd.py:261
+msgid "Enter"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:70 src/keyboards/inline/kbd.py:133
+msgid "Select client is an owner or a tenant"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:75 src/keyboards/inline/kbd.py:138
+msgid "Owner"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:78 src/keyboards/inline/kbd.py:141
+msgid "Tenant"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:88
+msgid "Yes"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:88
+msgid "No"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:150 src/keyboards/inline/kbd.py:188
+msgid "Choose cleaning nodes"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:155 src/keyboards/inline/kbd.py:193
+#: src/states/setters.py:67
+msgid "grills"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:158 src/keyboards/inline/kbd.py:196
+#: src/states/setters.py:68
+msgid "duct"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:161 src/keyboards/inline/kbd.py:199
+#: src/states/setters.py:69
+msgid "pan"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:165 src/keyboards/inline/kbd.py:203
+#: src/states/setters.py:72
+msgid "radiator"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:169 src/keyboards/inline/kbd.py:207
+#: src/states/setters.py:75
+msgid "filter"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:172 src/keyboards/inline/kbd.py:210
+#: src/states/setters.py:76
+msgid "blades"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:176 src/keyboards/inline/kbd.py:214
+#: src/states/setters.py:79
+msgid "ceiling area"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:226 src/keyboards/inline/kbd.py:247
+msgid "What were the factors complicating the work?"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:231 src/keyboards/inline/kbd.py:252
+msgid "Difficult access"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:233 src/keyboards/inline/kbd.py:254
+msgid "No access to object"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:234 src/keyboards/inline/kbd.py:255
+msgid "Custom sizes of vent"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:235 src/keyboards/inline/kbd.py:256
+msgid "Day off work"
+msgstr ""
+
+#: src/keyboards/inline/kbd.py:237 src/keyboards/inline/kbd.py:258
+msgid "Working in another emirate"
+msgstr ""
+
+#: src/states/setters.py:15
+msgid "Enter clients Name"
+msgstr ""
+
+#: src/states/setters.py:21
 msgid ""
 "Enter date of visit in format DAY MONTH YEAR.\n"
 "\n"
 "For example: 1 12 2022 (December the 1st, 2022)"
 msgstr ""
 
-#: src/handlers/message/users/form.py:38
-msgid "Incorrect Date"
-msgstr ""
-
-#: src/handlers/message/users/form.py:45
+#: src/states/setters.py:29
 msgid "Enter Phone number"
 msgstr ""
 
-#: src/handlers/message/users/form.py:51
-msgid "Incorrect phone"
-msgstr ""
-
-#: src/handlers/message/users/form.py:64
-msgid "Incorrect address"
-msgstr ""
-
-#: src/handlers/message/users/form.py:97
-msgid "Send photo AFTER for"
-msgstr ""
-
-#: src/handlers/message/users/form.py:109
+#: src/states/setters.py:106
 msgid "Do you want to add room?"
 msgstr ""
 
-#: src/handlers/message/users/message.py:18
-msgid "Hi! {first_name} {last_name}"
+#: src/states/setters.py:111
+msgid "Do you want to add repair unit?"
 msgstr ""
 
-#: src/handlers/message/users/message.py:23
-msgid "Enter clients Name"
+#: src/states/setters.py:119
+msgid "Send image BEFORE for repair work"
 msgstr ""
 
-#: src/handlers/message/users/message.py:35
-msgid "Cancelled!"
-msgstr ""
-
-#: src/keyboards/inline/kbd.py:16
-msgid "Select room type:"
-msgstr ""
-
-#: src/keyboards/inline/kbd.py:20
-msgid "Kitchen"
-msgstr ""
-
-#: src/keyboards/inline/kbd.py:21
-msgid "Bedroom"
-msgstr ""
-
-#: src/keyboards/inline/kbd.py:22
-msgid "Living Room"
-msgstr ""
-
-#: src/keyboards/inline/kbd.py:30 src/keyboards/inline/kbd.py:93
-msgid "Choose service:"
-msgstr ""
-
-#: src/keyboards/inline/kbd.py:34 src/keyboards/inline/kbd.py:97
-msgid "Premium"
-msgstr ""
-
-#: src/keyboards/inline/kbd.py:35 src/keyboards/inline/kbd.py:98
-msgid "Premium + Extra"
-msgstr ""
-
-#: src/keyboards/inline/kbd.py:37 src/keyboards/inline/kbd.py:100
-msgid "Other Repair Services"
-msgstr ""
-
-#: src/keyboards/inline/kbd.py:46 src/keyboards/inline/kbd.py:109
-msgid "Choose extra services"
-msgstr ""
-
-#: src/keyboards/inline/kbd.py:51 src/keyboards/inline/kbd.py:114
-msgid "Cold Fog Machine Disinfections"
-msgstr ""
-
-#: src/keyboards/inline/kbd.py:54 src/keyboards/inline/kbd.py:117
-msgid "New Polyester Filters Installation"
-msgstr ""
-
-#: src/keyboards/inline/kbd.py:57 src/keyboards/inline/kbd.py:120
-msgid "Thermal Insulator Change Job"
-msgstr ""
-
-#: src/keyboards/inline/kbd.py:59 src/keyboards/inline/kbd.py:122
-msgid "Repair Works"
-msgstr ""
-
-#: src/keyboards/inline/kbd.py:61 src/keyboards/inline/kbd.py:124
-#: src/keyboards/inline/kbd.py:174 src/keyboards/inline/kbd.py:207
-msgid "Other"
-msgstr ""
-
-#: src/keyboards/inline/kbd.py:62 src/keyboards/inline/kbd.py:125
-#: src/keyboards/inline/kbd.py:175 src/keyboards/inline/kbd.py:208
-msgid "Enter"
-msgstr ""
-
-#: src/keyboards/inline/kbd.py:69 src/keyboards/inline/kbd.py:132
-msgid "Select client is an owner or a tenant"
-msgstr ""
-
-#: src/keyboards/inline/kbd.py:74 src/keyboards/inline/kbd.py:137
-msgid "Owner"
-msgstr ""
-
-#: src/keyboards/inline/kbd.py:77 src/keyboards/inline/kbd.py:140
-msgid "Tenant"
-msgstr ""
-
-#: src/keyboards/inline/kbd.py:87
-msgid "Yes"
-msgstr ""
-
-#: src/keyboards/inline/kbd.py:87
-msgid "No"
-msgstr ""
-
-#: src/keyboards/inline/kbd.py:149 src/keyboards/inline/kbd.py:182
-msgid "Choose cleaning nodes"
+#: src/states/setters.py:124
+msgid "Send image AFTER for repair work"
 msgstr ""
 
 #~ msgid "Send photo BEFORE works for grills"
+#~ msgstr ""
+
+#~ msgid "Cancelled!"
+#~ msgstr ""
+
+#~ msgid "Thermal Insulator Change Job"
 #~ msgstr ""
 

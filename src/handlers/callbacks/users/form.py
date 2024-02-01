@@ -6,9 +6,11 @@ from datetime import datetime
 
 import src.keyboards.inline as inline
 from src.states import Form
+from src.states import setters as set_state
+
 import src.misc.getters as get
 
-from src.models import Report, Client, Room, CleaningNode
+from src.models import Report, CleaningNode
 
 from src.services.pdfreport import pdfGenerator
 from src.callbackdata import (
@@ -16,9 +18,10 @@ from src.callbackdata import (
     ServiceCB,
     ExtraServiceCB,
     ClientCB,
-    RoomTypeCB,
     CleaningNodeCB,
+    FactorCB,
 )
+from src.misc.utils import slugify
 
 router = Router()
 
@@ -47,7 +50,7 @@ async def callback_service(
     report = get.get_current_user_report(callback.message.chat.id)
     report.service = callback_data.service
 
-    await set_state_room_cleaning_nodes(callback.message, state)
+    await set_state.set_work_factors_state(callback.message, state)
 
 
 @router.callback_query(
@@ -59,8 +62,9 @@ async def callback_service_premium(
     await callback.answer()
     report = get.get_current_user_report(callback.message.chat.id)
     report.service = callback_data.service
+    await state.set_state(Form.work_factors)
 
-    await set_state_room_cleaning_nodes(callback.message, state)
+    await set_state.set_work_factors_state(callback.message, state)
 
 
 @router.callback_query(
@@ -123,8 +127,51 @@ async def callback_extra_service_enter(
     callback: types.CallbackQuery, state: FSMContext
 ):
     await callback.answer()
+    await set_state.set_work_factors_state(callback.message, state)
 
-    await set_state_room_cleaning_nodes(callback.message, state)
+
+@router.callback_query(Form.work_factors, FactorCB.filter(F.action == "add"))
+async def callback_add_work_factor(
+    callback: types.CallbackQuery, callback_data: FactorCB
+):
+    await callback.answer()
+
+    report = get.get_current_user_report(callback.message.chat.id)
+    factor = callback_data.factor
+    report.add_factor(factor)
+
+    await inline.edit_factors_keyboard(callback.message)
+
+
+@router.callback_query(Form.work_factors, FactorCB.filter(F.action == "delete"))
+async def callback_delete_work_factor(
+    callback: types.CallbackQuery, callback_data: FactorCB
+):
+    await callback.answer()
+
+    report = get.get_current_user_report(callback.message.chat.id)
+    factor = callback_data.factor
+    report.pop_factor(factor)
+    await inline.edit_factors_keyboard(callback.message)
+
+
+@router.callback_query(Form.work_factors, FactorCB.filter(F.action == "enter"))
+async def callback_enter_work_factor(callback: types.CallbackQuery, state: FSMContext):
+    await callback.answer()
+    report = get.get_current_user_report(callback.message.chat.id)
+
+    if report.service == Report.Service.OTHER_REPAIR_SERVICES:
+        room = get.get_current_user_room(callback.message.chat.id)
+        room.add_node(CleaningNode("", type=CleaningNode.Type.OTHER))
+        await set_state.set_repair_img_before_state(callback.message, state)
+        return
+
+    if report.Service == Report.Service.OTHER_REPAIR_SERVICES:
+        room = get.get_current_user_room(callback.message.chat.id)
+        room.add_node(CleaningNode("", type=CleaningNode.Type.OTHER))
+        await set_state.set_repair_img_before_state(callback.message, state)
+    else:
+        await set_state.set_room_cleaning_nodes_state(callback.message, state)
 
 
 @router.callback_query(
@@ -178,14 +225,11 @@ async def callback_enter_cleaning_node(
 async def start_getting_photos(message: types.Message, state: FSMContext):
     room = get.get_current_user_room(message.chat.id)
     room.create_nodes_queue()
-    if room.nodes_queue.empty() and room.current_node == None:
+    if room.nodes_queue_empty() and room.current_node == None:
         await message.answer(_("You didn't selected cleaning nodes"))
         return
 
-    await state.set_state(Form.cleaning_node_img_before)
-    await message.answer(
-        _("Send photo BEFORE for") + " " + room.current_node.button_text
-    )
+    await set_state.set_img_before_state(message, state)
 
 
 @router.callback_query(Form.add_room, F.data == "yes")
@@ -193,14 +237,12 @@ async def callback_add_room_yes(callback: types.CallbackQuery, state: FSMContext
     await callback.answer()
     report = get.get_current_user_report(callback.message.chat.id)
     report.add_room()
-    set_default_cleaning_nodes(callback.message)
-    await set_state_room_cleaning_nodes(callback.message, state)
-
-
-async def set_state_room_cleaning_nodes(message: types.Message, state: FSMContext):
-    set_default_cleaning_nodes(message)
-    await state.set_state(Form.room_cleaning_nodes)
-    await inline.send_cleaning_node_keyboard(message)
+    if report.service == Report.Service.OTHER_REPAIR_SERVICES:
+        room = get.get_current_user_room(callback.message.chat.id)
+        room.add_node(CleaningNode("", type=CleaningNode.Type.OTHER))
+        await set_state.set_repair_img_before_state(callback.message, state)
+    else:
+        await set_state.set_room_cleaning_nodes_state(callback.message, state)
 
 
 @router.callback_query(Form.add_room, F.data == "no")
@@ -209,7 +251,13 @@ async def callback_add_room_yes(
 ):
     await callback.answer()
     await state.clear()
-    await send_pdf_report(bot, callback.message)
+    try:
+        await send_pdf_report(bot, callback.message)
+    except Exception as e:
+        await callback.message.answer(
+            f"Произошла ошибка во время генерации или отправки отчёта. Пожалуйста сообщите администратору и перешлите данное сообщение.\n{datetime.now()}\n{e}\n"
+        )
+        raise e
 
 
 async def send_pdf_report(bot: Bot, message: types.Message):
@@ -223,25 +271,8 @@ async def send_pdf_report(bot: Bot, message: types.Message):
 
 async def generate_report(bot: Bot, chat_id: int) -> str:
     report = get.get_current_user_report(chat_id)
-    report_name = f"{report.client.name}_{datetime.now().strftime('%m-%d-%Y_%H-%M-%S')}"
+    client_name = slugify(report.client.name, allow_unicode=True)
+    report_name = f"MAINTENANCE_REPORT_{client_name}_{datetime.now().strftime('%m-%d-%Y_%H-%M-%S')}"
     report_dict = await report.dict_with_binary(bot)
-    pdfGenerator(report_name).generate(report_dict)
-    return f"./reports/{report_name}-compressed.pdf"
-
-
-def set_default_cleaning_nodes(message: types.Message):
-    DEFAULT_CLEANING_NODES = [
-        CleaningNode("grills", button_text=_("grills"), type=CleaningNode.Type.DEFAULT),
-        CleaningNode("duct", button_text=_("duct"), type=CleaningNode.Type.DEFAULT),
-        CleaningNode("pan", button_text=_("pan"), type=CleaningNode.Type.DEFAULT),
-        CleaningNode(
-            "radiator",
-            button_text=_("radiator"),
-            type=CleaningNode.Type.DEFAULT,
-        ),
-        CleaningNode("filter", button_text=_("filter"), type=CleaningNode.Type.DEFAULT),
-        CleaningNode("blades", button_text=_("blades"), type=CleaningNode.Type.DEFAULT),
-    ]
-    room = get.get_current_user_room(message.chat.id)
-    for node in DEFAULT_CLEANING_NODES:
-        room.set_default_node(node)
+    path = pdfGenerator(report_name).generate(report_dict)
+    return path

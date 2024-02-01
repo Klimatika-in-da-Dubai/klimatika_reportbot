@@ -17,3 +17,10 @@ clean:
 	for i in $(RM_TARGET) ; do \
 		$(RM) $$i ; \
 	done
+
+update_po:
+	pybabel extract --input-dirs=. -o locales/messages.pot
+	pybabel update -d locales -D messages -i locales/messages.pot
+	
+compile_po:
+	pybabel compile -d locales -D messages

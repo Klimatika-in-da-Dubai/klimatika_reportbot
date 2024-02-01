@@ -10,6 +10,7 @@ from src.states.form import Form
 from src.models import Report, Room, Client, CleaningNode
 import src.misc.validators as vld
 import src.misc.getters as get
+from src.states import setters as set_state
 
 
 form_router = Router()
@@ -24,12 +25,7 @@ async def process_name(message: types.Message, state: FSMContext) -> None:
     name = get.get_name(message.text)
     report = get.get_current_user_report(message.chat.id)
     report.client.name = name
-    await state.set_state(Form.date)
-    await message.answer(
-        _(
-            "Enter date of visit in format DAY MONTH YEAR.\n\nFor example: 1 12 2022 (December the 1st, 2022)"
-        )
-    )
+    await set_state.set_date_state(message, state)
 
 
 @form_router.message(Form.date, F.text)
@@ -41,8 +37,7 @@ async def process_date(message: types.Message, state: FSMContext) -> None:
     date = get.get_date(message.text)
     report = get.get_current_user_report(message.chat.id)
     report.date = date
-    await state.set_state(Form.client_phone)
-    await message.answer(_("Enter Phone number"))
+    await set_state.set_client_phone_state(message, state)
 
 
 @form_router.message(Form.client_phone, F.text)
@@ -54,8 +49,7 @@ async def process_phone(message: types.Message, state: FSMContext) -> None:
     phone = get.get_phone(message.text)
     report = get.get_current_user_report(message.chat.id)
     report.client.phone = phone
-    await state.set_state(Form.client_address)
-    await message.answer(_("Enter client address:"))
+    await set_state.set_client_address_state(message, state)
 
 
 @form_router.message(Form.client_address, F.text)
@@ -67,24 +61,24 @@ async def process_address(message: types.Message, state: FSMContext) -> None:
     address = get.get_address(message.text)
     report = get.get_current_user_report(message.chat.id)
     report.client.address = address
-    await state.set_state(Form.service)
-    await inline.send_service_keyboard(message)
+    await set_state.set_service_state(message, state)
 
 
 @form_router.message(Form.extra_service_await_answer, F.text)
 async def process_extra_service_add_other(message: types.Message, state: FSMContext):
     report = get.get_current_user_report(message.chat.id)
     report.other_extra_services.append(message.text)
-    await state.set_state(Form.extra_service)
-    await inline.send_extra_service_keyboard(message)
+    await set_state.set_extra_service_state(message, state)
 
 
 @form_router.message(Form.cleaning_node_await_answer, F.text)
 async def process_cleaning_node_add_other(message: types.Message, state: FSMContext):
     room = get.get_current_user_room(message.chat.id)
+    if len(message.text) > 31:
+        await message.answer(_("Cleaning node name is too long! Should be < 31"))
+        return
     room.add_node(CleaningNode(message.text, CleaningNode.Type.OTHER))
-    await state.set_state(Form.room_cleaning_nodes)
-    await inline.send_cleaning_node_keyboard(message)
+    await set_state.set_room_cleaning_nodes_state(message, state)
 
 
 @form_router.message(Form.cleaning_node_img_before, F.photo)
@@ -92,13 +86,10 @@ async def process_cleaning_node_img_before(message: types.Message, state: FSMCon
     room = get.get_current_user_room(message.chat.id)
     room.current_node.photo_before = get.get_photo(message.photo)
     room.next_cleaning_node()
-    
-    if room.nodes_queue.empty() and room.current_node == None:
+
+    if room.nodes_queue_empty():
         room.create_nodes_queue()
-        await state.set_state(Form.cleaning_node_img_after)
-        await message.answer(
-            _("Send photo AFTER for") + " " + room.current_node.button_text
-        )
+        await set_state.set_img_after_state(message, state)
         return
 
     await message.answer(
@@ -112,9 +103,8 @@ async def process_cleaning_node_img_after(message: types.Message, state: FSMCont
     room.current_node.photo_after = get.get_photo(message.photo)
     room.next_cleaning_node()
 
-    if room.nodes_queue.empty() and room.current_node == None:
-        await state.set_state(Form.add_room)
-        await inline.send_yes_no_keboard(message, _("Do you want to add room?"))
+    if room.nodes_queue_empty():
+        await set_state.set_add_room_state(message, state)
         return
 
     await message.answer(

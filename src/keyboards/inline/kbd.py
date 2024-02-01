@@ -8,6 +8,7 @@ from .form import (
     get_yes_no_keyboard,
     get_room_type_keyboard,
     get_cleaning_node_keyboard,
+    get_factors_keyboard,
 )
 
 
@@ -53,9 +54,9 @@ async def send_extra_service_keyboard(message: types.Message):
                 Report.ExtraService.NEW_POLYESTER_FILTERS_INSTALLATION.for_button(
                     _("New Polyester Filters Installation")
                 ),
-                Report.ExtraService.THERMAIL_INSULATOR_CHANGE_JOB.for_button(
-                    _("Thermal Insulator Change Job")
-                ),
+                # Report.ExtraService.THERMAIL_INSULATOR_CHANGE_JOB.for_button(
+                #     _("Thermal Insulator Change Job")
+                # ),
                 Report.ExtraService.REPAIR_WORKS.for_button(_("Repair Works")),
             ],
             other=_("Other"),
@@ -116,9 +117,9 @@ async def edit_extra_service_keyboard(message: types.Message):
                 Report.ExtraService.NEW_POLYESTER_FILTERS_INSTALLATION.for_button(
                     _("New Polyester Filters Installation")
                 ),
-                Report.ExtraService.THERMAIL_INSULATOR_CHANGE_JOB.for_button(
-                    _("Thermal Insulator Change Job")
-                ),
+                # Report.ExtraService.THERMAIL_INSULATOR_CHANGE_JOB.for_button(
+                #     _("Thermal Insulator Change Job")
+                # ),
                 Report.ExtraService.REPAIR_WORKS.for_button(_("Repair Works")),
             ],
             other=_("Other"),
@@ -170,6 +171,11 @@ async def send_cleaning_node_keyboard(message: types.Message):
                 CleaningNode(
                     "blades", button_text=_("blades"), type=CleaningNode.Type.DEFAULT
                 ),
+                CleaningNode(
+                    "ceiling area",
+                    button_text=_("ceiling area"),
+                    type=CleaningNode.Type.DEFAULT,
+                ),
             ],
             other=_("Other"),
             enter=_("Enter"),
@@ -203,8 +209,55 @@ async def edit_cleaning_node_keyboard(message: types.Message):
                 CleaningNode(
                     "blades", button_text=_("blades"), type=CleaningNode.Type.DEFAULT
                 ),
+                CleaningNode(
+                    "ceiling area",
+                    button_text=_("ceiling area"),
+                    type=CleaningNode.Type.DEFAULT,
+                ),
             ],
             other=_("Other"),
+            enter=_("Enter"),
+        ),
+    )
+
+
+async def send_factors_keyboard(message: types.Message):
+    await message.answer(
+        _("What were the factors complicating the work?"),
+        reply_markup=get_factors_keyboard(
+            message.chat.id,
+            [
+                Report.Factor.DIFFICULT_ACCESS_TO_UNITS.for_button(
+                    _("Difficult access")
+                ),
+                Report.Factor.NO_ACCESS_TO_OBJECT.for_button(_("No access to object")),
+                Report.Factor.CUSTOM_SIZES.for_button(_("Custom sizes of vent")),
+                Report.Factor.DAY_OFF_WORK.for_button(_("Day off work")),
+                Report.Factor.WORKING_IN_ANOTHER_EMIRATE.for_button(
+                    _("Working in another emirate")
+                ),
+            ],
+            enter=_("Enter"),
+        ),
+    )
+
+
+async def edit_factors_keyboard(message: types.Message):
+    await message.edit_text(
+        _("What were the factors complicating the work?"),
+        reply_markup=get_factors_keyboard(
+            message.chat.id,
+            [
+                Report.Factor.DIFFICULT_ACCESS_TO_UNITS.for_button(
+                    _("Difficult access")
+                ),
+                Report.Factor.NO_ACCESS_TO_OBJECT.for_button(_("No access to object")),
+                Report.Factor.CUSTOM_SIZES.for_button(_("Custom sizes of vent")),
+                Report.Factor.DAY_OFF_WORK.for_button(_("Day off work")),
+                Report.Factor.WORKING_IN_ANOTHER_EMIRATE.for_button(
+                    _("Working in another emirate")
+                ),
+            ],
             enter=_("Enter"),
         ),
     )

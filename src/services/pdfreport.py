@@ -1,263 +1,555 @@
+from enum import IntEnum, auto
+from typing import Any, BinaryIO
 from PIL import Image
 
 from reportlab.pdfbase import pdfmetrics
-from reportlab.pdfbase.pdfdoc import Destination
-from reportlab.pdfbase.ttfonts import TTFont, TTFontParser
+from reportlab.pdfbase.ttfonts import BytesIO, TTFont
+from reportlab.pdfgen import canvas
 
-from .reporttools import *
+from .reporttools import (
+    FIRST_SLIDE,
+    HEDING_FONT_SIZE,
+    LAST_SLIDE,
+    PDF_WIDTH,
+    PDF_HEIGHT,
+    PRE_LAST_SLIDE,
+    REPORTS_PATH,
+    Fonts,
+    Indent,
+    add_image,
+    image_crop,
+    pdf_compression,
+)
 
- 
-class pdfGenerator():
+
+PREMIUM_DESCRIPTION_POINTS = [
+    "Deep cleaning of fan coil unit (VAV, blower fans, air-filter, evaporator coil, drain tray (if accessible))",
+    "Check-up and adjustment of valves, fan belts, pulleys, coil, filter, strainer, pipe joints, insulation, bearings, drain trays, drain pipes and manometer tubes. VRV system errors\nand pressure check-up (as applicable to your type of property)",
+    "Checking for noise, leaks, smell, vibration and general performance issues (for villas - refrigerant level check-up, board of roof-top AC unit control clean-up and check-up,\ncontrols calibrations checks)",
+    "Check-up of thermostat (for villas – starters, relays and timers)",
+    "Cleaning of above-ceiling areas (construction work left-overs clean-up, vacuum cleaning with special hose and brush, hand-washing with water)",
+    "Disinfection with antibacterial detergent (ShieldMe)",
+    "Using anti-dust protection curtains (Zipwall US)",
+    "All works performed with german hand tools - DeWalt, Karcher.",
+]
+
+
+class WorkingFactors(IntEnum):
+    CUMBERSOME_AND_DIFFICULT_ACCESS = auto()
+    PROPERTY_ACCESS_PERMIT_NOT_APPLIED = auto()
+    NOT_STANDART_SIZES_OR_DIFFICULTIES = auto()
+    INSPECTION_ON_WEEKEND = auto()
+    WORK_IN_OTHER_EMIRATE = auto()
+
+
+WORKING_FACTORS_TEXT: dict[WorkingFactors, str] = {
+    WorkingFactors.CUMBERSOME_AND_DIFFICULT_ACCESS: "Cumbersome and otherwise difficult access to units (ceiling access panels located far from AC units, access panels being less than\n60 cm and similar) which affected the overall time of works",
+    WorkingFactors.PROPERTY_ACCESS_PERMIT_NOT_APPLIED: "Property access permit not applied for/provided/procured for by the Client in advance",
+    WorkingFactors.NOT_STANDART_SIZES_OR_DIFFICULTIES: "Duct grills and/or diffusers are of the length more than 2 meters long and system has not been serviced for a long time",
+    WorkingFactors.INSPECTION_ON_WEEKEND: "The inspection performed on a weekend or on a UAE National Holiday",
+    WorkingFactors.WORK_IN_OTHER_EMIRATE: "The Client's premises are located outside Dubai, in other emirate",
+}
+
+
+HEREBY_WE = [
+    "represent the outline of what we actually did where photos evidence that our services had been performed as shown to the best extent\npossible given the circumstances, access and work conditions;",
+    "gaurantee that photos are genuine and had not been used from other clients' premises;",
+    "kindly ask you to take into account that mild dust layer in the duct and some dirt in the trays/drain may add up very quickly (in 2-3 days\nafter cleaning) in the GCC region due to cliamte conditions and AC system work, this is normal and does not indicate that our services\nhave been performed loosely or unduly. Please provide evidence if you feel strong that it was our fault, otherwise we won't be able to\nprocess it in a proper way. For frivoulous claims not supported by convicing evidence we reserve the right to dispute such claims based\non this report and solely on the fact that no objections from your side were raised when you received this report and paid for our\nservices.",
+    "kindly inform you if you do not raise any objections to what you see in this report or invoice within 24 hours after receiving this\nreport/invoice, we assume that you accept the works as they are depicted in photos in full and have no objections whatsoever.]",
+]
+
+
+class pdfGenerator:
     canv = canvas.Canvas("./report.pdf", pagesize=(PDF_WIDTH, PDF_HEIGHT))
 
     def __init__(self, report_name: str = "report"):
         self.report_name = report_name
-        self.canv = canvas.Canvas(f"{REPORTS_PATH}/{self.report_name}.pdf", pagesize=(PDF_WIDTH, PDF_HEIGHT))
-    # set up fonts
-        pdfmetrics.registerFont(TTFont(Fonts.regular['name'], Fonts.regular['path']))
-        pdfmetrics.registerFont(TTFont(Fonts.bold['name'], Fonts.bold['path']))
-        pdfmetrics.registerFont(TTFont(Fonts.italics['name'], Fonts.italics['path']))
-        pdfmetrics.registerFont(TTFont(Fonts.medium['name'], Fonts.medium['path']))
-        pdfmetrics.registerFont(TTFont(Fonts.light['name'], Fonts.light['path']))
+        self.canv = canvas.Canvas(
+            f"{REPORTS_PATH}/{self.report_name}.pdf", pagesize=(PDF_WIDTH, PDF_HEIGHT)
+        )
+        # set up fonts
+        pdfmetrics.registerFont(TTFont(Fonts.regular["name"], Fonts.regular["path"]))
+        pdfmetrics.registerFont(TTFont(Fonts.bold["name"], Fonts.bold["path"]))
+        pdfmetrics.registerFont(TTFont(Fonts.italics["name"], Fonts.italics["path"]))
+        pdfmetrics.registerFont(TTFont(Fonts.medium["name"], Fonts.medium["path"]))
+        pdfmetrics.registerFont(TTFont(Fonts.light["name"], Fonts.light["path"]))
+
+    def bullet_list(
+        self,
+        textobject: canvas.PDFTextObject,
+        str_list: list[str],
+        bullet_color: str,
+        bullet_font_args: dict[str, Any],
+        text_color: str,
+        text_font_args: dict[str, Any],
+        leading: float,
+    ):
+        for line in str_list:
+            textobject.setLeading(leading)
+            textobject.setFillColor(bullet_color)
+            textobject.setFont(**bullet_font_args)
+            textobject.textOut("•  ")
+            textobject.setFont(**text_font_args)
+            textobject.setLeading(leading)
+            textobject.setFillColor(text_color)
+            new_line = line.split("\n")
+            count = 0
+            for i in new_line:
+                if count > 0:
+                    textobject.textOut("    ")
+                textobject.textLine(i)
+                count += 1
 
     def first_slide(self):
         canv = self.canv
-        img = Image.open(FIRST_SLIDE_TEMPLATE_PATH)
+        img = Image.open(FIRST_SLIDE)
         add_image(canv, img, PDF_WIDTH, 0, 0)
         # img = Image.open(KLIMATIKA_LOGO_PATH)
         # add_image(canv, img, 430, Indent.get_x(), PDF_HEIGHT - 215)
 
         textobject = canv.beginText()
-        textobject.setTextOrigin(Indent.get_x(), PDF_HEIGHT - Indent.get_y() * 5)
+        textobject.setTextOrigin(Indent.get_x(), 791)
         textobject.setFillColor("#FFFFFF")
-        textobject.setFont(Fonts.bold['name'], 130)
-        textobject.setLeading(140)
+        textobject.setFont(Fonts.bold["name"], 88)
+        # textobject.setLeading(140)
 
-        textobject.textLine(text='Apartment')
-        textobject.textLine(text='VAC Cleaning')
-        textobject.textLine(text='Completion')
-        textobject.textLine(text='Report')
-    
-        textobject.setFont(Fonts.regular['name'], 36)
-        textobject.setTextOrigin(Indent.get_x(), Indent.get_y() * 2)
-        textobject.textOut(text='Learn how we help ')
-        textobject.setFont(Fonts.bold['name'], 36)
-        textobject.textOut(text='you breathe.')
+        textobject.textLine(text="Maintenance")
+        textobject.textLine(text="Service Completion")
+        textobject.textLine(text="Report")
 
-        longest_stroke_len = len("of Klimatika AC and Refridgerator")
-        _frst_stroke_len = len("Presented by Aleksandr Orlov")
-        thrd_stroke = "Maintenance LLC"
-        _thrd_stroke_len = len(thrd_stroke)
-        frth_stroke = "(License# 1113949)"
-        _frth_stroke_len = len(frth_stroke)
+        textobject.setFont(Fonts.regular["name"], 30)
+        textobject.setTextOrigin(Indent.get_x(), 467)
+        textobject.textOut(text="Presented by ")
+        textobject.setFont(Fonts.bold["name"], 30)
+        textobject.textOut(text="Andrei Nosikov ")
 
-        textobject.setFont(Fonts.regular['name'], 30)
-        textobject.setTextOrigin(PDF_WIDTH - (PDF_WIDTH / 4) - Indent.get_x(), Indent.get_y() * 3)
-        textobject.textOut(text=(' ' * (longest_stroke_len - _frst_stroke_len) * 2) + 'Presented by ')
-        textobject.setFont(Fonts.bold['name'], 30)
-        textobject.textLine(text='Aleksandr Orlov')
+        textobject.setFont(Fonts.regular["name"], 30)
+        textobject.textLine(text="of")
+        textobject.setFont(Fonts.bold["name"], 30)
+        textobject.textLine(text="Klimatika AC and Refrigerator ")
+        textobject.textOut(text="Maintenance LLC ")
+        textobject.setFont(Fonts.regular["name"], 30)
+        textobject.textLine(text=" (License# 1113949)")
 
-        textobject.setFont(Fonts.regular['name'], 30)
-        textobject.textOut(text='of ')
-        textobject.setFont(Fonts.bold['name'], 30)
-        textobject.textLine(text='Klimatika AC and Refridgerator')
+        textobject.setFont(Fonts.regular["name"], 36)
+        textobject.setTextOrigin(Indent.get_x(), 64)
+        textobject.textOut(text="Learn how we help ")
+        textobject.setFont(Fonts.bold["name"], 36)
+        textobject.textOut(text="you breathe.")
 
-        textobject.textLine(text=(' ' * (longest_stroke_len - _thrd_stroke_len) * 2) + thrd_stroke)
-        textobject.setFont(Fonts.regular['name'], 30)
-
-        textobject.textLine(text=(' ' * (longest_stroke_len - _frth_stroke_len) * 2) + frth_stroke)
+        # longest_stroke_len = len("of Klimatika AC and Refridgerator")
+        # _frst_stroke_len = len("Presented by Aleksandr Orlov")
+        # thrd_stroke = "Maintenance LLC"
+        # _thrd_stroke_len = len(thrd_stroke)
+        # frth_stroke = "(License# 1113949)"
+        # _frth_stroke_len = len(frth_stroke)
 
         canv.drawText(textobject)
-    
+
         canv.showPage()
-    
-    
-    def outline_slide(self, date: str, name: str, ph_number: str, address: str, helped: str, description: str, cleaned: str) -> None:
+
+    def summary_first(
+        self,
+        date: str,
+        name: str,
+        phone_number: str,
+        address: str,
+        performed_service: str,
+        summary_num: int,
+    ):
         canv = self.canv
         textobject = canv.beginText()
 
-        textobject.setTextOrigin(Indent.get_x(), PDF_HEIGHT - Indent.get_y() * 2 )
-    
-        textobject.setFont(Fonts.bold['name'], HEDING_FONT_SIZE)
-        textobject.setCharSpace(-1)
-        textobject.setFillColor("#E2000F")
-        textobject.setLeading(HEDING_FONT_SIZE * 2)
-        textobject.textLine(text='Outline')
-    
-        textobject.setFont(Fonts.regular['name'], 37)
-        textobject.setFillColor("#000000")
-        textobject.setLeading(70)
-        textobject.textOut('Date   ')
-        textobject.setFillColor("#6F7378")
-        textobject.textLine(text=date)
-    
-        textobject.setFillColor("#000000")
-        textobject.textOut('Name   ')
-        textobject.setFillColor("#6F7378")
-        textobject.textLine(text=name)
-    
-        textobject.setFillColor("#000000")
-        textobject.textOut('Phone number   ')
-        textobject.setFillColor("#6F7378")
-        textobject.textLine(ph_number)
-    
-        textobject.setFillColor("#000000")
-        textobject.textOut('Address   ')
-        textobject.setFillColor("#6F7378")
-        textobject.textLine(address)
-    
-        textobject.setFillColor("#000000")
-        textobject.textOut('Performed services   ')
-        textobject.setFillColor("#6F7378")
-        textobject.textLine(helped)
+        textobject.setTextOrigin(Indent.get_x(), 959)
 
-        if description != "":
-            textobject.setFillColor("#000000")
-            textobject.setLeading(45)
-            textobject.textLine('Description:')
-            textobject.setFillColor("#6F7378")
-            
-            new_description = divide_by_len(description, 69)
-            for i in range(len(new_description)):
-                if i + 1 == len(new_description):
-                    textobject.setLeading(70)
-                textobject.textLine(new_description[i])
-        
-        if cleaned != "" :
-            textobject.setFillColor("#E2000F")
-            textobject.setFont(Fonts.medium['name'], 37)
-            textobject.setLeading(45)
-            textobject.textLine(text='What we did extra:')
-            textobject.setFont(Fonts.regular['name'], 37)
-            textobject.setFillColor("#6F7378")
-            new_cleaned = divide_by_len(cleaned, 69)
-            for i in new_cleaned:
-                textobject.textLine(i)
+        textobject.setFont(Fonts.bold["name"], HEDING_FONT_SIZE)
+        textobject.setCharSpace(-1)
+        textobject.setFillColor("#2082EA")
+        textobject.setLeading(HEDING_FONT_SIZE * 1.5)
+        summary_text = "Summary (1 of 3)"
+        if summary_num == 2:
+            summary_text = "Summary (1 of 2)"
+        textobject.textLine(summary_text)
+
+        textobject.setTextOrigin(Indent.get_x(), 880)
+        textobject.setFillColor("#2082EA")
+        textobject.setFont(Fonts.bold["name"], 29)
+        textobject.textOut("Date:  ")
+        textobject.setFont(Fonts.regular["name"], 29)
+        textobject.setFillColor("#6F7378")
+        textobject.setLeading(55)
+        textobject.textLine(text=date)
+
+        textobject.setFillColor("#2082EA")
+        textobject.setFont(Fonts.bold["name"], 29)
+        textobject.textOut("Name:  ")
+        textobject.setFont(Fonts.regular["name"], 29)
+        textobject.setFillColor("#6F7378")
+        textobject.setLeading(55)
+        textobject.textLine(text=name)
+
+        textobject.setFillColor("#2082EA")
+        textobject.setFont(Fonts.bold["name"], 29)
+        textobject.textOut("Phone number:  ")
+        textobject.setFont(Fonts.regular["name"], 29)
+        textobject.setFillColor("#6F7378")
+        textobject.setLeading(55)
+        textobject.textLine(phone_number)
+
+        textobject.setFillColor("#2082EA")
+        textobject.setFont(Fonts.bold["name"], 29)
+        textobject.textOut("Address:  ")
+        textobject.setFont(Fonts.regular["name"], 29)
+        textobject.setFillColor("#6F7378")
+        textobject.setLeading(55)
+        textobject.textLine(address)
+
+        textobject.setFillColor("#2082EA")
+        textobject.setFont(Fonts.bold["name"], 29)
+        textobject.textOut("Performed services:  ")
+        textobject.setFont(Fonts.regular["name"], 29)
+        textobject.setFillColor("#6F7378")
+        textobject.setLeading(70)
+        textobject.textLine(performed_service)
+
+        textobject.setTextOrigin(Indent.get_x(), 588)
+        textobject.setFillColor("#2082EA")
+        textobject.setFont(Fonts.bold["name"], 23)
+        textobject.textOut("Description:")
+        textobject.setTextOrigin(Indent.get_x(), 533)
+
+        textobject.setFont(Fonts.regular["name"], 23)
+        textobject.setFillColor("#525252")
+
+        if "Premium" in performed_service:
+            textobject.textLine("Premium cleaning service included:")
+
+            textobject.setTextOrigin(Indent.get_x() + 15, 489)
+            textobject.setCharSpace(0.2)
+            self.bullet_list(
+                textobject,
+                PREMIUM_DESCRIPTION_POINTS,
+                "#2082EA",
+                {"psfontname": Fonts.bold["name"], "size": 23},
+                "#525252",
+                {"psfontname": Fonts.regular["name"], "size": 23},
+                43,
+            )
+        else:
+            textobject.textLine(
+                "Minor repairs around the house, not related to the repair of air conditioners and ventilation"
+            )
+
         canv.drawText(textobject)
         canv.showPage()
-    
-    
+
+    def summary_second(
+        self,
+        extra_services: list,
+        working_factors: list[WorkingFactors],
+    ):
+        canv = self.canv
+        textobject = canv.beginText()
+        textobject.setTextOrigin(Indent.get_x(), 959)
+        textobject.setCharSpace(0.3)
+
+        textobject.setFont(Fonts.bold["name"], HEDING_FONT_SIZE)
+        textobject.setCharSpace(-1)
+        textobject.setFillColor("#2082EA")
+        textobject.setLeading(HEDING_FONT_SIZE * 1.5)
+        textobject.textLine("Summary (2 of 3)")
+
+        textobject.setTextOrigin(Indent.get_x(), 844)
+        if extra_services:
+            self.extra_services(textobject, extra_services)
+            textobject.setTextOrigin(Indent.get_x(), 492)
+
+        if working_factors:
+            self.working_factors(textobject, working_factors)
+
+        canv.drawText(textobject)
+        canv.showPage()
+
+    def extra_services(self, textobject: canvas.PDFTextObject, extra_services: list):
+        textobject.setFillColor("#2082EA")
+        textobject.setFont(Fonts.bold["name"], 28)
+        textobject.setLeading(83)
+        textobject.textLine("What we did extra:")
+        textobject.setFont(Fonts.regular["name"], 28)
+        textobject.setXPos(28)
+        self.bullet_list(
+            textobject,
+            extra_services,
+            "#6F7378",
+            {"psfontname": Fonts.bold["name"], "size": 30},
+            "#6F7378",
+            {"psfontname": Fonts.regular["name"], "size": 30},
+            54,
+        )
+
+    def working_factors(
+        self, textobject: canvas.PDFTextObject, working_factors: list[str]
+    ):
+        textobject.setFillColor("#2082EA")
+        textobject.setFont(Fonts.bold["name"], 28)
+        textobject.setLeading(72)
+        textobject.textLine(
+            "Factors on your premises affecting the inspection time length and final price for our services:"
+        )
+        textobject.setFont(Fonts.regular["name"], 28)
+        textobject.setXPos(28)
+        self.bullet_list(
+            textobject,
+            working_factors,
+            "#6F7378",
+            {"psfontname": Fonts.bold["name"], "size": 30},
+            "#6F7378",
+            {"psfontname": Fonts.regular["name"], "size": 30},
+            54,
+        )
+
+    def summary_third(self, summary_num: int):
+        canv = self.canv
+        textobject = canv.beginText()
+
+        textobject.setTextOrigin(Indent.get_x(), 959)
+
+        textobject.setFont(Fonts.bold["name"], HEDING_FONT_SIZE)
+        textobject.setCharSpace(0)
+        textobject.setFillColor("#2082EA")
+        textobject.setLeading(HEDING_FONT_SIZE * 2)
+        summary_text = "Summary (3 of 3)"
+        if summary_num == 2:
+            summary_text = "Summary (2 of 2)"
+        textobject.textLine(summary_text)
+
+        textobject.setTextOrigin(Indent.get_x(), 833)
+        textobject.setFont(Fonts.bold["name"], 50)
+        textobject.setFillColor("#2082EA")
+        textobject.textLine("Hereby we:")
+
+        textobject.setTextOrigin(75, 755)
+        textobject.setFont(Fonts.regular["name"], 29)
+
+        self.bullet_list(
+            textobject,
+            HEREBY_WE,
+            "#2082EA",
+            {"psfontname": Fonts.bold["name"], "size": 29},
+            "#525252",
+            {"psfontname": Fonts.regular["name"], "size": 29},
+            55,
+        )
+
+        textobject.setFont(Fonts.bold["name"], 29)
+        textobject.setFillColor("#2082EA")
+        textobject.textOut("• ")
+        textobject.setLeading(55)
+        textobject.textLine(
+            "highly recommend that you have your AC units and Duct system serviced at least<u>3͟-͟4͟ t͟i͟m͟e͟s͟ a͟ y͟e͟a͟r͟</u>, so that you enjoy fresh air,"
+        )
+        textobject.textLine(
+            "system work properly and you pay less for electricity bills or AC repair."
+        )
+
+        canv.drawText(textobject)
+        canv.showPage()
+
+    def summary_slides(
+        self,
+        date: str,
+        name: str,
+        phone_number: str,
+        address: str,
+        performed_service: str,
+        extra_services: list,
+        working_factors: list,
+    ):
+        if extra_services != [] or working_factors != []:
+            self.summary_first(date, name, phone_number, address, performed_service, 1)
+            self.summary_second(extra_services, working_factors)
+            self.summary_third(3)
+        else:
+            self.summary_first(date, name, phone_number, address, performed_service, 2)
+            self.summary_third(2)
+
     def room_slide(self, obj: str, before: BinaryIO, after: BinaryIO):
         canv = self.canv
 
         img_before = image_crop(before)
         img_after = image_crop(after)
         add_image(canv, img_before, 860, Indent.get_x(), Indent.get_y() * 3)
-        add_image(canv, img_after, 860, PDF_WIDTH - 860 - Indent.get_x(), Indent.get_y() * 3)
-    
+        add_image(
+            canv, img_after, 860, PDF_WIDTH - 860 - Indent.get_x(), Indent.get_y() * 3
+        )
+
         textobject = canv.beginText()
-        textobject.setTextOrigin(Indent.get_x(), PDF_HEIGHT - Indent.get_y() * 2 - HEDING_FONT_SIZE)
-    
-        textobject.setFont(Fonts.bold['name'], HEDING_FONT_SIZE)
-        textobject.setFillColor("#E2000F")
+        textobject.setTextOrigin(
+            Indent.get_x(), PDF_HEIGHT - Indent.get_y() * 2 - HEDING_FONT_SIZE
+        )
+
+        textobject.setFont(Fonts.bold["name"], HEDING_FONT_SIZE)
+        textobject.setFillColor("#2082EA")
         textobject.setLeading(HEDING_FONT_SIZE)
         textobject.textLine(text=f"BEFORE and AFTER {obj} cleaning")
-        
+
         canv.drawText(textobject)
-    
+
         canv.showPage()
-    
-    
+
+    def repair_slide(self, before: BinaryIO, after: BinaryIO):
+        canv = self.canv
+
+        img_before = image_crop(before)
+        img_after = image_crop(after)
+        add_image(canv, img_before, 860, Indent.get_x(), Indent.get_y() * 3)
+        add_image(
+            canv, img_after, 860, PDF_WIDTH - 860 - Indent.get_x(), Indent.get_y() * 3
+        )
+
+        textobject = canv.beginText()
+        textobject.setTextOrigin(
+            Indent.get_x(), PDF_HEIGHT - Indent.get_y() * 2 - HEDING_FONT_SIZE
+        )
+
+        textobject.setFont(Fonts.bold["name"], HEDING_FONT_SIZE)
+        textobject.setFillColor("#2082EA")
+        textobject.setLeading(HEDING_FONT_SIZE)
+        textobject.textLine(text="BEFORE and AFTER")
+
+        canv.drawText(textobject)
+
+        canv.showPage()
+
     def last_slides(self):
         canv = self.canv
 
-        canv.setFillColor("#E2000F")
+        canv.setFillColor("#2082EA")
         canv.rect(0, 0, PDF_WIDTH, PDF_HEIGHT, stroke=0, fill=1)
-        img = Image.open(PRE_LAST_SLIDE_TEMPLATE_PATH)
+        img = Image.open(PRE_LAST_SLIDE)
         add_image(canv, img, PDF_WIDTH, 0, 0)
-    
+
         textobject = canv.beginText()
-        textobject.setTextOrigin(Indent.get_x(), PDF_HEIGHT - Indent.get_y() * 2 - HEDING_FONT_SIZE)
-    
-        textobject.setFont(Fonts.bold['name'], HEDING_FONT_SIZE)
+        textobject.setTextOrigin(Indent.get_x(), 879)
+
+        textobject.setFont(Fonts.bold["name"], HEDING_FONT_SIZE)
         textobject.setCharSpace(-1)
         textobject.setFillColor("#FFFFFF")
         textobject.setLeading(HEDING_FONT_SIZE)
-        textobject.textLine(text='Make Sure to Clean Your')
-        textobject.textLine(text='VAC Filters')
-    
+        textobject.textLine(text="Make   Sure   to    get   Your    VAC")
+        textobject.textLine(text="system  inspected  and  serviced")
+        textobject.textLine(text="on a regular basis!")
+
         textobject.setFillColor("#E6E6E6")
-        textobject.setFont(Fonts.regular['name'], 48)
+        textobject.setTextOrigin(Indent.get_x(), 587)
+        textobject.setFont(Fonts.regular["name"], 48)
+        textobject.setLeading(82)
+        textobject.textLine(text="Clean air system can help you save between 5% and")
+        textobject.textLine(text="15% from your electricity bill!")
 
-        textobject.setTextOrigin(Indent.get_x(), PDF_HEIGHT / 2 - Indent.get_y())
-        textobject.setLeading(48)
-        textobject.textLine(text='Clean air filters can help you save between 5% and 15% from')
-        textobject.textLine(text='your electricity bill!')
-    
-        textobject.setTextOrigin(Indent.get_x(), PDF_HEIGHT * 1/4)
-        textobject.setLeading(48)
-        textobject.textLine(text='Clean your VAC filters quarterly and check if you need to swap')
-        textobject.textLine(text='for new ones at the start of each season.')
-    
+        textobject.setTextOrigin(Indent.get_x(), 372)
+        textobject.setLeading(66)
+        textobject.textLine(
+            text="HAVE  your  AC  and  Duct  system  SERVICED  every  3-4"
+        )
+        textobject.textLine(
+            text="months  to  prevent  the  system  from  faailing  when  you"
+        )
+        textobject.textLine(text="need it most.")
+
         canv.drawText(textobject)
         canv.showPage()
-    
-        img = Image.open(LETS_TALK_LOGO_PATH)
-        add_image(canv, img, 600, Indent.get_x(), Indent.get_y())
+
+        img = Image.open(LAST_SLIDE)
+        add_image(canv, img, PDF_WIDTH, Indent.get_x(), Indent.get_y())
 
         textobject = canv.beginText()
-        textobject.setTextOrigin(Indent.get_x(), PDF_HEIGHT - Indent.get_y() * 2 - HEDING_FONT_SIZE)
-    
-        textobject.setFont(Fonts.bold['name'], HEDING_FONT_SIZE)
-        textobject.setFillColor("#E2000F")
-        textobject.textLine(text='Let’s talk!')
+        textobject.setTextOrigin(108, 817)
+
+        textobject.setFont(Fonts.bold["name"], HEDING_FONT_SIZE)
+        textobject.setFillColor("#2082EA")
+        textobject.textLine(text="Let’s talk!")
 
         canv.drawText(textobject)
-    
-        textobject = canv.beginText()
-        textobject.setTextOrigin(PDF_WIDTH / 2 + Indent.get_x(), PDF_HEIGHT - 100)
 
-        textobject.setFont(Fonts.regular['name'], 30)
+        textobject = canv.beginText()
+        textobject.setTextOrigin(108, 737)
+
+        textobject.setFont(Fonts.regular["name"], 30)
         textobject.setCharSpace(-1)
-        textobject.setLeading(35)
-        textobject.textLine(text='Call or email us any time for any')
-        textobject.setLeading(300)
-        textobject.textLine(text='inquiries regarding our services')
+        textobject.textLine(text="Call or email us any time for any inquiries")
+        textobject.textLine(text="regarding our services")
 
-        textobject.setFont(Fonts.bold['name'], 40)
-        textobject.setLeading(45)
-        textobject.textLine(text='Phone')
+        textobject.setTextOrigin(108, 591)
+        textobject.setFont(Fonts.bold["name"], 40)
+        textobject.textLine(text="Phone")
+        textobject.setLeading(44)
+        textobject.setFont(Fonts.regular["name"], 40)
+        textobject.textLine(text="+971 58 819 7173")
 
-        textobject.setFont(Fonts.regular['name'], 40)
-        textobject.setLeading(85)
-        textobject.textLine(text='+971 58 819 7173')
+        textobject.setTextOrigin(108, 475)
+        textobject.setFont(Fonts.bold["name"], 40)
+        textobject.textLine(text="Email")
 
-        textobject.setFont(Fonts.bold['name'], 40)
-        textobject.setLeading(45)
-        textobject.textLine(text='Email')
+        textobject.setTextOrigin(108, 415)
+        textobject.setFont(Fonts.regular["name"], 40)
+        textobject.textLine(text="info@klimatika.ae")
 
-        textobject.setFont(Fonts.regular['name'], 40)
-        textobject.setLeading(85)
-        textobject.textLine(text='info@klimatika.ae')
-
-        textobject.setFont(Fonts.bold['name'], 40)
-        textobject.setLeading(45)
-        textobject.textLine(text='Website')
-
-        textobject.setFont(Fonts.regular['name'], 40)
-        textobject.textLine(text='www.klimatika.ae')
+        textobject.setTextOrigin(108, 356)
+        textobject.setFont(Fonts.bold["name"], 40)
+        textobject.textLine(text="Website")
+        textobject.setTextOrigin(108, 296)
+        textobject.setFont(Fonts.regular["name"], 40)
+        textobject.textLine(text="www.klimatika.ae")
 
         canv.drawText(textobject)
         canv.showPage()
-    
-    def generate(self, report: dict):
+
+    def generate(self, report: dict) -> str:
         self.first_slide()
 
         outline = report["Outline"]
-        self.outline_slide(outline["date"].strftime("%m/%d/%Y"),
-                           outline["name"],
-                           outline["phone_number"],
-                           outline["address"],
-                           outline["helped_with"],
-                           outline["description"],
-                           outline["cleaned"])
+        self.summary_slides(
+            outline["date"].strftime("%m/%d/%Y"),
+            outline["name"],
+            outline["phone_number"],
+            outline["address"],
+            outline["performed_service"],
+            outline["extra_services"],
+            outline["work_factors"],
+        )
         rooms = report["Rooms"]
         for room in rooms["rooms_list"]:
-            for name, img in room['nodes'].items():
-                self.room_slide(name, img['img_before'], img['img_after'])
+            for _, node in room["nodes"].items():
+                if outline["performed_service"] == "Other Repair Services":
+                    self.repair_slide(node["img_before"], node["img_after"])
+                else:
+                    self.room_slide(node["name"], node["img_before"], node["img_after"])
 
         self.last_slides()
         self.canv.save()
 
-        pdf_compression(f"{self.report_name}.pdf")
+        return pdf_compression(f"{REPORTS_PATH / self.report_name}.pdf")
 
+    def generate_first(self):
+        self.first_slide()
+        self.summary_first("date", "name", "89999", "add", "Premium + Extra", 3)
+        self.summary_second(
+            [],
+            [
+                WorkingFactors.CUMBERSOME_AND_DIFFICULT_ACCESS,
+                WorkingFactors.PROPERTY_ACCESS_PERMIT_NOT_APPLIED,
+                WorkingFactors.NOT_STANDART_SIZES_OR_DIFFICULTIES,
+                WorkingFactors.INSPECTION_ON_WEEKEND,
+                WorkingFactors.WORK_IN_OTHER_EMIRATE,
+            ],
+        )
+        self.summary_third(3)
+        with open("./test.jpg", "rb") as f:
+            image1 = BytesIO(f.read())
+
+        with open("./test.jpg", "rb") as f:
+            image2 = BytesIO(f.read())
+        self.room_slide("test", image1, image2)
+        self.last_slides()
+        self.canv.save()
