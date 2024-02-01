@@ -8,3 +8,4 @@ services:
     stop_signal: SIGINT
     volumes:
       - ./reports/:/app/reports/
+      - ./logs/:/app/logs

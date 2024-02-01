@@ -1,27 +1,14 @@
-from aiogram import Router, types, F, Bot
+from aiogram import Router, types, F
 from aiogram.fsm.context import FSMContext
-from aiogram.utils.i18n import gettext as _
 
-from datetime import datetime
 
-import src.keyboards.inline as inline
 from src.states import Form
 from src.states import setters as set_state
 
 import src.misc.getters as get
 
-from src.models import Report, Client, Room, CleaningNode
+from src.models import CleaningNode
 
-from src.services.pdfreport import pdfGenerator
-from src.callbackdata import (
-    OtherExtraServiceCB,
-    ServiceCB,
-    ExtraServiceCB,
-    ClientCB,
-    RoomTypeCB,
-    CleaningNodeCB,
-    FactorCB,
-)
 
 
 router = Router()
