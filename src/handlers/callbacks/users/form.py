@@ -1,4 +1,3 @@
-import os
 from aiogram import Router, types, F, Bot
 from aiogram.fsm.context import FSMContext
 from aiogram.utils.i18n import gettext as _
@@ -268,7 +267,6 @@ async def send_pdf_report(bot: Bot, message: types.Message):
     await message.answer_document(
         types.FSInputFile(pdf_report_path), caption=_("Thank you for your work!")
     )
-    os.remove(pdf_report_path)
 
 
 async def generate_report(bot: Bot, chat_id: int) -> str:
