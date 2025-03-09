@@ -55,7 +55,7 @@ HEREBY_WE = [
     "represent the outline of what we actually did where photos evidence that our services had been performed as shown to the best extent\npossible given the circumstances, access and work conditions;",
     "gaurantee that photos are genuine and had not been used from other clients' premises;",
     "kindly ask you to take into account that mild dust layer in the duct and some dirt in the trays/drain may add up very quickly (in 2-3 days\nafter cleaning) in the GCC region due to cliamte conditions and AC system work, this is normal and does not indicate that our services\nhave been performed loosely or unduly. Please provide evidence if you feel strong that it was our fault, otherwise we won't be able to\nprocess it in a proper way. For frivoulous claims not supported by convicing evidence we reserve the right to dispute such claims based\non this report and solely on the fact that no objections from your side were raised when you received this report and paid for our\nservices.",
-    "kindly inform you if you do not raise any objections to what you see in this report or invoice within 24 hours after receiving this\nreport/invoice, we assume that you accept the works as they are depicted in photos in full and have no objections whatsoever.]",
+    "kindly inform you if you do not raise any objections to what you see in this report or invoice within 24 hours after receiving this\nreport/invoice, we assume that you accept the works as they are depicted in photos in full and have no objections whatsoever.",
 ]
 
 
@@ -346,7 +346,7 @@ class pdfGenerator:
         textobject.textOut("• ")
         textobject.setLeading(55)
         textobject.textLine(
-            "highly recommend that you have your AC units and Duct system serviced at least<u>3͟-͟4͟ t͟i͟m͟e͟s͟ a͟ y͟e͟a͟r͟</u>, so that you enjoy fresh air,"
+            "highly recommend that you have your AC units and Duct system serviced at least 3-4 times a year, so that you enjoy fresh air,"
         )
         textobject.textLine(
             "system work properly and you pay less for electricity bills or AC repair."
@@ -373,7 +373,7 @@ class pdfGenerator:
             self.summary_first(date, name, phone_number, address, performed_service, 2)
             self.summary_third(2)
 
-    def room_slide(self, obj: str, before: BinaryIO, after: BinaryIO):
+    def room_slide(self, obj: str, before: BinaryIO, after: BinaryIO, room_name: str, comment: str):
         canv = self.canv
 
         img_before = image_crop(before)
@@ -383,19 +383,66 @@ class pdfGenerator:
             canv, img_after, 860, PDF_WIDTH - 860 - Indent.get_x(), Indent.get_y() * 3
         )
 
-        textobject = canv.beginText()
-        textobject.setTextOrigin(
-            Indent.get_x(), PDF_HEIGHT - Indent.get_y() * 2 - HEDING_FONT_SIZE
-        )
+        # Размеры шрифтов
+        room_name_size = HEDING_FONT_SIZE  # Размер заголовка (название комнаты)
+        obj_text_size = 60  # Размер текста "BEFORE and AFTER {obj}"
+        comment_size = 35  # Размер комментария
 
-        textobject.setFont(Fonts.bold["name"], HEDING_FONT_SIZE)
-        textobject.setFillColor("#2082EA")
-        textobject.setLeading(HEDING_FONT_SIZE)
-        textobject.textLine(text=f"BEFORE and AFTER {obj} cleaning")
+        # Устанавливаем цвет текста
+        canv.setFillColor("#2082EA")
 
-        canv.drawText(textobject)
+        # Центрирование названия комнаты
+        canv.setFont(Fonts.bold["name"], room_name_size)
+        room_name_width = canv.stringWidth(room_name, Fonts.bold["name"], room_name_size)
+        canv.drawString((PDF_WIDTH - room_name_width) / 2, PDF_HEIGHT - Indent.get_y() * 2, room_name)
+
+        # Увеличиваем межстрочное расстояние и размещаем "BEFORE and AFTER {obj}" слева
+        canv.setFont(Fonts.bold["name"], obj_text_size)
+        obj_text = f"BEFORE and AFTER {obj}"
+        # Увеличиваем расстояние (например, добавляем 1.5 * obj_text_size)
+        canv.drawString(Indent.get_x(), PDF_HEIGHT - Indent.get_y() * 3 - obj_text_size, obj_text)
+
+        # Комментарий слева, если есть
+        if comment:
+            comment_text = f"Comment: {comment}"
+            canv.setFont(Fonts.regular["name"], comment_size)
+            canv.drawString(Indent.get_x(), Indent.get_y() * 2, comment_text)
 
         canv.showPage()
+
+    def room_comment_slide(self, rooms: list):
+        canv = self.canv
+        title_size = HEDING_FONT_SIZE  # Размер заголовка
+        room_name_size = 50  # Размер названия комнаты
+        comment_size = 35  # Размер комментария
+
+        # Устанавливаем цвет текста
+        canv.setFillColor("#2082EA")
+
+        # Заголовок "Recommendations and Comments:" по центру
+        canv.setFont(Fonts.bold["name"], title_size)
+        title_text = "Recommendations and Comments:"
+        title_width = canv.stringWidth(title_text, Fonts.bold["name"], title_size)  # Вычисляем ширину текста
+        title_x = (PDF_WIDTH - title_width) / 2  # Вычисляем координату X для центрирования
+        canv.drawString(title_x, PDF_HEIGHT - Indent.get_y() * 2, title_text)
+
+        # Смещение по Y для вывода комментариев
+        y_offset = PDF_HEIGHT - Indent.get_y() * 4
+
+        for room in rooms:
+            if room["room_comment"]:  # Проверяем, есть ли комментарий к комнате
+                # Название комнаты
+                canv.setFont(Fonts.bold["name"], room_name_size)
+                canv.drawString(Indent.get_x(), y_offset, f"Room: {room['object']}")
+                y_offset -= room_name_size * 1.5
+
+                # Комментарий
+                canv.setFont(Fonts.regular["name"], comment_size)
+                canv.drawString(Indent.get_x(), y_offset, room["room_comment"])
+                y_offset -= comment_size * 2
+
+        canv.showPage()
+
 
     def repair_slide(self, before: BinaryIO, after: BinaryIO):
         canv = self.canv
@@ -518,18 +565,41 @@ class pdfGenerator:
             outline["extra_services"],
             outline["work_factors"],
         )
+
         rooms = report["Rooms"]
+        print("rooms:", rooms, 'rooms["rooms_list"]:', rooms["rooms_list"])
+        
         for room in rooms["rooms_list"]:
+            print("room:", room)
             for _, node in room["nodes"].items():
+                print("room['nodes']:", room)
+                print("node:", node)
+
                 if outline["performed_service"] == "Other Repair Services":
                     self.repair_slide(node["img_before"], node["img_after"])
                 else:
-                    self.room_slide(node["name"], node["img_before"], node["img_after"])
-
+                    self.room_slide(
+                        node["name"], 
+                        node["img_before"], 
+                        node["img_after"], 
+                        room["object"], 
+                        node.get("comment", "")  # Добавляем комментарий, если есть
+                    )
+        
+        # Добавляем слайд с комментариями к комнатам, если есть
+        print(rooms["rooms_list"][0]["room_comment"])
+        if any(room.get("room_comment") for room in rooms["rooms_list"]):
+            print("ok room comment")
+            self.room_comment_slide(rooms["rooms_list"])
+        
         self.last_slides()
         self.canv.save()
 
         return pdf_compression(f"{REPORTS_PATH / self.report_name}.pdf")
+
+
+
+
 
     def generate_first(self):
         self.first_slide()

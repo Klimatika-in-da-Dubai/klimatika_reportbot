@@ -12,6 +12,10 @@ class Form(StatesGroup):
     extra_service = State()
     extra_service_await_answer = State()
 
+    add_room = State()
+    add_other_room = State()
+
+
     work_factors = State()
 
     room_type = State()
@@ -27,4 +31,8 @@ class Form(StatesGroup):
     cleaning_node_img_before = State()
     cleaning_node_img_after = State()
 
-    add_room = State()
+    cleaning_node_comment = State()
+    cleaning_room_comment = State()
+
+    add_another_room = State()
+

@@ -9,9 +9,9 @@ from enum import IntEnum, auto
 class Report:
     class Service(IntEnum):
         UNKNOWN = auto()
-        PREMIUM = auto()
-        PREMIUM_EXTRA = auto()
-        OTHER_REPAIR_SERVICES = auto()
+        SERVICE = auto()
+        MAINTENANCE = auto()
+        CHECK_LIST = auto()
 
         def __str__(self) -> str:
             return SERVICE_NAMES[self]
@@ -128,19 +128,19 @@ class Report:
 
 SERVICE_NAMES = {
     Report.Service.UNKNOWN: "",
-    Report.Service.PREMIUM: "Premium",
-    Report.Service.PREMIUM_EXTRA: "Premium + Extra",
-    Report.Service.OTHER_REPAIR_SERVICES: "Other Repair Services",
+    Report.Service.SERVICE: "Service",
+    Report.Service.MAINTENANCE: "Maintenance",
+    Report.Service.CHECK_LIST: "Check list",
 }
 
 SERVICE_DESCRIPTION_TEXT = {
-    Report.Service.PREMIUM: "Premium cleaning service included:",
-    Report.Service.PREMIUM_EXTRA: "Premium cleaning service included:",
-    Report.Service.OTHER_REPAIR_SERVICES: "Minor repairs around the house, not related to the repair of air conditioners and ventilation",
+    Report.Service.SERVICE: "For the service team included:",
+    Report.Service.MAINTENANCE: "Maintenance service included:",
+    Report.Service.CHECK_LIST: "Minor repairs around the house, not related to the repair of air conditioners and ventilation",
 }
 
 SERVICE_DESCRIPTION_POINTS = {
-    Report.Service.PREMIUM: [
+    Report.Service.SERVICE: [
         "Deep cleaning of fan coil unit (VAV, blower fans, air-filter, evaporator coil, drain tray (if accessible))",
         "Check-up and adjustment of valves, fan belts, pulleys, coil, filter, strainer, pipe joints, insulation, bearings, drain trays, drain pipes and manometer tubes. VRV system errors and pressure check-up (as applicable to your type of property)",
         "Checking for noise, leaks, smell, vibration and general performance issues (for villas - refrigerant level check-up, board of roof-top AC unit control clean-up and check-up, controls calibrations checks)",
@@ -150,7 +150,7 @@ SERVICE_DESCRIPTION_POINTS = {
         "Using anti-dust protection curtains (Zipwall US)",
         "All works performed with german hand tools - DeWalt, Karcher.",
     ],
-    Report.Service.PREMIUM_EXTRA: [
+    Report.Service.MAINTENANCE: [
         "Deep cleaning of fan coil unit (VAV, blower fans, air-filter, evaporator coil, drain tray (if accessible))",
         "Check-up and adjustment of valves, fan belts, pulleys, coil, filter, strainer, pipe joints, insulation, bearings, drain trays, drain pipes and manometer tubes. VRV system errors and pressure check-up (as applicable to your type of property)",
         "Checking for noise, leaks, smell, vibration and general performance issues (for villas - refrigerant level check-up, board of roof-top AC unit control clean-up and check-up, controls calibrations checks)",
@@ -160,7 +160,7 @@ SERVICE_DESCRIPTION_POINTS = {
         "Using anti-dust protection curtains (Zipwall US)",
         "All works performed with german hand tools - DeWalt, Karcher.",
     ],
-    Report.Service.OTHER_REPAIR_SERVICES: [],
+    Report.Service.CHECK_LIST: [],
 }
 
 EXTRA_SERVICE_NAME = {

@@ -9,6 +9,7 @@ from .form import (
     get_room_type_keyboard,
     get_cleaning_node_keyboard,
     get_factors_keyboard,
+    get_skip_keyboard
 )
 
 
@@ -21,7 +22,14 @@ async def send_room_type_keyboard(message: types.Message):
                 Room.Type.KITCHEN.for_button(_("Kitchen")),
                 Room.Type.BEDROOM.for_button(_("Bedroom")),
                 Room.Type.LIVING_ROOM.for_button(_("Living Room")),
+                Room.Type.MASTER_ROOM.for_button(_("Master bedroom")),
+                Room.Type.KIDS_ROOM.for_button(_("Kids bedroom")),
+                Room.Type.GUEST_ROOM.for_button(_("Guest bedroom")),
+                Room.Type.MAIDS_ROOM.for_button(_("Maids bedroom")),
+                Room.Type.CABINET_ROOM.for_button(_("Cabinet room")),
+                Room.Type.GYM.for_button(_("Gym"))
             ],
+        other=_("Other"),
         ),
     )
 
@@ -32,11 +40,10 @@ async def send_service_keyboard(message: types.Message):
         reply_markup=get_service_keyboard(
             message.chat.id,
             [
-                Report.Service.PREMIUM.for_button(_("Premium")),
-                Report.Service.PREMIUM_EXTRA.for_button(_("Premium + Extra")),
-                Report.Service.OTHER_REPAIR_SERVICES.for_button(
-                    _("Other Repair Services")
-                ),
+                Report.Service.SERVICE.for_button(_("Service")),
+                Report.Service.MAINTENANCE.for_button(_("Maintenance")),
+                Report.Service.CHECK_LIST.for_button(_("Check list")),
+
             ],
         ),
     )
@@ -95,11 +102,9 @@ async def edit_service_keyboard(message: types.Message):
         reply_markup=get_service_keyboard(
             message.chat.id,
             [
-                Report.Service.PREMIUM.for_button(_("Premium")),
-                Report.Service.PREMIUM_EXTRA.for_button(_("Premium + Extra")),
-                Report.Service.OTHER_REPAIR_SERVICES.for_button(
-                    _("Other Repair Services")
-                ),
+                Report.Service.SERVICE.for_button(_("Service")),
+                Report.Service.MAINTENANCE.for_button(_("Maintenance")),
+                Report.Service.CHECK_LIST.for_button(_("Check list")),
             ],
         ),
     )
@@ -127,27 +132,9 @@ async def edit_extra_service_keyboard(message: types.Message):
         ),
     )
 
-
-async def edit_client_type_keyboard(message: types.Message):
-    await message.edit_text(
-        _("Select client is an owner or a tenant"),
-        reply_markup=get_client_type_keyboard(
-            message.chat.id,
-            [
-                Client.Type.OWNER.for_button(
-                    _("Owner"),
-                ),
-                Client.Type.TENANT.for_button(
-                    _("Tenant"),
-                ),
-            ],
-        ),
-    )
-
-
-async def send_cleaning_node_keyboard(message: types.Message):
+async def send_maintenance_node_keyboard(message: types.Message):
     await message.answer(
-        _("Choose cleaning nodes"),
+        _("Choose maintenance nodes"),
         reply_markup=get_cleaning_node_keyboard(
             message.chat.id,
             [
@@ -162,8 +149,7 @@ async def send_cleaning_node_keyboard(message: types.Message):
                 ),
                 CleaningNode(
                     "radiator",
-                    button_text=_("radiator"),
-                    type=CleaningNode.Type.DEFAULT,
+                    button_text=_("radiator"),type=CleaningNode.Type.DEFAULT,
                 ),
                 CleaningNode(
                     "filter", button_text=_("filter"), type=CleaningNode.Type.DEFAULT
@@ -183,9 +169,10 @@ async def send_cleaning_node_keyboard(message: types.Message):
     )
 
 
-async def edit_cleaning_node_keyboard(message: types.Message):
+
+async def edit_maintenance_node_keyboard(message: types.Message):
     await message.edit_text(
-        _("Choose cleaning nodes"),
+        _("Choose maintenance nodes"),
         reply_markup=get_cleaning_node_keyboard(
             message.chat.id,
             [
@@ -200,8 +187,7 @@ async def edit_cleaning_node_keyboard(message: types.Message):
                 ),
                 CleaningNode(
                     "radiator",
-                    button_text=_("radiator"),
-                    type=CleaningNode.Type.DEFAULT,
+                    button_text=_("radiator"),type=CleaningNode.Type.DEFAULT,
                 ),
                 CleaningNode(
                     "filter", button_text=_("filter"), type=CleaningNode.Type.DEFAULT
@@ -213,6 +199,112 @@ async def edit_cleaning_node_keyboard(message: types.Message):
                     "ceiling area",
                     button_text=_("ceiling area"),
                     type=CleaningNode.Type.DEFAULT,
+                ),
+            ],
+            other=_("Other"),
+            enter=_("Enter"),
+        ),
+    )
+
+
+
+async def edit_client_type_keyboard(message: types.Message):
+    await message.edit_text(
+        _("Select client is an owner or a tenant"),
+        reply_markup=get_client_type_keyboard(
+            message.chat.id,
+            [
+                Client.Type.OWNER.for_button(
+                    _("Owner"),
+                ),
+                Client.Type.TENANT.for_button(
+                    _("Tenant"),
+                ),
+            ],
+        ),
+    )
+
+
+async def send_service_node_keyboard(message: types.Message):
+    await message.answer(
+        _("Choose cleaning nodes"),
+        reply_markup=get_cleaning_node_keyboard(
+            message.chat.id,
+            [
+                CleaningNode(
+                    "аctuator", button_text=_("Actuator"), type=CleaningNode.Type.DEFAULT
+                ),
+                CleaningNode(
+                    "motor", button_text=_("Motor"), type=CleaningNode.Type.DEFAULT
+                ),
+                CleaningNode(
+                    "isolation", button_text=_("Isolation fixing"), type=CleaningNode.Type.DEFAULT
+                ),
+                CleaningNode(
+                    "electronic fasteners tightening",
+                    button_text=_("Electronic fasteners tightening"),
+                    type=CleaningNode.Type.DEFAULT,
+                ),
+                CleaningNode(
+                    "level fixing", button_text=_("Level fixing"), type=CleaningNode.Type.DEFAULT
+                ),
+                CleaningNode(
+                    "compressor", button_text=_("Compressor"), type=CleaningNode.Type.DEFAULT
+                ),
+                CleaningNode(
+                    "capacitor replacement(outside unit)",
+                    button_text=_("Capacitor replacement(outside unit)"),
+                    type=CleaningNode.Type.DEFAULT,
+                ),
+                CleaningNode(
+                    "fan motor", button_text=_("Fan motor"), type=CleaningNode.Type.DEFAULT
+                ),
+                CleaningNode(
+                    "fan impeller", button_text=_("Fan impeller"), type=CleaningNode.Type.DEFAULT
+                ),
+            ],
+            other=_("Other"),
+            enter=_("Enter"),
+        ),
+    )
+
+
+async def edit_service_node_keyboard(message: types.Message):
+    await message.edit_text(
+        _("Choose service nodes"),
+        reply_markup=get_cleaning_node_keyboard(
+            message.chat.id,
+            [
+                CleaningNode(
+                    "аctuator", button_text=_("Actuator"), type=CleaningNode.Type.DEFAULT
+                ),
+                CleaningNode(
+                    "motor", button_text=_("Motor"), type=CleaningNode.Type.DEFAULT
+                ),
+                CleaningNode(
+                    "isolation", button_text=_("Isolation fixing"), type=CleaningNode.Type.DEFAULT
+                ),
+                CleaningNode(
+                    "electronic fasteners tightening",
+                    button_text=_("Electronic fasteners tightening"),
+                    type=CleaningNode.Type.DEFAULT,
+                ),
+                CleaningNode(
+                    "level fixing", button_text=_("Level fixing"), type=CleaningNode.Type.DEFAULT
+                ),
+                CleaningNode(
+                    "compressor", button_text=_("Compressor"), type=CleaningNode.Type.DEFAULT
+                ),
+                CleaningNode(
+                    "capacitor replacement(outside unit)",
+                    button_text=_("Capacitor replacement(outside unit)"),
+                    type=CleaningNode.Type.DEFAULT,
+                ),
+                CleaningNode(
+                    "fan motor", button_text=_("Fan motor"), type=CleaningNode.Type.DEFAULT
+                ),
+                CleaningNode(
+                    "fan impeller", button_text=_("Fan impeller"), type=CleaningNode.Type.DEFAULT
                 ),
             ],
             other=_("Other"),
@@ -260,4 +352,12 @@ async def edit_factors_keyboard(message: types.Message):
             ],
             enter=_("Enter"),
         ),
+    )
+
+
+# Функция для отправки сообщения с клавиатурой "Пропустить"
+async def send_skip_keyboard(message: types.Message, text: str):
+    await message.answer(
+        text=text,
+        reply_markup=get_skip_keyboard(),
     )

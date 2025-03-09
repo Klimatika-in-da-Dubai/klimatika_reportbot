@@ -10,7 +10,7 @@ from src.states import setters as set_state
 
 import src.misc.getters as get
 
-from src.models import Report, CleaningNode
+from src.models import Report, CleaningNode, Room
 
 from src.services.pdfreport import pdfGenerator
 from src.callbackdata import (
@@ -20,6 +20,7 @@ from src.callbackdata import (
     ClientCB,
     CleaningNodeCB,
     FactorCB,
+    RoomTypeCB
 )
 from src.misc.utils import slugify
 
@@ -39,9 +40,8 @@ async def callback_client_type(
     await state.set_state(Form.client_address)
     await callback.message.answer(_("Enter client address:"))
 
-
 @router.callback_query(
-    Form.service, ServiceCB.filter(F.service == Report.Service.OTHER_REPAIR_SERVICES)
+    Form.service, ServiceCB.filter(F.service == Report.Service.CHECK_LIST)
 )
 async def callback_service(
     callback: types.CallbackQuery, state: FSMContext, callback_data: ServiceCB
@@ -54,31 +54,33 @@ async def callback_service(
 
 
 @router.callback_query(
-    Form.service, ServiceCB.filter(F.service == Report.Service.PREMIUM)
+    Form.service, ServiceCB.filter(F.service.in_([Report.Service.SERVICE, Report.Service.MAINTENANCE]))
 )
-async def callback_service_premium(
+async def callback_service_team(
     callback: types.CallbackQuery, state: FSMContext, callback_data: ServiceCB
 ):
     await callback.answer()
+
     report = get.get_current_user_report(callback.message.chat.id)
     report.service = callback_data.service
-    await state.set_state(Form.work_factors)
+    await state.set_state(Form.add_room)
 
-    await set_state.set_work_factors_state(callback.message, state)
+    await set_state.set_room_state(callback.message, state)
 
 
-@router.callback_query(
-    Form.service, ServiceCB.filter(F.service == Report.Service.PREMIUM_EXTRA)
-)
-async def callback_service_premium_extra(
-    callback: types.CallbackQuery, state: FSMContext, callback_data: ServiceCB
-):
-    await callback.answer()
-    report = get.get_current_user_report(callback.message.chat.id)
-    report.service = callback_data.service
+# @router.callback_query(
+#     Form.service, ServiceCB.filter(F.service == Report.Service.MAINTENANCE)
+# )
+# async def callback_service_premium_extra(
+#     callback: types.CallbackQuery, state: FSMContext, callback_data: ServiceCB
+# ):
+#     await callback.answer()
+#     report = get.get_current_user_report(callback.message.chat.id)
+#     report.service = callback_data.service
 
-    await state.set_state(Form.extra_service)
-    await inline.send_extra_service_keyboard(callback.message)
+#     await state.set_state(Form.add_room)
+
+#     await set_state.set_room_state(callback.message, state)
 
 
 @router.callback_query(
@@ -97,6 +99,38 @@ async def callback_extra_service(
 
     await callback.answer()
     await inline.edit_extra_service_keyboard(callback.message)
+
+
+
+# add room
+@router.callback_query(
+    Form.add_room, RoomTypeCB.filter()
+    )
+
+async def callback_extra_service(
+    callback: types.CallbackQuery, callback_data: RoomTypeCB, state: FSMContext):
+    room_type = callback_data.type
+
+    room = get.get_current_user_room(callback.message.chat.id)
+    room.room_type = room_type.name
+    room.room_object = room_type
+    
+    report = get.get_current_user_report(callback.message.chat.id)
+    if room_type == "Unknown":
+
+        await state.set_state(Form.add_other_room)
+        await callback.message.answer(_("Enter room"))
+
+    else:
+        if report.service == Report.Service.SERVICE:
+            await set_state.set_room_service_nodes_state(callback.message,state)
+        elif report.service == Report.Service.MAINTENANCE:
+            
+            await set_state.set_room_maintenance_nodes_state(callback.message,state)
+        else:
+            await callback.message.answer(_("Unexpected service type"))
+        
+    await callback.answer()
 
 
 @router.callback_query(
@@ -127,7 +161,7 @@ async def callback_extra_service_enter(
     callback: types.CallbackQuery, state: FSMContext
 ):
     await callback.answer()
-    await set_state.set_work_factors_state(callback.message, state)
+    await set_state.set_room_state(callback.message, state)
 
 
 @router.callback_query(Form.work_factors, FactorCB.filter(F.action == "add"))
@@ -160,18 +194,18 @@ async def callback_enter_work_factor(callback: types.CallbackQuery, state: FSMCo
     await callback.answer()
     report = get.get_current_user_report(callback.message.chat.id)
 
-    if report.service == Report.Service.OTHER_REPAIR_SERVICES:
+    if report.service == Report.Service.CHECK_LIST:
         room = get.get_current_user_room(callback.message.chat.id)
         room.add_node(CleaningNode("", type=CleaningNode.Type.OTHER))
         await set_state.set_repair_img_before_state(callback.message, state)
         return
 
-    if report.Service == Report.Service.OTHER_REPAIR_SERVICES:
+    if report.Service == Report.Service.CHECK_LIST:
         room = get.get_current_user_room(callback.message.chat.id)
         room.add_node(CleaningNode("", type=CleaningNode.Type.OTHER))
         await set_state.set_repair_img_before_state(callback.message, state)
     else:
-        await set_state.set_room_cleaning_nodes_state(callback.message, state)
+        await set_state.set_room_service_nodes_state(callback.message, state)
 
 
 @router.callback_query(
@@ -184,8 +218,15 @@ async def callback_add_cleaning_node(
 
     room = get.get_current_user_room(callback.message.chat.id)
     room.add_default_node(callback_data.index)
-    await inline.edit_cleaning_node_keyboard(callback.message)
 
+    report = get.get_current_user_report(callback.message.chat.id)
+    # Определение состояния (SERVICE или MAINTENANCE)
+    if report.service == Report.Service.SERVICE:
+        await inline.edit_service_node_keyboard(callback.message)
+    elif report.service == Report.Service.MAINTENANCE:
+        await inline.edit_maintenance_node_keyboard(callback.message)
+    else:
+        print(f"Report.Service: {report.service}")
 
 @router.callback_query(
     Form.room_cleaning_nodes, CleaningNodeCB.filter(F.action == "delete")
@@ -197,7 +238,15 @@ async def callback_delete_cleaning_node(
 
     room = get.get_current_user_room(callback.message.chat.id)
     room.delete_node(callback_data.index, callback_data.type)
-    await inline.edit_cleaning_node_keyboard(callback.message)
+
+    report = get.get_current_user_report(callback.message.chat.id)
+    # Определение состояния (SERVICE или MAINTENANCE)
+    if report.service == Report.Service.SERVICE:
+        await inline.edit_service_node_keyboard(callback.message)
+    elif report.service == Report.Service.MAINTENANCE:
+        await inline.edit_maintenance_node_keyboard(callback.message)
+    else:
+        print(f"Report.Service: {report.service}")
 
 
 @router.callback_query(
@@ -232,20 +281,20 @@ async def start_getting_photos(message: types.Message, state: FSMContext):
     await set_state.set_img_before_state(message, state)
 
 
-@router.callback_query(Form.add_room, F.data == "yes")
+@router.callback_query(Form.add_another_room, F.data == "yes")
 async def callback_add_room_yes(callback: types.CallbackQuery, state: FSMContext):
     await callback.answer()
     report = get.get_current_user_report(callback.message.chat.id)
     report.add_room()
-    if report.service == Report.Service.OTHER_REPAIR_SERVICES:
+    if report.service == Report.Service.CHECK_LIST:
         room = get.get_current_user_room(callback.message.chat.id)
         room.add_node(CleaningNode("", type=CleaningNode.Type.OTHER))
         await set_state.set_repair_img_before_state(callback.message, state)
     else:
-        await set_state.set_room_cleaning_nodes_state(callback.message, state)
+        await set_state.set_room_state(callback.message, state)
 
 
-@router.callback_query(Form.add_room, F.data == "no")
+@router.callback_query(Form.add_another_room, F.data == "no")
 async def callback_add_room_yes(
     callback: types.CallbackQuery, state: FSMContext, bot: Bot
 ):
@@ -255,9 +304,38 @@ async def callback_add_room_yes(
         await send_pdf_report(bot, callback.message)
     except Exception as e:
         await callback.message.answer(
-            f"Произошла ошибка во время генерации или отправки отчёта. Пожалуйста сообщите администратору и перешлите данное сообщение.\n{datetime.now()}\n{e}\n"
+            f"An error occurred while generating or sending the report. Please notify the administrator and forward this message..\n{datetime.now()}\n{e}\n"
         )
         raise e
+
+
+
+
+# Обработчик callback для кнопки "Пропустить"
+@router.callback_query(F.data == "skip")
+async def skip_comment(callback: types.CallbackQuery, state: FSMContext):
+    room = get.get_current_user_room(callback.message.chat.id)
+
+    # Проверяем тип отчета
+    report = get.get_current_user_report(callback.message.chat.id)
+
+
+    if report.service == Report.Service.SERVICE:
+    # Просто переходим к следующему шагу без комментария
+        room.next_cleaning_node()
+
+        if room.nodes_queue_empty():
+            await set_state.set_add_room_state(callback.message, state)
+        else:
+            await state.set_state(Form.cleaning_node_img_after)
+            await callback.message.answer(
+                _("Send photo AFTER for") + " " + room.current_node.button_text
+            )
+
+    if report.service == Report.Service.MAINTENANCE:
+        await set_state.set_add_room_state(callback.message, state)
+    
+    await callback.answer()
 
 
 async def send_pdf_report(bot: Bot, message: types.Message):
