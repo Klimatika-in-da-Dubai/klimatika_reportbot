@@ -2,7 +2,7 @@ from typing import BinaryIO
 from aiogram import types, Bot
 
 from dataclasses import dataclass, field
-from .cleaningnode import CleaningNode, DEFAULT_CLEANING_NODES
+from .cleaningnode import CleaningNode, DEFAULT_SERVICE_NODES,DEFAULT_MAINTENANCE_NODES
 
 from enum import Enum
 
@@ -10,10 +10,17 @@ from enum import Enum
 @dataclass
 class Room:
     class Type(str, Enum):
-        UNKNOWN = ""
+        UNKNOWN = "Unknown"
         BEDROOM = "Bedroom"
         LIVING_ROOM = "Living Room"
+        MASTER_ROOM = "Master bedroom"
+        KIDS_ROOM = "Kids bedroom"
+        GUEST_ROOM = "Guest bedroom"
+        MAIDS_ROOM = "Maids bedroom"
+        CABINET_ROOM = "Cabinet room"
+        GYM = "Gym"
         KITCHEN = "Kitchen"
+
 
         def __str__(self) -> str:
             return str(self.value)
@@ -23,6 +30,7 @@ class Room:
 
     room_type: Type = Type.UNKNOWN
     room_object: str = ""
+    room_comment: str = ""
 
     default_cleaning_nodes: list[list[CleaningNode, bool]] = field(default_factory=list)
     cleaning_nodes: list[CleaningNode] = field(default_factory=list)
@@ -31,8 +39,9 @@ class Room:
     _index: int = 0
 
     def __post_init__(self):
+        
         self.default_cleaning_nodes.extend(
-            [[node, False] for node in DEFAULT_CLEANING_NODES]
+            [[node, False] for node in DEFAULT_SERVICE_NODES]
         )
 
     @property
@@ -56,7 +65,14 @@ class Room:
         self.cleaning_nodes.clear()
 
     def set_default_node(self, node: CleaningNode) -> None:
-        pos = DEFAULT_CLEANING_NODES.index(node)
+        pos = DEFAULT_SERVICE_NODES.index(node)
+        self.default_cleaning_nodes[pos][0] = node
+        self.default_cleaning_nodes[pos][1] = True
+
+
+
+    def set_default2_node(self, node: CleaningNode) -> None:
+        pos = DEFAULT_MAINTENANCE_NODES.index(node)
         self.default_cleaning_nodes[pos][0] = node
         self.default_cleaning_nodes[pos][1] = True
 
@@ -110,6 +126,7 @@ class Room:
         dictionary = {
             "room": self.room_type,
             "object": self.room_object,
+            "room_comment": self.room_comment,
             "nodes": dict(
                 [
                     (
@@ -118,13 +135,14 @@ class Room:
                             "name": node.name.lower(),
                             "img_before": await download_image(bot, node.photo_before),
                             "img_after": await download_image(bot, node.photo_after),
+                            "comment": node.comment if hasattr(node, "comment") else None,  # Добавили комментарий
                         },
                     )
                     for index, node in enumerate(nodes)
                 ]
             ),
         }
-
+        print("dictionary:", dictionary )
         return dictionary
 
 

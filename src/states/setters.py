@@ -42,6 +42,16 @@ async def set_service_state(message: types.Message, state: FSMContext) -> None:
 async def set_extra_service_state(message: types.Message, state: FSMContext) -> None:
     await state.set_state(Form.extra_service)
     await inline.send_extra_service_keyboard(message)
+    
+#ADD room
+async def set_room_state(message: types.Message, state: FSMContext) -> None:
+    await state.set_state(Form.add_room)
+    await inline.send_room_type_keyboard(message) 
+
+
+async def set_another_oom_state(message: types.Message, state: FSMContext) -> None:
+    await state.set_state(Form.add_another_room)
+    await inline.send_room_type_keyboard(message) 
 
 
 async def set_work_factors_state(message: types.Message, state: FSMContext) -> None:
@@ -49,40 +59,71 @@ async def set_work_factors_state(message: types.Message, state: FSMContext) -> N
     await inline.send_factors_keyboard(message)
 
 
-async def set_room_cleaning_nodes_state(
-    message: types.Message, state: FSMContext
-) -> None:
+async def set_room_service_nodes_state(message: types.Message, state: FSMContext):
+    set_default_service_nodes(message)
     await state.set_state(Form.room_cleaning_nodes)
-    await inline.send_cleaning_node_keyboard(message)
+    await inline.send_service_node_keyboard(message)
 
 
-async def set_room_cleaning_nodes_state(message: types.Message, state: FSMContext):
-    set_default_cleaning_nodes(message)
+async def set_room_maintenance_nodes_state(message: types.Message, state: FSMContext):
+    set_default_maintenance_nodes(message)
     await state.set_state(Form.room_cleaning_nodes)
-    await inline.send_cleaning_node_keyboard(message)
+    await inline.send_maintenance_node_keyboard(message)
 
 
-def set_default_cleaning_nodes(message: types.Message):
-    DEFAULT_CLEANING_NODES = [
+def set_default_service_nodes(message: types.Message):
+    DEFAULT_SERVICE_NODES = [
+                CleaningNode(
+                    "аctuator", button_text=_("Actuator"), type=CleaningNode.Type.DEFAULT
+                ),
+                CleaningNode(
+                    "motor", button_text=_("Motor"), type=CleaningNode.Type.DEFAULT
+                ),
+                CleaningNode(
+                    "isolation", button_text=_("Isolation fixing"), type=CleaningNode.Type.DEFAULT
+                ),
+                CleaningNode(
+                    "electronic fasteners tightening",
+                    button_text=_("Electronic fasteners tightening"),
+                    type=CleaningNode.Type.DEFAULT,
+                ),
+                CleaningNode(
+                    "level fixing", button_text=_("Level fixing"), type=CleaningNode.Type.DEFAULT
+                ),
+                CleaningNode(
+                    "compressor", button_text=_("Compressor"), type=CleaningNode.Type.DEFAULT
+                ),
+                CleaningNode(
+                    "capacitor replacement(outside unit)",
+                    button_text=_("Capacitor replacement(outside unit)"),
+                    type=CleaningNode.Type.DEFAULT,
+                ),
+                CleaningNode(
+                    "fan motor", button_text=_("Fan motor"), type=CleaningNode.Type.DEFAULT
+                ),
+                CleaningNode(
+                    "fan impeller", button_text=_("Fan impeller"), type=CleaningNode.Type.DEFAULT
+                ),
+    ]
+    room = get.get_current_user_room(message.chat.id)
+    for node in DEFAULT_SERVICE_NODES:
+        room.set_default_node(node)
+
+
+
+def set_default_maintenance_nodes(message: types.Message):
+    DEFAULT_MAINTENANCE_NODES = [
         CleaningNode("grills", button_text=_("grills"), type=CleaningNode.Type.DEFAULT),
         CleaningNode("duct", button_text=_("duct"), type=CleaningNode.Type.DEFAULT),
         CleaningNode("pan", button_text=_("pan"), type=CleaningNode.Type.DEFAULT),
-        CleaningNode(
-            "radiator",
-            button_text=_("radiator"),
-            type=CleaningNode.Type.DEFAULT,
-        ),
+        CleaningNode("radiator",button_text=_("radiator"),type=CleaningNode.Type.DEFAULT,),
         CleaningNode("filter", button_text=_("filter"), type=CleaningNode.Type.DEFAULT),
         CleaningNode("blades", button_text=_("blades"), type=CleaningNode.Type.DEFAULT),
-        CleaningNode(
-            "ceiling area",
-            button_text=_("ceiling area"),
-            type=CleaningNode.Type.DEFAULT,
-        ),
+        CleaningNode("ceiling area",button_text=_("ceiling area"),type=CleaningNode.Type.DEFAULT,),
     ]
     room = get.get_current_user_room(message.chat.id)
-    for node in DEFAULT_CLEANING_NODES:
-        room.set_default_node(node)
+    for node in DEFAULT_MAINTENANCE_NODES:
+        room.set_default2_node(node)
 
 
 async def set_img_before_state(message: types.Message, state: FSMContext) -> None:
@@ -102,7 +143,7 @@ async def set_img_after_state(message: types.Message, state: FSMContext) -> None
 
 
 async def set_add_room_state(message: types.Message, state: FSMContext) -> None:
-    await state.set_state(Form.add_room)
+    await state.set_state(Form.add_another_room)
     await inline.send_yes_no_keboard(message, _("Do you want to add room?"))
 
 

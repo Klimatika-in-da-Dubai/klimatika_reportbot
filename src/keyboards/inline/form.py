@@ -16,7 +16,7 @@ from src.callbackdata import (
 
 
 def get_room_type_keyboard(
-    chat_id: int, room_types: list[tuple[str, Room.Type]]
+    chat_id: int, room_types: list[tuple[str, Room.Type]], other: str,
 ) -> types.InlineKeyboardMarkup:
     builder = InlineKeyboardBuilder()
     for text, room_type in room_types:
@@ -25,6 +25,17 @@ def get_room_type_keyboard(
                 text=text, callback_data=RoomTypeCB(type=room_type).pack()
             )
         )
+    
+    builder.add(
+        types.InlineKeyboardButton(
+            text=other + "➕",
+            callback_data=RoomTypeCB(
+                action="other_room",
+                index=-1,
+                type=Room.Type.UNKNOWN,
+            ).pack(),
+        )
+    )
     builder.adjust(1)
     return builder.as_markup()
 
@@ -197,4 +208,12 @@ def get_factors_keyboard(
         )
     )
     builder.adjust(1)
+    return builder.as_markup()
+
+
+
+# Функция для создания клавиатуры с кнопкой "Пропустить"
+def get_skip_keyboard() -> types.InlineKeyboardMarkup:
+    builder = InlineKeyboardBuilder()
+    builder.add(types.InlineKeyboardButton(text=("Skip"), callback_data="skip"))
     return builder.as_markup()
