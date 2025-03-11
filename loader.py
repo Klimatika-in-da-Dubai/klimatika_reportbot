@@ -27,7 +27,7 @@ storage = MemoryStorage()  # DON'T USE IN FINAL VERSION OF PROJECT
 dp = Dispatcher(storage=storage)
 
 
-i18n = I18n(path="locales", default_locale="en", domain="messags")
+i18n = I18n(path="locales", default_locale="en", domain="messages")
 
 
 def on_startup(dp: Dispatcher):
