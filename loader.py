@@ -1,18 +1,23 @@
 from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.utils.i18n import I18n, SimpleI18nMiddleware
-from log_conf import LoggingConfig
+from datetime import datetime
 from config import BOT_TOKEN
-from log_conf import LoggingConfig
-from loguru import logger
 import os
 
 # Инициализация логирования
-def initialize_logs():
-    # Настройка Loguru
-    LoggingConfig.configure()
+import logging
 
-initialize_logs()
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s %(module)s %(funcName)s %(message)s",
+    handlers=[
+        logging.FileHandler(
+            f"logs/logs_{datetime.now().strftime('%Y-%m-%d_%H:%M:%S')}.log"
+        ),
+        logging.StreamHandler(),
+    ],
+)
 
 
 users = {}  # Need replace with DB
@@ -28,7 +33,7 @@ i18n = I18n(path="locales", default_locale="en", domain="messags")
 def on_startup(dp: Dispatcher):
     import src.handlers.message as message_handlers
     import src.handlers.callbacks as callback_handlers
-    logger.debug("Bot is starting up...")
+    logging.debug("Bot is starting up...")
 
 
     dp.callback_query.middleware(SimpleI18nMiddleware(i18n=i18n))
@@ -36,15 +41,17 @@ def on_startup(dp: Dispatcher):
     dp.include_router(message_handlers.users.users_router)
     dp.include_router(callback_handlers.users.users_router)
 
-    logger.debug("Startup complete!")
+    logging.debug("Startup complete!")
     ...
 
 
 async def on_shutdown():
     # Очистка ресурсов при завершении работы
-    logger.debug("Shutting down the bot...")
+    logging.debug("Shutting down the bot...")
     # Можно выполнить дополнительные действия для завершения работы
     await bot.close()
-    logger.debug("Shutdown complete.")
+    logging.debug("Shutdown complete.")
+
+
 
 
