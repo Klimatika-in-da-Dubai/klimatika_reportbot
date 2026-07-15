@@ -125,18 +125,18 @@ async def set_waiting_master_text_state(message: types.Message, state: FSMContex
 
 def set_indoor_service_nodes(message: types.Message):
     room = get.get_current_user_room(message.chat.id)
-    # Полная переинициализация узлов
-    room.default_cleaning_nodes = [[node, True] for node in DEFAULT_INDOOR_SERVICE_NODES]
+    # Полная переинициализация узлов — все не выбраны по умолчанию
+    room.default_cleaning_nodes = [[node, False] for node in DEFAULT_INDOOR_SERVICE_NODES]
 
 def set_outdoor_service_nodes(message: types.Message):
     room = get.get_current_user_room(message.chat.id)
-    # Полная переинициализация узлов
-    room.default_cleaning_nodes = [[node, True] for node in DEFAULT_OUTDOOR_SERVICE_NODES]
+    # Полная переинициализация узлов — все не выбраны по умолчанию
+    room.default_cleaning_nodes = [[node, False] for node in DEFAULT_OUTDOOR_SERVICE_NODES]
 
 def set_other_service_nodes(message: types.Message):
     room = get.get_current_user_room(message.chat.id)
-    # Полная переинициализация узлов
-    room.default_cleaning_nodes = [[node, True] for node in DEFAULT_OTHER_SERVICE_NODES]
+    # Полная переинициализация узлов — все не выбраны по умолчанию
+    room.default_cleaning_nodes = [[node, False] for node in DEFAULT_OTHER_SERVICE_NODES]
 
 def set_default_maintenance_nodes(message: types.Message):
     room = get.get_current_user_room(message.chat.id)
@@ -145,18 +145,18 @@ def set_default_maintenance_nodes(message: types.Message):
 
 def set_check_list_full_maintenancee_nodes(message: types.Message):
     room = get.get_current_user_room(message.chat.id)
-    # Полная переинициализация узлов
-    room.default_cleaning_nodes = [[node, True] for node in DEFAULT_FULL_MAINTENANCE_CHECK_LIST_NODE]
+    # Полная переинициализация узлов — все выбраны по умолчанию
+    room.default_cleaning_nodes = [[node, False] for node in DEFAULT_FULL_MAINTENANCE_CHECK_LIST_NODE]
 
 def set_check_list_support_nodes(message: types.Message):
     room = get.get_current_user_room(message.chat.id)
-    # Полная переинициализация узлов
-    room.default_cleaning_nodes = [[node, True] for node in DEFAULT_SUPPORT_CHECK_LIST_NODE]
+    # Полная переинициализация узлов — все выбраны по умолчанию
+    room.default_cleaning_nodes = [[node, False] for node in DEFAULT_SUPPORT_CHECK_LIST_NODE]
 
 def set_check_list_other_nodes(message: types.Message):
     room = get.get_current_user_room(message.chat.id)
-    # Полная переинициализация узлов
-    room.default_cleaning_nodes = [[node, True] for node in DEFAULT_OTHER_CHECK_LIST_NODE]
+    # Полная переинициализация узлов — все выбраны по умолчанию
+    room.default_cleaning_nodes = [[node, False] for node in DEFAULT_OTHER_CHECK_LIST_NODE]
 
 
 
